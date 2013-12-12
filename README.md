@@ -1,6 +1,10 @@
 MPI.NET: High-performance C# Library for Message Passing
 ========================================================
 
+A forked and modified version of the code for MPI.NET found on the Subversion repository found at http://www.osl.iu.edu/research/mpi.net/, trunk@rev 338
+
+More information about MPI.NET is available at http://www.osl.iu.edu/research/mpi.net/
+
 MPI.NET is a high-performance, easy-to-use implementation of the
 Message Passing Interface (MPI) for Microsoft's .NET environment. MPI
 is the de facto standard for writing parallel programs running on a
@@ -11,10 +15,19 @@ the .NET languages (especially C#), and includes significant
 extensions (such as automatic serialization of objects) that make it
 far easier to build parallel programs that run on clusters.
 
-More information about MPI.NET is available at:
+# Creating a NuGet package for MPI.NET
 
-  http://www.osl.iu.edu/research/mpi.net/
+Tested with NuGet Version: 2.7.41115.310.
+From the top folder of the source code:
+```
+cd MPI
+nuget pack MPI.csproj -IncludeReferencedProjects -Prop Configuration=Release
+```
+This should produce a file such as MPI.1.1.1.0.nupkg that you can use on a local nuget feed.
 
+
+The rest of this document are from the README as found in the original README. 
+Some installation instruction may not apply anymore.
 
 Installation on Windows
 -----------------------

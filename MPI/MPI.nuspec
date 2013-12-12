@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Douglas Gregor, Andrew Lumsdaine, Ben Martin; contrib. Daniel Collins, Jean-Michel Perraud, and others TBC</authors>
+    <owners>The Trustees of Indiana University</owners>
+    <licenseUrl>https://github.com/jmp75/MPI.NET/blob/master/LICENSE_1_0.txt</licenseUrl>
+    <projectUrl>https://github.com/jmp75/MPI.NET</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A modified version of MPI.NET for maintenance and software update purposes</description>
+    <releaseNotes>2013-12-12 Merge the latest SVN code with modifications undertaken to run on recent Debian and CentOS</releaseNotes>
+    <copyright>Copyright 2007 The Trustees of Indiana University; Contributions Copyright 2013 CSIRO</copyright>
+    <tags>MPI HPC</tags>
+  </metadata>
+</package>
