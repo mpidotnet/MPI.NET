@@ -1,0 +1,31 @@
+Output File Path: C:\Projects\mpi.net\Deployment\HelpMergeModule\Release\HelpMergeModule.msm
+Project Dir: C:\Projects\mpi.net\Deployment\HelpMergeModule\
+
+Opening MSM file...
+Merging Help tables...
+
+Updating HelpNamespace table...
+    INSERT INTO HelpNamespace (NamespaceKey, NamespaceName, File_Collection, Description) VALUES ('your_collection_namespace', 'your.collection.namespace', '_F96EFB810E804AC081C37049622DAFB5.1FC8FFB5C38D49449EA0A1D0BFC6FF84', 'Wizard-generated collection')
+
+Updating HelpFile table
+    INSERT INTO HelpFile (HelpFileKey, HelpFileName, LangID, File_HxS, File_HxI, File_HxQ, File_HxR, File_Samples) VALUES ('MPI', 'MPI', '1033', '_91EAACC9E4914FC18EC1BBD0D705A118.1FC8FFB5C38D49449EA0A1D0BFC6FF84', '', '', '', '')
+
+Updating HelpFileToNamespace table...
+    INSERT INTO HelpFileToNamespace (HelpFile_, HelpNamespace_) VALUES ('MPI', 'your_collection_namespace')
+
+Updating HelpPlugin table...
+    INSERT INTO HelpPlugin (HelpNamespace_, HelpNamespace_Parent, File_HxT, File_HxA, File_ParentHxT) VALUES ('your_collection_namespace', 'MS.VSIPCC.v90', '_9398C35BE6F24B1B8FCB21A7578B4789.1FC8FFB5C38D49449EA0A1D0BFC6FF84', '', 'FL_vsipcc_hxt_86880_86880_cn_ln.3643236F_FC70_11D3_A536_0090278A1BB8.48273237_1399_45CF_801C_338E1AB00E90')
+
+Updating HelpFilter table...
+
+Updating HelpFilterToNamespace table...
+
+Updating Component table...
+    UPDATE Component SET ComponentId='{0993B3DB-7088-DBAA-0A4E-406AEA71B56D}' WHERE Component='C__91EAACC9E4914FC18EC1BBD0D705A118.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+    UPDATE Component SET ComponentId='{14195692-ACE7-985A-ED74-5B70A3E06F0C}' WHERE Component='C__F96EFB810E804AC081C37049622DAFB5.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+    UPDATE Component SET ComponentId='{B8C1A399-FA6C-4292-6988-BC45B9F87ACE}' WHERE Component='C__9398C35BE6F24B1B8FCB21A7578B4789.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+    UPDATE Component SET ComponentId='{D351461E-5F5B-B1D3-AE28-0F90746C694B}' WHERE Component='C__18248BDC74BB4D2781673C52CFD965F8.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+    UPDATE Component SET ComponentId='{612B1319-110C-404C-D2C3-2C9206CE74B0}' WHERE Component='C__7469FE9ABB0C409F8214AA6783D3CEAA.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+    UPDATE Component SET ComponentId='{9AE95148-6BE8-E452-723F-78764C36C631}' WHERE Component='C__34EEBE3F8C1C4D7FA0BCEFC2C2AC6972.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+    UPDATE Component SET ComponentId='{63B5C20C-8456-3FA2-828C-A23559E78BA6}' WHERE Component='C__3334956594CF4D6F8E359A4B5928011B.1FC8FFB5C38D49449EA0A1D0BFC6FF84'
+

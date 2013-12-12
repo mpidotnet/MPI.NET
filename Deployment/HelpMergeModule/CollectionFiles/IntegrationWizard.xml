@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE IntegrationWizard[]>
+<IntegrationWizard>
+    <ProjectType>MergeModule</ProjectType>
+    <Target>VS_2008_VSIPCC</Target>
+    <Namespace>your.collection.namespace</Namespace>
+    <Description>Wizard-generated collection</Description>
+    <ParentNamespaces>
+        <ParentNamespace>
+            <Name>MS.VSIPCC.v90</Name>
+            <HxT>FL_vsipcc_hxt_86880_86880_cn_ln.3643236F_FC70_11D3_A536_0090278A1BB8.48273237_1399_45CF_801C_338E1AB00E90</HxT>
+            <HxQ>
+            </HxQ>
+        </ParentNamespace>
+    </ParentNamespaces>
+    <SourceFiles>
+        <SourceFile>
+            <Name>MPI.HxS</Name>
+            <ComponentID>{0993B3DB-7088-DBAA-0A4E-406AEA71B56D}</ComponentID>
+        </SourceFile>
+        <SourceFile>
+            <Name>_Collection_12536ee18ec34c44a1eb5c068682ff2d.HxC</Name>
+            <ComponentID>{14195692-ACE7-985A-ED74-5B70A3E06F0C}</ComponentID>
+        </SourceFile>
+        <SourceFile>
+            <Name>_TOC_12536ee18ec34c44a1eb5c068682ff2d.HxT</Name>
+            <ComponentID>{B8C1A399-FA6C-4292-6988-BC45B9F87ACE}</ComponentID>
+        </SourceFile>
+        <SourceFile>
+            <Name>_KIndex_12536ee18ec34c44a1eb5c068682ff2d.HxK</Name>
+            <ComponentID>{D351461E-5F5B-B1D3-AE28-0F90746C694B}</ComponentID>
+        </SourceFile>
+        <SourceFile>
+            <Name>_AIndex_12536ee18ec34c44a1eb5c068682ff2d.HxK</Name>
+            <ComponentID>{612B1319-110C-404C-D2C3-2C9206CE74B0}</ComponentID>
+        </SourceFile>
+        <SourceFile>
+            <Name>_FIndex_12536ee18ec34c44a1eb5c068682ff2d.HxK</Name>
+            <ComponentID>{9AE95148-6BE8-E452-723F-78764C36C631}</ComponentID>
+        </SourceFile>
+        <SourceFile>
+            <Name>_NUrlIndex_12536ee18ec34c44a1eb5c068682ff2d.HxK</Name>
+            <ComponentID>{63B5C20C-8456-3FA2-828C-A23559E78BA6}</ComponentID>
+        </SourceFile>
+    </SourceFiles>
+    <Filters>
+    </Filters>
+</IntegrationWizard>

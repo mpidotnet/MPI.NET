@@ -1,0 +1,67 @@
+# Copyright (C) 2007  The Trustees of Indiana University
+#
+# Use, modification and distribution is subject to the Boost Software
+# License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+#  
+# Authors: Douglas Gregor
+#          Andrew Lumsdaine
+#
+# Shell script used to help execute MPI.NET tests for a varying number
+# of processes. 
+#
+# Usage:
+#   runtest.sh BUILDDIR AllgatherTest.exe
+MPIEXEC=@MPIEXEC@
+MONO=@MONO@
+
+# The "top" build directory
+BUILDDIR=$1
+
+# The test we will be executing
+test_name=$2
+
+# Find the absolute path from the relative BUILDDIR we are given
+OLDDIR=`pwd`
+cd $BUILDDIR
+BUILDDIR=`pwd`
+cd $OLDDIR
+
+# Set up the path for the dynanamic linker
+if test `uname` == "Darwin" ; then
+  export DYLD_LIBRARY_PATH=$BUILDDIR/MPI/.libs:$DYLD_LIBRARY_PATH
+else
+  export LD_LIBRARY_PATH=$BUILDDIR/MPI/.libs:$LD_LIBRARY_PATH
+fi
+
+# Compute the testing schedule, i.e., the numbers of processors for
+# which we will execute the program.
+test_schedule="1 2 7 8 13 16 21"
+case "$test_name" in
+  *Ring.exe ) test_schedule="2 7 8 13 16 21" ;;
+  *Netpipe.exe ) test_schedule="2" ;;
+  *Netcoll.exe ) test_schedule="8" ;;
+  *CartTest.exe ) test_schedule="8" ;;
+  *GraphTest.exe ) test_schedule="4 7 8 13 16 21" ;;
+  *DatatypesTest.exe ) test_schedule="2" ;;
+  *ExceptionTest.exe ) test_schedule="2" ;;
+  *IntercommunicatorTest.exe ) test_schedule="2 7 8 13 16 21" ;;
+esac
+
+result_code=0
+export MONO_PATH="$BUILDDIR/MPI:$BUILDDIR/MPIUtils:$MONO_PATH"
+echo $test_name
+echo $LD_LIBRARY_PATH
+echo $MONO_PATH
+for procs in $test_schedule ; do
+  echo $MPIEXEC -n $procs $MONO $test_name
+  $MPIEXEC -n $procs $MONO $test_name
+  if test $? == 0 ; then
+    echo "PASS $test_name (with $procs processes)"
+  else
+    echo "FAIL $test_name (with $procs processes)"
+    result_code=-1
+  fi
+done
+
+exit $result_code
