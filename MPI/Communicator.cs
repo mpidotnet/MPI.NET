@@ -172,7 +172,6 @@ namespace MPI
         {
             // We need MPI errors to return error codes rather than failing immediately
             Unsafe.MPI_Errhandler_set(comm, Unsafe.MPI_ERRORS_RETURN);
-            Unsafe.MPI_Errhandler_set(shadowComm, Unsafe.MPI_ERRORS_RETURN);
 
             // Create the "shadow" communicator for sending extra data
             // across the wire.
@@ -183,6 +182,10 @@ namespace MPI
                     throw Environment.TranslateErrorIntoException(errorCode);
 
             }
+
+            // Moved the following line to try to fix https://github.com/jmp75/MPI.NET/issues/2
+            // before the unsafe section above, shadowComm == Unsafe.MPI_COMM_NULL, likely cause of the crash.
+            Unsafe.MPI_Errhandler_set(shadowComm, Unsafe.MPI_ERRORS_RETURN);
 
             // Set up the communicator's attributes
             Attributes = new AttributeSet(comm);
