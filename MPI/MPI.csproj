@@ -68,6 +68,7 @@
     <Compile Include="Unsafe.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="MPI.snk" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="has #if">
+    <Position X="7" Y="7.75" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="20.43" Y="2.59" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="4.043" Y="11.448" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="17.814" Y="2.18" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="10.963" Y="10.471" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="5.445" Y="6.641" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="7.542" Y="10.39" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="12.253" Y="6.481" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="1.864" Y="2.566" Height="0.376" Width="0.989" />
+  </Comment>
+  <Comment CommentText="has #if">
+    <Position X="2.093" Y="0.963" Height="0.629" Width="1.616" />
+  </Comment>
+  <Class Name="MPI.Attribute" Collapsed="true">
+    <Position X="10.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attribute.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MPI.LowLevelAttribute" Collapsed="true">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAABAgAAAAAAAAAAAACIAAAAAA=</HashCode>
+      <FileName>Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.StoredAttribute&lt;T&gt;" Collapsed="true">
+    <Position X="9.5" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABATAAAAABAAAAAAIAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.ShallowValueAttribute&lt;T&gt;" Collapsed="true">
+    <Position X="11.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.AttributeSet" Collapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAgAAAAACAAABAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.CartesianCommunicator" Collapsed="true">
+    <Position X="6.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAEAhhAAAAgBAEAAAAIAIAIAQAAAYAAAAABAAAA=</HashCode>
+      <FileName>CartesianCommunicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Communicator" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABkcCAASAAiCEAAEBEQAAQAKkAAEBwAEBAIAAAABA=</HashCode>
+      <FileName>Communicator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MPI.DatatypeCache" Collapsed="true">
+    <Position X="9.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAABAQAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>DatatypeCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.FastDatatypeCache&lt;T&gt;" Collapsed="true">
+    <Position X="9.5" Y="11.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DatatypeCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Environment" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAFCIEACABAARAAAAAAAAAgAAAAAAABAIAAQA=</HashCode>
+      <FileName>Environment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MPI.MessageTruncatedException" Collapsed="true">
+    <Position X="15.75" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.GraphCommunicator" Collapsed="true">
+    <Position X="4" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAABAAAAABAAAAAAAAAAAAQAAAIAAAAAAAAAA=</HashCode>
+      <FileName>GraphCommunicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Group" Collapsed="true">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAADAAAAQCAAgAAAAIECAAACAAAAAIAAAABAIAAAAAA=</HashCode>
+      <FileName>Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Intercommunicator" Collapsed="true">
+    <Position X="2.25" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIRAAgIAACCAACAAAAAAQAIQBAAAAQIAAAMAICAgBAA=</HashCode>
+      <FileName>Intercommunicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Intracommunicator" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIRAAgAAAACAAAAAAAEAQAIQBAAAAAIAAACAICAgBAA=</HashCode>
+      <FileName>Intracommunicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Operation&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="MPI.Operation&lt;T&gt;.DatatypeKind" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Operation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="MPI.Operation&lt;T&gt;.WrapReductionOperation" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Operation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAoAECAAADBwAAAAEAABgAEYQQBAIAACAABBAgACSQA=</HashCode>
+      <FileName>Operation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MPI.Request" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.ReceiveRequest" Collapsed="true">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.ValueTypeSendRequest" Collapsed="true">
+    <Position X="11" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAABAAAAACAAAQAAAAAAAACCEAAgAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.SerializedSendRequest" Collapsed="true">
+    <Position X="13.25" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAyAAAAAAABAAAAAAAAAQAAAAAGAAACEAAgAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.ValueReceiveRequest&lt;T&gt;" Collapsed="true">
+    <Position X="9.75" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAYAAAAAAAAAAAAACAAAQAACAAAAACCEAAgAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.ValueArrayReceiveRequest&lt;T&gt;" Collapsed="true">
+    <Position X="1.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAYAAAAAAAAAgAAACAAAQAAAAAAAACCEAAgAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.SerializedReceiveRequest&lt;T&gt;" Collapsed="true">
+    <Position X="4.25" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAA4AAAAAAAAAAAAACAAAQAQCAgCAACCAAAgAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.SerializedArrayReceiveRequest&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAYAAAAAAAAAgAAACAAAQAAAAAAAAECAAAgAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.RequestList" Collapsed="true">
+    <Position X="17.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAQAAACgAABQQAQAAAAAAAEAAAAAAAAAg=</HashCode>
+      <FileName>RequestList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Status" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAiAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Status.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.CompletedStatus" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Status.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.TagAllocator" Collapsed="true">
+    <Position X="15.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABABBAAAAAAAAABAABAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>TagAllocator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.TopologicalCommunicator" Collapsed="true">
+    <Position X="5" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAQAAAIAAAAAAAAAA=</HashCode>
+      <FileName>TopologicalCommunicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.UnmanagedMemoryStream" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAACAAQAAgHAIAIQDjAAAAAAAAAAACAAEIQCA=</HashCode>
+      <FileName>UnmanagedMemoryStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MPI.Unsafe" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>qffbXms+a/QL9q255R4XPlXbUN1tfDNbeO732V766c0=</HashCode>
+      <FileName>Unsafe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="MPI.SerializedMessageHeader" Collapsed="true">
+    <Position X="15.75" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Communicator.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="MPI.TwoRequests" Collapsed="true">
+    <Position X="17.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="MPI.AttributeDuplication" Collapsed="true">
+    <Position X="15.75" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAAEAAAA=</HashCode>
+      <FileName>Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MPI.Comparison" Collapsed="true">
+    <Position X="17.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAACAAAAAAIAAAAAAgAAAA=</HashCode>
+      <FileName>Comparison.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MPI.Threading" Collapsed="true">
+    <Position X="19.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAEAAAAACAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Environment.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="MPI.ReductionOperation&lt;T&gt;" Collapsed="true">
+    <Position X="17.5" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Communicator.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="MPI.MPIDelegate" Collapsed="true">
+    <Position X="15.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operation.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
