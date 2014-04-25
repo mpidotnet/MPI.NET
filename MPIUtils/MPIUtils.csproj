@@ -48,7 +48,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>$(MSBuildBinPath)\..\v4.0.30319\ilasm.exe /optimize /debug=opt /dll /output="$(TargetDir)\$(TargetFileName)" /key="$(ProjectDir)\MPIUtils.snk" "$(ProjectDir)\Memory.il"</PostBuildEvent>
+    <PostBuildEvent>if exist $(MSBuildBinPath)\..\v4.0.30319\ilasm.exe $(MSBuildBinPath)\..\v4.0.30319\ilasm.exe /optimize /debug=opt /dll /output="$(TargetDir)\$(TargetFileName)" /key="$(ProjectDir)\MPIUtils.snk" "$(ProjectDir)\Memory.il"
+$(Windir)\Microsoft.NET\Framework\v4.0.30319\ilasm.exe /optimize /debug=opt /dll /output="$(TargetDir)\$(TargetFileName)" /key="$(ProjectDir)\MPIUtils.snk" "$(ProjectDir)\Memory.il"
+</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Memory.il" />
