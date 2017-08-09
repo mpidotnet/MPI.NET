@@ -243,7 +243,7 @@ namespace MPI
             }
             else
             {
-                int size = 0;
+                int size = counts[0];
                 int[] displs = new int[counts.Length];
                 displs[0] = 0;
                 for (int i = 1; i < counts.Length; i++)
