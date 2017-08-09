@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPI", "MPI\MPI.csproj", "{3CB12C2E-85FE-44B6-8183-5790AF3A3515}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello", "Examples\Hello\Hello.csproj", "{A84F17B0-50B7-45DE-9C8A-8A9D4644AAD0}"
@@ -42,19 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReduceScatterTest", "Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonblockingTest", "Tests\NonblockingTest\NonblockingTest.csproj", "{579171DB-9E8C-4516-B5E1-4337BDDFC676}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RuntimeMergeModule", "Deployment\RuntimeMergeModule\RuntimeMergeModule.vdproj", "{404B4D77-5161-4AF1-AFDF-701407826D6F}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupRuntime", "Deployment\SetupRuntime\SetupRuntime.vdproj", "{BF32A5A0-43A9-4960-8AA9-54075B54E994}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3CB12C2E-85FE-44B6-8183-5790AF3A3515} = {3CB12C2E-85FE-44B6-8183-5790AF3A3515}
-		{211C1EEE-143F-4F93-BB41-715499433447} = {211C1EEE-143F-4F93-BB41-715499433447}
-	EndProjectSection
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupSDK", "Deployment\SetupSDK\SetupSDK.vdproj", "{03D56F76-7C29-4BDC-86D1-05582B54F146}"
-	ProjectSection(ProjectDependencies) = postProject
-		{211C1EEE-143F-4F93-BB41-715499433447} = {211C1EEE-143F-4F93-BB41-715499433447}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong", "Examples\PingPong\PingPong.csproj", "{607B9C9E-E635-4856-B86C-3BC3DC5F4627}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPIUtils", "MPIUtils\MPIUtils.csproj", "{211C1EEE-143F-4F93-BB41-715499433447}"
@@ -66,8 +55,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTest", "Tests\GraphTest\GraphTest.csproj", "{9C0AE438-3587-4B28-A3E9-B913865F2321}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributesTest", "Tests\AttributesTest\AttributesTest.csproj", "{8C283D30-B965-4C91-A134-C21752BA9630}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "HelpMergeModule", "Deployment\HelpMergeModule\HelpMergeModule.vdproj", "{50B7CA0E-DF5E-4CE2-A124-A61507812220}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntercommunicatorTest", "Tests\IntercommunicatorTest\IntercommunicatorTest.csproj", "{AC47CE18-6BCF-4BCC-81D7-5402663F4D0B}"
 EndProject
@@ -273,32 +260,6 @@ Global
 		{579171DB-9E8C-4516-B5E1-4337BDDFC676}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{579171DB-9E8C-4516-B5E1-4337BDDFC676}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{579171DB-9E8C-4516-B5E1-4337BDDFC676}.Release|Win32.ActiveCfg = Release|Any CPU
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Debug|Any CPU.ActiveCfg = Debug
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Debug|Any CPU.Build.0 = Debug
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Debug|Win32.ActiveCfg = Debug
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Debug|Win32.Build.0 = Debug
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Release|Any CPU.ActiveCfg = Release
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Release|Any CPU.Build.0 = Release
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Release|Mixed Platforms.ActiveCfg = Release
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Release|Win32.ActiveCfg = Release
-		{404B4D77-5161-4AF1-AFDF-701407826D6F}.Release|Win32.Build.0 = Release
-		{BF32A5A0-43A9-4960-8AA9-54075B54E994}.Debug|Any CPU.ActiveCfg = Debug
-		{BF32A5A0-43A9-4960-8AA9-54075B54E994}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{BF32A5A0-43A9-4960-8AA9-54075B54E994}.Debug|Win32.ActiveCfg = Debug
-		{BF32A5A0-43A9-4960-8AA9-54075B54E994}.Release|Any CPU.ActiveCfg = Release
-		{BF32A5A0-43A9-4960-8AA9-54075B54E994}.Release|Mixed Platforms.ActiveCfg = Release
-		{BF32A5A0-43A9-4960-8AA9-54075B54E994}.Release|Win32.ActiveCfg = Release
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Debug|Any CPU.ActiveCfg = Debug
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Debug|Any CPU.Build.0 = Debug
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Debug|Win32.ActiveCfg = Debug
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Debug|Win32.Build.0 = Debug
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Release|Any CPU.ActiveCfg = Release
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Release|Any CPU.Build.0 = Release
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Release|Mixed Platforms.ActiveCfg = Release
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Release|Win32.ActiveCfg = Release
-		{03D56F76-7C29-4BDC-86D1-05582B54F146}.Release|Win32.Build.0 = Release
 		{607B9C9E-E635-4856-B86C-3BC3DC5F4627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{607B9C9E-E635-4856-B86C-3BC3DC5F4627}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{607B9C9E-E635-4856-B86C-3BC3DC5F4627}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -359,16 +320,6 @@ Global
 		{8C283D30-B965-4C91-A134-C21752BA9630}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8C283D30-B965-4C91-A134-C21752BA9630}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8C283D30-B965-4C91-A134-C21752BA9630}.Release|Win32.ActiveCfg = Release|Any CPU
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Debug|Any CPU.ActiveCfg = Debug
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Debug|Any CPU.Build.0 = Debug
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Debug|Win32.ActiveCfg = Debug
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Debug|Win32.Build.0 = Debug
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Release|Any CPU.ActiveCfg = Release
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Release|Any CPU.Build.0 = Release
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Release|Mixed Platforms.ActiveCfg = Release
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Release|Win32.ActiveCfg = Release
-		{50B7CA0E-DF5E-4CE2-A124-A61507812220}.Release|Win32.Build.0 = Release
 		{AC47CE18-6BCF-4BCC-81D7-5402663F4D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC47CE18-6BCF-4BCC-81D7-5402663F4D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC47CE18-6BCF-4BCC-81D7-5402663F4D0B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
