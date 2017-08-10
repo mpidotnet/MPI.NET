@@ -29,6 +29,20 @@ MPI.NET on Windows is available only for use with Microsoft's MPI, MS-MPI, which
 
 If you clone/download the source code, you will see a solution file at the top level. It should be readable by most recent versions of visual studio. It is working with Visual Studio 2013 Express Edition. It should be straightforward to compile, except for one thing: MPIUtils is compiling from IL directly, and requires ilasm.exe to be found. The post-build event in the project file includes batch commands that try to find the correct ilams.exe from visual studio settings, but this may still fail on your machine.
 
+You may try to build from the command line with e.g.:
+
+```bat
+cd C:\path\to\MPI.NET\Build
+build.bat Debug Rebuild
+```
+
+To run all unit tests:
+
+```bat
+cd C:\path\to\MPI.NET\Tests
+.\runtests.bat Debug
+```
+
 ## Installation on Unix
 
 Support for MPI.NET on Unix platforms is provided based on the Mono C# compiler and its toolchain. This present version of MPI.NET has been used on CentOS linux clusters using Mono 3.2.3 and 3.2.8. It is likely to work with recent versions of Mono.
@@ -71,11 +85,32 @@ Documentation generation is currently not available within Unix. However, the li
 
 # Technical notes
 
+## Unit tests
+
+```bat
+runtests.bat Debug
+:: or with options
+runtests.bat Debug AllgatherTest
+```
+
+
 ## Creating the NuGet package for MPI.NET
 
 Tested with NuGet Version: 2.8.1
 From the top folder of the source code, after compiling the solution in Release mode
-```
+
+```bat
 cd MPI
 nuget pack MPI.csproj -IncludeReferencedProjects -Prop Configuration=Release
 ```
+
+## Troubleshooting
+
+A placeholder to log issues
+
+```
+Unhandled Exception: System.IO.FileNotFoundException: Could not load file or assembly 'MPI, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+   at AllgatherTest.Main(String[] args)
+```
+
+Prior to Aug 2017 the test projects were not referencing MPI and MPIUtils projects, hence dependencies were missing. Running the tests would thus not work. This should not be the case anymore.

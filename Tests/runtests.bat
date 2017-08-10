@@ -21,6 +21,8 @@ set DEFAULT_SCHEDULE=1 2 7 8 13 16 21
 set FAILURES=
 set TESTS=*Test
 
+if not "%CONFIGURATION%"=="Release" if not "%CONFIGURATION%"=="Debug" set CONFIGURATION=Debug
+
 if "%2x" neq "x" ( 
   set TESTS=%2
 ) 
@@ -49,12 +51,14 @@ for /D %%T in (%TESTS%) do (
   )
 
   cd "%%T\bin\%CONFIGURATION%"
+  REM echo we are in "%%T\bin\%CONFIGURATION%"
   
   rem Loop over each number of processes in the schedule
   for %%P in (!SCHEDULE!) do (  
     echo Executing %%T with %%P processes...
-    set ERRORLEVER=0
-    call %MPIEXEC% -exitcodes -n %%P %%T
+    set ERRORLEVEL=0
+    echo call %MPIEXEC% -exitcodes -n %%P %%T
+    %MPIEXEC% -exitcodes -n %%P %%T
     if !ERRORLEVEL! neq 0 (
       if "!FAILURES!x" equ "x" ( 
         set FAILURES=%%T:%%P
@@ -66,6 +70,7 @@ for /D %%T in (%TESTS%) do (
     
       echo %%T with %%P processes... PASSED
     )
+    REM goto end
   )
   cd ..\..\..
 )
@@ -79,3 +84,4 @@ if "%FAILURES%x" == "x" (
   )
 )
 
+:end

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SendReceiveTest</RootNamespace>
     <AssemblyName>SendReceiveTest</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -54,7 +54,11 @@
     <Compile Include="SendReceiveTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MPI\MPI.csproj">
+        <ProjectReference Include="..\..\MPIUtils\MPIUtils.csproj">
+      <Project>{211c1eee-143f-4f93-bb41-715499433447}</Project>
+      <Name>MPIUtils</Name>
+    </ProjectReference>
+<ProjectReference Include="..\..\MPI\MPI.csproj">
       <Project>{3CB12C2E-85FE-44B6-8183-5790AF3A3515}</Project>
       <Name>MPI</Name>
     </ProjectReference>
