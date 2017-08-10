@@ -1,0 +1,4597 @@
+Executing AllgatherTest with 1 processes...
+call mpiexec -exitcodes -n 1 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 1 processes... PASSED
+Executing AllgatherTest with 2 processes...
+call mpiexec -exitcodes -n 2 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 2 processes... PASSED
+Executing AllgatherTest with 7 processes...
+call mpiexec -exitcodes -n 7 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 7 processes... PASSED
+Executing AllgatherTest with 8 processes...
+call mpiexec -exitcodes -n 8 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 8 processes... PASSED
+Executing AllgatherTest with 13 processes...
+call mpiexec -exitcodes -n 13 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 13 processes... PASSED
+Executing AllgatherTest with 16 processes...
+call mpiexec -exitcodes -n 16 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 16 processes... PASSED
+Executing AllgatherTest with 21 processes...
+call mpiexec -exitcodes -n 21 AllgatherTest
+Testing Allgather with integers... done.
+Testing Allgather with strings... done.
+Testing AllgatherFlattened with integers... done.
+Testing AllgatherFlattened with string... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllgatherTest with 21 processes... PASSED
+Executing AllreduceTest with 1 processes...
+call mpiexec -exitcodes -n 1 AllreduceTest
+Sum of ranks = 0
+Sum of points = (0, 1)
+Minimum of ranks = 0
+Minimum point = (0, 1)
+Maximum of ranks = 0
+Maximum point = (0, 1)
+Concatenation of rank strings = 0
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 1 processes... PASSED
+Executing AllreduceTest with 2 processes...
+call mpiexec -exitcodes -n 2 AllreduceTest
+Sum of ranks = 1
+Sum of points = (1, 3)
+Minimum of ranks = 0
+Minimum point = (0, 2)
+Maximum of ranks = 1
+Maximum point = (1, 1)
+Concatenation of rank strings = 01
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 2 processes... PASSED
+Executing AllreduceTest with 7 processes...
+call mpiexec -exitcodes -n 7 AllreduceTest
+Sum of ranks = 21
+Sum of points = (21, 28)
+Minimum of ranks = 0
+Minimum point = (0, 7)
+Maximum of ranks = 6
+Maximum point = (6, 1)
+Concatenation of rank strings = 0123456
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 7 processes... PASSED
+Executing AllreduceTest with 8 processes...
+call mpiexec -exitcodes -n 8 AllreduceTest
+Sum of ranks = 28
+Sum of points = (28, 36)
+Minimum of ranks = 0
+Minimum point = (0, 8)
+Maximum of ranks = 7
+Maximum point = (7, 1)
+Concatenation of rank strings = 01234567
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 8 processes... PASSED
+Executing AllreduceTest with 13 processes...
+call mpiexec -exitcodes -n 13 AllreduceTest
+Sum of ranks = 78
+Sum of points = (78, 91)
+Minimum of ranks = 0
+Minimum point = (0, 13)
+Maximum of ranks = 12
+Maximum point = (12, 1)
+Concatenation of rank strings = 0123456789101112
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 13 processes... PASSED
+Executing AllreduceTest with 16 processes...
+call mpiexec -exitcodes -n 16 AllreduceTest
+Sum of ranks = 120
+Sum of points = (120, 136)
+Minimum of ranks = 0
+Minimum point = (0, 16)
+Maximum of ranks = 15
+Maximum point = (15, 1)
+Concatenation of rank strings = 0123456789101112131415
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 16 processes... PASSED
+Executing AllreduceTest with 21 processes...
+call mpiexec -exitcodes -n 21 AllreduceTest
+Sum of ranks = 210
+Sum of points = (210, 231)
+Minimum of ranks = 0
+Minimum point = (0, 21)
+Maximum of ranks = 20
+Maximum point = (20, 1)
+Concatenation of rank strings = 01234567891011121314151617181920
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AllreduceTest with 21 processes... PASSED
+Executing AlltoallTest with 1 processes...
+call mpiexec -exitcodes -n 1 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 1 processes... PASSED
+Executing AlltoallTest with 2 processes...
+call mpiexec -exitcodes -n 2 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 2 processes... PASSED
+Executing AlltoallTest with 7 processes...
+call mpiexec -exitcodes -n 7 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 7 processes... PASSED
+Executing AlltoallTest with 8 processes...
+call mpiexec -exitcodes -n 8 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 8 processes... PASSED
+Executing AlltoallTest with 13 processes...
+call mpiexec -exitcodes -n 13 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 13 processes... PASSED
+Executing AlltoallTest with 16 processes...
+call mpiexec -exitcodes -n 16 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 16 processes... PASSED
+Executing AlltoallTest with 21 processes...
+call mpiexec -exitcodes -n 21 AlltoallTest
+Testing all-to-all on integers... done.
+Testing all-to-all on strings... done.
+Testing AlltoallFlattened with integers... done.
+Testing AlltoallFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AlltoallTest with 21 processes... PASSED
+Executing AttributesTest with 1 processes...
+call mpiexec -exitcodes -n 1 AttributesTest
+Creating attributes...
+Creating second attribute...
+Initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 1 processes... PASSED
+Executing AttributesTest with 2 processes...
+call mpiexec -exitcodes -n 2 AttributesTest
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Checking initial values...
+Initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 2 processes... PASSED
+Executing AttributesTest with 7 processes...
+call mpiexec -exitcodes -n 7 AttributesTest
+Creating attributes...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Initial values...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Creating attributes...
+Checking initial values...
+Checking initial values...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Initial values...
+Checking initial values...
+Creating attributes...
+Checking initial values...
+Creating second attribute...
+Initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 7 processes... PASSED
+Executing AttributesTest with 8 processes...
+call mpiexec -exitcodes -n 8 AttributesTest
+Creating attributes...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Checking initial values...
+Initial values...
+Checking initial values...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Creating attributes...
+Checking initial values...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Checking initial values...
+Initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 8 processes... PASSED
+Executing AttributesTest with 13 processes...
+call mpiexec -exitcodes -n 13 AttributesTest
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 13 processes... PASSED
+Executing AttributesTest with 16 processes...
+call mpiexec -exitcodes -n 16 AttributesTest
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Checking initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Creating attributes...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Creating attributes...
+Initial values...
+Checking initial values...
+Initial values...
+Creating second attribute...
+Checking initial values...
+Initial values...
+Creating second attribute...
+Creating attributes...
+Checking initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Creating second attribute...
+Checking initial values...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 16 processes... PASSED
+Executing AttributesTest with 21 processes...
+call mpiexec -exitcodes -n 21 AttributesTest
+Creating attributes...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Creating attributes...
+Checking initial values...
+Creating second attribute...
+Initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Checking initial values...
+Creating attributes...
+Checking initial values...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Creating second attribute...
+Initial values...
+Initial values...
+Checking initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Initial values...
+Creating second attribute...
+Checking initial values...
+Creating attributes...
+Initial values...
+Creating second attribute...
+Checking initial values...
+Initial values...
+Creating attributes...
+Creating attributes...
+Checking initial values...
+Creating second attribute...
+Creating attributes...
+Creating second attribute...
+Creating attributes...
+Initial values...
+Initial values...
+Creating second attribute...
+Creating second attribute...
+Checking initial values...
+Checking initial values...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+Creating attributes...
+Creating attributes...
+Creating second attribute...
+Creating second attribute...
+Initial values...
+Initial values...
+Checking initial values...
+Checking initial values...
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+AttributesTest with 21 processes... PASSED
+Executing BroadcastTest with 1 processes...
+call mpiexec -exitcodes -n 1 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 1 processes... PASSED
+Executing BroadcastTest with 2 processes...
+call mpiexec -exitcodes -n 2 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+Broadcasting integer from root 1... done.
+Broadcasting string from root 1... done.
+Broadcasting integer array from root 1... done.
+Broadcasting string array from root 1... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 2 processes... PASSED
+Executing BroadcastTest with 7 processes...
+call mpiexec -exitcodes -n 7 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+Broadcasting integer from root 1... done.
+Broadcasting string from root 1... done.
+Broadcasting integer array from root 1... done.
+Broadcasting string array from root 1... done.
+Broadcasting integer from root 2... done.
+Broadcasting string from root 2... done.
+Broadcasting integer array from root 2... done.
+Broadcasting string array from root 2... done.
+Broadcasting integer from root 3... done.
+Broadcasting string from root 3... done.
+Broadcasting integer array from root 3... done.
+Broadcasting string array from root 3... done.
+Broadcasting integer from root 4... done.
+Broadcasting string from root 4... done.
+Broadcasting integer array from root 4... done.
+Broadcasting string array from root 4... done.
+Broadcasting integer from root 5... done.
+Broadcasting string from root 5... done.
+Broadcasting integer array from root 5... done.
+Broadcasting string array from root 5... done.
+Broadcasting integer from root 6... done.
+Broadcasting string from root 6... done.
+Broadcasting integer array from root 6... done.
+Broadcasting string array from root 6... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 7 processes... PASSED
+Executing BroadcastTest with 8 processes...
+call mpiexec -exitcodes -n 8 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+Broadcasting integer from root 1... done.
+Broadcasting string from root 1... done.
+Broadcasting integer array from root 1... done.
+Broadcasting string array from root 1... done.
+Broadcasting integer from root 2... done.
+Broadcasting string from root 2... done.
+Broadcasting integer array from root 2... done.
+Broadcasting string array from root 2... done.
+Broadcasting integer from root 3... done.
+Broadcasting string from root 3... done.
+Broadcasting integer array from root 3... done.
+Broadcasting string array from root 3... done.
+Broadcasting integer from root 4... done.
+Broadcasting string from root 4... done.
+Broadcasting integer array from root 4... done.
+Broadcasting string array from root 4... done.
+Broadcasting integer from root 5... done.
+Broadcasting string from root 5... done.
+Broadcasting integer array from root 5... done.
+Broadcasting string array from root 5... done.
+Broadcasting integer from root 6... done.
+Broadcasting string from root 6... done.
+Broadcasting integer array from root 6... done.
+Broadcasting string array from root 6... done.
+Broadcasting integer from root 7... done.
+Broadcasting string from root 7... done.
+Broadcasting integer array from root 7... done.
+Broadcasting string array from root 7... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 8 processes... PASSED
+Executing BroadcastTest with 13 processes...
+call mpiexec -exitcodes -n 13 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+Broadcasting integer from root 1... done.
+Broadcasting string from root 1... done.
+Broadcasting integer array from root 1... done.
+Broadcasting string array from root 1... done.
+Broadcasting integer from root 2... done.
+Broadcasting string from root 2... done.
+Broadcasting integer array from root 2... done.
+Broadcasting string array from root 2... done.
+Broadcasting integer from root 3... done.
+Broadcasting string from root 3... done.
+Broadcasting integer array from root 3... done.
+Broadcasting string array from root 3... done.
+Broadcasting integer from root 4... done.
+Broadcasting string from root 4... done.
+Broadcasting integer array from root 4... done.
+Broadcasting string array from root 4... done.
+Broadcasting integer from root 5... done.
+Broadcasting string from root 5... done.
+Broadcasting integer array from root 5... done.
+Broadcasting string array from root 5... done.
+Broadcasting integer from root 6... done.
+Broadcasting string from root 6... done.
+Broadcasting integer array from root 6... done.
+Broadcasting string array from root 6... done.
+Broadcasting integer from root 7... done.
+Broadcasting string from root 7... done.
+Broadcasting integer array from root 7... done.
+Broadcasting string array from root 7... done.
+Broadcasting integer from root 8... done.
+Broadcasting string from root 8... done.
+Broadcasting integer array from root 8... done.
+Broadcasting string array from root 8... done.
+Broadcasting integer from root 9... done.
+Broadcasting string from root 9... done.
+Broadcasting integer array from root 9... done.
+Broadcasting string array from root 9... done.
+Broadcasting integer from root 10... done.
+Broadcasting string from root 10... done.
+Broadcasting integer array from root 10... done.
+Broadcasting string array from root 10... done.
+Broadcasting integer from root 11... done.
+Broadcasting string from root 11... done.
+Broadcasting integer array from root 11... done.
+Broadcasting string array from root 11... done.
+Broadcasting integer from root 12... done.
+Broadcasting string from root 12... done.
+Broadcasting integer array from root 12... done.
+Broadcasting string array from root 12... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 13 processes... PASSED
+Executing BroadcastTest with 16 processes...
+call mpiexec -exitcodes -n 16 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+Broadcasting integer from root 1... done.
+Broadcasting string from root 1... done.
+Broadcasting integer array from root 1... done.
+Broadcasting string array from root 1... done.
+Broadcasting integer from root 2... done.
+Broadcasting string from root 2... done.
+Broadcasting integer array from root 2... done.
+Broadcasting string array from root 2... done.
+Broadcasting integer from root 3... done.
+Broadcasting string from root 3... done.
+Broadcasting integer array from root 3... done.
+Broadcasting string array from root 3... done.
+Broadcasting integer from root 4... done.
+Broadcasting string from root 4... done.
+Broadcasting integer array from root 4... done.
+Broadcasting string array from root 4... done.
+Broadcasting integer from root 5... done.
+Broadcasting string from root 5... done.
+Broadcasting integer array from root 5... done.
+Broadcasting string array from root 5... done.
+Broadcasting integer from root 6... done.
+Broadcasting string from root 6... done.
+Broadcasting integer array from root 6... done.
+Broadcasting string array from root 6... done.
+Broadcasting integer from root 7... done.
+Broadcasting string from root 7... done.
+Broadcasting integer array from root 7... done.
+Broadcasting string array from root 7... done.
+Broadcasting integer from root 8... done.
+Broadcasting string from root 8... done.
+Broadcasting integer array from root 8... done.
+Broadcasting string array from root 8... done.
+Broadcasting integer from root 9... done.
+Broadcasting string from root 9... done.
+Broadcasting integer array from root 9... done.
+Broadcasting string array from root 9... done.
+Broadcasting integer from root 10... done.
+Broadcasting string from root 10... done.
+Broadcasting integer array from root 10... done.
+Broadcasting string array from root 10... done.
+Broadcasting integer from root 11... done.
+Broadcasting string from root 11... done.
+Broadcasting integer array from root 11... done.
+Broadcasting string array from root 11... done.
+Broadcasting integer from root 12... done.
+Broadcasting string from root 12... done.
+Broadcasting integer array from root 12... done.
+Broadcasting string array from root 12... done.
+Broadcasting integer from root 13... done.
+Broadcasting string from root 13... done.
+Broadcasting integer array from root 13... done.
+Broadcasting string array from root 13... done.
+Broadcasting integer from root 14... done.
+Broadcasting string from root 14... done.
+Broadcasting integer array from root 14... done.
+Broadcasting string array from root 14... done.
+Broadcasting integer from root 15... done.
+Broadcasting string from root 15... done.
+Broadcasting integer array from root 15... done.
+Broadcasting string array from root 15... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 16 processes... PASSED
+Executing BroadcastTest with 21 processes...
+call mpiexec -exitcodes -n 21 BroadcastTest
+Broadcasting integer from root 0... done.
+Broadcasting string from root 0... done.
+Broadcasting integer array from root 0... done.
+Broadcasting string array from root 0... done.
+Broadcasting integer from root 1... done.
+Broadcasting string from root 1... done.
+Broadcasting integer array from root 1... done.
+Broadcasting string array from root 1... done.
+Broadcasting integer from root 2... done.
+Broadcasting string from root 2... done.
+Broadcasting integer array from root 2... done.
+Broadcasting string array from root 2... done.
+Broadcasting integer from root 3... done.
+Broadcasting string from root 3... done.
+Broadcasting integer array from root 3... done.
+Broadcasting string array from root 3... done.
+Broadcasting integer from root 4... done.
+Broadcasting string from root 4... done.
+Broadcasting integer array from root 4... done.
+Broadcasting string array from root 4... done.
+Broadcasting integer from root 5... done.
+Broadcasting string from root 5... done.
+Broadcasting integer array from root 5... done.
+Broadcasting string array from root 5... done.
+Broadcasting integer from root 6... done.
+Broadcasting string from root 6... done.
+Broadcasting integer array from root 6... done.
+Broadcasting string array from root 6... done.
+Broadcasting integer from root 7... done.
+Broadcasting string from root 7... done.
+Broadcasting integer array from root 7... done.
+Broadcasting string array from root 7... done.
+Broadcasting integer from root 8... done.
+Broadcasting string from root 8... done.
+Broadcasting integer array from root 8... done.
+Broadcasting string array from root 8... done.
+Broadcasting integer from root 9... done.
+Broadcasting string from root 9... done.
+Broadcasting integer array from root 9... done.
+Broadcasting string array from root 9... done.
+Broadcasting integer from root 10... done.
+Broadcasting string from root 10... done.
+Broadcasting integer array from root 10... done.
+Broadcasting string array from root 10... done.
+Broadcasting integer from root 11... done.
+Broadcasting string from root 11... done.
+Broadcasting integer array from root 11... done.
+Broadcasting string array from root 11... done.
+Broadcasting integer from root 12... done.
+Broadcasting string from root 12... done.
+Broadcasting integer array from root 12... done.
+Broadcasting string array from root 12... done.
+Broadcasting integer from root 13... done.
+Broadcasting string from root 13... done.
+Broadcasting integer array from root 13... done.
+Broadcasting string array from root 13... done.
+Broadcasting integer from root 14... done.
+Broadcasting string from root 14... done.
+Broadcasting integer array from root 14... done.
+Broadcasting string array from root 14... done.
+Broadcasting integer from root 15... done.
+Broadcasting string from root 15... done.
+Broadcasting integer array from root 15... done.
+Broadcasting string array from root 15... done.
+Broadcasting integer from root 16... done.
+Broadcasting string from root 16... done.
+Broadcasting integer array from root 16... done.
+Broadcasting string array from root 16... done.
+Broadcasting integer from root 17... done.
+Broadcasting string from root 17... done.
+Broadcasting integer array from root 17... done.
+Broadcasting string array from root 17... done.
+Broadcasting integer from root 18... done.
+Broadcasting string from root 18... done.
+Broadcasting integer array from root 18... done.
+Broadcasting string array from root 18... done.
+Broadcasting integer from root 19... done.
+Broadcasting string from root 19... done.
+Broadcasting integer array from root 19... done.
+Broadcasting string array from root 19... done.
+Broadcasting integer from root 20... done.
+Broadcasting string from root 20... done.
+Broadcasting integer array from root 20... done.
+Broadcasting string array from root 20... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+BroadcastTest with 21 processes... PASSED
+Executing CartTest with 8 processes...
+call mpiexec -exitcodes -n 8 CartTest
+Testing ComputeDimensions()...
+Dims = 4, 2
+ done.
+Testing constructor...
+ done.
+Testing accessors...
+ done.
+Testing Shift() and send/recv...
+ done.
+Testing Sub()...
+ done.
+Testing Neighbors...
+ done.
+Testing ComputeDimensions() with 3d...
+Dims = 2, 2, 2
+ done.
+Testing constructor with 3d...
+ done.
+Testing NumEdges with 3d...
+ done.
+Testing Neighbors with 3d...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+CartTest with 8 processes... PASSED
+Executing DatatypesTest with 2 processes...
+call mpiexec -exitcodes -n 2 DatatypesTest
+0 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+10 
+17:25
+17:25
+17:1:True:7
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+DatatypesTest with 2 processes... PASSED
+Executing ExceptionTest with 2 processes...
+call mpiexec -exitcodes -n 2 ExceptionTest
+Caught expected exception: MPI.MessageTruncatedException: Message truncated, error stack:
+MPI_Recv(buf=0x02462F98, count=4, MPI_INT, src=0, tag=0, MPI_COMM_WORLD, status=0x001AF184) failed
+Message from rank 0 and tag 0 truncated; 20 bytes received but buffer size is 16
+   at MPI.Communicator.Receive[T](Int32 source, Int32 tag, T[]& values, CompletedStatus& status) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 1001
+   at MPI.Communicator.Receive[T](Int32 source, Int32 tag, T[]& values) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 943
+   at ExceptionTest.DoTest(String[] args) in C:\src\github_jm\MPI.NET\Tests\ExceptionTest\ExceptionTest.cs:line 49
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExceptionTest with 2 processes... PASSED
+Executing ExclusiveScanTest with 1 processes...
+call mpiexec -exitcodes -n 1 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 1 processes... PASSED
+Executing ExclusiveScanTest with 2 processes...
+call mpiexec -exitcodes -n 2 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 2 processes... PASSED
+Executing ExclusiveScanTest with 7 processes...
+call mpiexec -exitcodes -n 7 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 7 processes... PASSED
+Executing ExclusiveScanTest with 8 processes...
+call mpiexec -exitcodes -n 8 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 8 processes... PASSED
+Executing ExclusiveScanTest with 13 processes...
+call mpiexec -exitcodes -n 13 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 13 processes... PASSED
+Executing ExclusiveScanTest with 16 processes...
+call mpiexec -exitcodes -n 16 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 16 processes... PASSED
+Executing ExclusiveScanTest with 21 processes...
+call mpiexec -exitcodes -n 21 ExclusiveScanTest
+Testing exclusive scan of strings... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of integer arrays... done.
+Testing exclusive scan of strings... done.
+Testing exclusive scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ExclusiveScanTest with 21 processes... PASSED
+Executing GatherTest with 1 processes...
+call mpiexec -exitcodes -n 1 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 1 processes... PASSED
+Executing GatherTest with 2 processes...
+call mpiexec -exitcodes -n 2 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 2 processes... PASSED
+Executing GatherTest with 7 processes...
+call mpiexec -exitcodes -n 7 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 7 processes... PASSED
+Executing GatherTest with 8 processes...
+call mpiexec -exitcodes -n 8 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 8 processes... PASSED
+Executing GatherTest with 13 processes...
+call mpiexec -exitcodes -n 13 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 13 processes... PASSED
+Executing GatherTest with 16 processes...
+call mpiexec -exitcodes -n 16 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 16 processes... PASSED
+Executing GatherTest with 21 processes...
+call mpiexec -exitcodes -n 21 GatherTest
+Testing Gather with integers... done.
+Testing Gather with strings... done.
+Testing uniform Gather with integers... done.
+Testing uniform GatherFlattened with strings... done.
+Testing GatherFlattened with integers... done.
+Testing GatherFlattened with strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GatherTest with 21 processes... PASSED
+Executing GraphTest with 4 processes...
+call mpiexec -exitcodes -n 4 GraphTest
+Testing constructor...
+ done.
+Testing Edges...
+ done.
+Testing NumEdges...
+ done.
+Testing Neighbors...
+ done.
+Testing NeighborsOf()...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GraphTest with 4 processes... PASSED
+Executing GraphTest with 7 processes...
+call mpiexec -exitcodes -n 7 GraphTest
+Testing constructor...
+ done.
+Testing Edges...
+ done.
+Testing NumEdges...
+ done.
+Testing Neighbors...
+ done.
+Testing NeighborsOf()...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GraphTest with 7 processes... PASSED
+Executing GraphTest with 8 processes...
+call mpiexec -exitcodes -n 8 GraphTest
+Testing constructor...
+ done.
+Testing Edges...
+ done.
+Testing NumEdges...
+ done.
+Testing Neighbors...
+ done.
+Testing NeighborsOf()...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GraphTest with 8 processes... PASSED
+Executing GraphTest with 13 processes...
+call mpiexec -exitcodes -n 13 GraphTest
+Testing constructor...
+ done.
+Testing Edges...
+ done.
+Testing NumEdges...
+ done.
+Testing Neighbors...
+ done.
+Testing NeighborsOf()...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GraphTest with 13 processes... PASSED
+Executing GraphTest with 16 processes...
+call mpiexec -exitcodes -n 16 GraphTest
+Testing constructor...
+ done.
+Testing Edges...
+ done.
+Testing NumEdges...
+ done.
+Testing Neighbors...
+ done.
+Testing NeighborsOf()...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GraphTest with 16 processes... PASSED
+Executing GraphTest with 21 processes...
+call mpiexec -exitcodes -n 21 GraphTest
+Testing constructor...
+ done.
+Testing Edges...
+ done.
+Testing NumEdges...
+ done.
+Testing Neighbors...
+ done.
+Testing NeighborsOf()...
+ done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+GraphTest with 21 processes... PASSED
+Executing IntercommunicatorTest with 2 processes...
+call mpiexec -exitcodes -n 2 IntercommunicatorTest
+Rank 0: Gather<int> Passed == True
+Rank 1: Gather<int> Passed == True
+Rank 0: Gather<string> Passed == True
+Rank 1: Gather<string> Passed == True
+Rank 0: Scatter<int> Passed == False
+===============================
+ABORTING - exception caught:
+A condition was not met
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+
+job aborted:
+[ranks] message
+
+[0] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 0
+
+[1] terminated
+
+---- error analysis -----
+
+[0] on BULLTERRIER-BU
+IntercommunicatorTest aborted the job. abort code -1
+
+---- error analysis -----
+IntercommunicatorTest with 2 processes... FAILED
+Executing IntercommunicatorTest with 7 processes...
+call mpiexec -exitcodes -n 7 IntercommunicatorTest
+Rank 1: Gather<int> Passed == True
+Rank 0: Gather<int> Passed == True
+Rank 0: Gather<string> Passed == True
+Rank 1: Gather<string> Passed == True
+Rank 0: Scatter<int> Passed == True
+
+Rank 1: Scatter<int> Passed == True
+Rank 0: Scatter<string> Passed == True
+Rank 1: Scatter<string> Passed == True
+Rank 0: Broadcast<int>(int) Passed == True
+Rank 0: Broadcast<string>(string) Passed == True
+Broadcast<int>(int[]) Passed == True
+Broadcast<string>(string[]) Passed == True
+Barrier Test...
+Barrier Test Passed == True
+Allgather<string>() Passed == True
+Allgather<int>() Passed == True
+Alltoall<int>(int[]) Passed == True
+Alltoall<string>(string[]) Passed == True
+Reduce<int>(int) Passed == True
+Reduce<string>(string) (Passed == True)
+Reduce<int>(int[]) Passed == True
+Reduce<string>(string[]) Passed == True
+Allreduce<int> Passed == True
+Allreduce<string> Passed == True
+Allreduce<int>(int[]) Passed == True
+Allreduce<string>(string[]) Passed == True
+ReduceScatter<int> Passed == True
+ReduceScatter<string> Passed == True
+GatherFlattened<int> Passed == True
+GatherFlattened<string> Passed == True
+ScatterFromFlattened<int> Passed == True
+ScatterFromFlattened<string> Passed == True
+AllgatherFlattened<int> Passed == True
+AllgatherFlattened<string> Passed == True
+Alltoall<int> Passed == True
+Alltoall<string> Passed == True
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+IntercommunicatorTest with 7 processes... PASSED
+Executing IntercommunicatorTest with 8 processes...
+call mpiexec -exitcodes -n 8 IntercommunicatorTest
+Rank 0: Gather<int> Passed == True
+Rank 1: Gather<int> Passed == True
+Rank 0: Gather<string> Passed == True
+Rank 1: Gather<string> Passed == True
+Rank 0: Scatter<int> Passed == True
+
+Rank 1: Scatter<int> Passed == True
+Rank 0: Scatter<string> Passed == True
+Rank 1: Scatter<string> Passed == True
+Rank 0: Broadcast<int>(int) Passed == True
+Rank 0: Broadcast<string>(string) Passed == True
+Broadcast<int>(int[]) Passed == True
+Broadcast<string>(string[]) Passed == True
+Barrier Test...
+Barrier Test Passed == True
+Allgather<string>() Passed == True
+Allgather<int>() Passed == True
+Alltoall<int>(int[]) Passed == True
+Alltoall<string>(string[]) Passed == True
+Reduce<int>(int) Passed == True
+Reduce<string>(string) (Passed == True)
+Reduce<int>(int[]) Passed == True
+Reduce<string>(string[]) Passed == True
+Allreduce<int> Passed == True
+Allreduce<string> Passed == True
+Allreduce<int>(int[]) Passed == True
+Allreduce<string>(string[]) Passed == True
+ReduceScatter<int> Passed == True
+ReduceScatter<string> Passed == True
+GatherFlattened<int> Passed == True
+GatherFlattened<string> Passed == True
+ScatterFromFlattened<int> Passed == True
+ScatterFromFlattened<string> Passed == True
+AllgatherFlattened<int> Passed == True
+AllgatherFlattened<string> Passed == True
+Alltoall<int> Passed == True
+Alltoall<string> Passed == True
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+IntercommunicatorTest with 8 processes... PASSED
+Executing IntercommunicatorTest with 13 processes...
+call mpiexec -exitcodes -n 13 IntercommunicatorTest
+Rank 0: Gather<int> Passed == True
+Rank 1: Gather<int> Passed == True
+Rank 0: Gather<string> Passed == True
+Rank 1: Gather<string> Passed == True
+Rank 0: Scatter<int> Passed == True
+
+Rank 1: Scatter<int> Passed == True
+Rank 0: Scatter<string> Passed == True
+Rank 1: Scatter<string> Passed == True
+Rank 0: Broadcast<int>(int) Passed == True
+Rank 0: Broadcast<string>(string) Passed == True
+Broadcast<int>(int[]) Passed == True
+Broadcast<string>(string[]) Passed == True
+Barrier Test...
+Barrier Test Passed == True
+Allgather<string>() Passed == True
+Allgather<int>() Passed == True
+Alltoall<int>(int[]) Passed == True
+Alltoall<string>(string[]) Passed == True
+Reduce<int>(int) Passed == True
+Reduce<string>(string) (Passed == True)
+Reduce<int>(int[]) Passed == True
+Reduce<string>(string[]) Passed == True
+Allreduce<int> Passed == True
+Allreduce<string> Passed == True
+Allreduce<int>(int[]) Passed == True
+Allreduce<string>(string[]) Passed == True
+ReduceScatter<int> Passed == True
+ReduceScatter<string> Passed == True
+GatherFlattened<int> Passed == True
+GatherFlattened<string> Passed == True
+ScatterFromFlattened<int> Passed == True
+ScatterFromFlattened<string> Passed == True
+AllgatherFlattened<int> Passed == True
+AllgatherFlattened<string> Passed == True
+Alltoall<int> Passed == True
+Alltoall<string> Passed == True
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+IntercommunicatorTest with 13 processes... PASSED
+Executing IntercommunicatorTest with 16 processes...
+call mpiexec -exitcodes -n 16 IntercommunicatorTest
+Rank 0: Gather<int> Passed == True
+Rank 1: Gather<int> Passed == True
+Rank 0: Gather<string> Passed == True
+Rank 1: Gather<string> Passed == True
+Rank 0: Scatter<int> Passed == True
+
+Rank 1: Scatter<int> Passed == True
+Rank 0: Scatter<string> Passed == True
+Rank 1: Scatter<string> Passed == True
+Rank 0: Broadcast<int>(int) Passed == True
+Rank 0: Broadcast<string>(string) Passed == True
+Broadcast<int>(int[]) Passed == True
+Broadcast<string>(string[]) Passed == True
+Barrier Test...
+Barrier Test Passed == True
+Allgather<string>() Passed == True
+Allgather<int>() Passed == True
+Alltoall<int>(int[]) Passed == True
+Alltoall<string>(string[]) Passed == True
+Reduce<int>(int) Passed == True
+Reduce<string>(string) (Passed == True)
+Reduce<int>(int[]) Passed == True
+Reduce<string>(string[]) Passed == True
+Allreduce<int> Passed == True
+Allreduce<string> Passed == True
+Allreduce<int>(int[]) Passed == True
+Allreduce<string>(string[]) Passed == True
+ReduceScatter<int> Passed == True
+ReduceScatter<string> Passed == True
+GatherFlattened<int> Passed == True
+GatherFlattened<string> Passed == True
+ScatterFromFlattened<int> Passed == True
+ScatterFromFlattened<string> Passed == True
+AllgatherFlattened<int> Passed == True
+AllgatherFlattened<string> Passed == True
+Alltoall<int> Passed == True
+Alltoall<string> Passed == True
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+IntercommunicatorTest with 16 processes... PASSED
+Executing IntercommunicatorTest with 21 processes...
+call mpiexec -exitcodes -n 21 IntercommunicatorTest
+Rank 0: Gather<int> Passed == True
+Rank 1: Gather<int> Passed == True
+Rank 0: Gather<string> Passed == True
+Rank 1: Gather<string> Passed == True
+Rank 0: Scatter<int> Passed == True
+
+Rank 1: Scatter<int> Passed == True
+Rank 0: Scatter<string> Passed == True
+Rank 1: Scatter<string> Passed == True
+Rank 0: Broadcast<int>(int) Passed == True
+Rank 0: Broadcast<string>(string) Passed == True
+Broadcast<int>(int[]) Passed == True
+Broadcast<string>(string[]) Passed == True
+Barrier Test...
+Barrier Test Passed == True
+Allgather<string>() Passed == True
+Allgather<int>() Passed == True
+Alltoall<int>(int[]) Passed == True
+Alltoall<string>(string[]) Passed == True
+Reduce<int>(int) Passed == True
+Reduce<string>(string) (Passed == True)
+Reduce<int>(int[]) Passed == True
+Reduce<string>(string[]) Passed == True
+Allreduce<int> Passed == True
+Allreduce<string> Passed == True
+Allreduce<int>(int[]) Passed == True
+Allreduce<string>(string[]) Passed == True
+ReduceScatter<int> Passed == True
+ReduceScatter<string> Passed == True
+GatherFlattened<int> Passed == True
+GatherFlattened<string> Passed == True
+ScatterFromFlattened<int> Passed == True
+ScatterFromFlattened<string> Passed == True
+AllgatherFlattened<int> Passed == True
+AllgatherFlattened<string> Passed == True
+Alltoall<int> Passed == True
+Alltoall<string> Passed == True
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+IntercommunicatorTest with 21 processes... PASSED
+Executing NonblockingTest with 1 processes...
+call mpiexec -exitcodes -n 1 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 1 processes... PASSED
+Executing NonblockingTest with 2 processes...
+call mpiexec -exitcodes -n 2 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 2 processes... PASSED
+Executing NonblockingTest with 7 processes...
+call mpiexec -exitcodes -n 7 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 7 processes... PASSED
+Executing NonblockingTest with 8 processes...
+call mpiexec -exitcodes -n 8 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 8 processes... PASSED
+Executing NonblockingTest with 13 processes...
+call mpiexec -exitcodes -n 13 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 13 processes... PASSED
+Executing NonblockingTest with 16 processes...
+call mpiexec -exitcodes -n 16 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 16 processes... PASSED
+Executing NonblockingTest with 21 processes...
+call mpiexec -exitcodes -n 21 NonblockingTest
+Test non-blocking communication via polling...
+Test non-blocking communication via a request list...
+Test cancellation of non-blocking communication...
+All tests passed.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+NonblockingTest with 21 processes... PASSED
+Executing ReduceScatterTest with 1 processes...
+call mpiexec -exitcodes -n 1 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 1 processes... PASSED
+Executing ReduceScatterTest with 2 processes...
+call mpiexec -exitcodes -n 2 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 2 processes... PASSED
+Executing ReduceScatterTest with 7 processes...
+call mpiexec -exitcodes -n 7 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 7 processes... PASSED
+Executing ReduceScatterTest with 8 processes...
+call mpiexec -exitcodes -n 8 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 8 processes... PASSED
+Executing ReduceScatterTest with 13 processes...
+call mpiexec -exitcodes -n 13 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 13 processes... PASSED
+Executing ReduceScatterTest with 16 processes...
+call mpiexec -exitcodes -n 16 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 16 processes... PASSED
+Executing ReduceScatterTest with 21 processes...
+call mpiexec -exitcodes -n 21 ReduceScatterTest
+Testing reduce-scatter on integers... done.
+Testing reduce-scatter on strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceScatterTest with 21 processes... PASSED
+Executing ReduceTest with 1 processes...
+call mpiexec -exitcodes -n 1 ReduceTest
+Testing from root 0
+Sum of ranks = 0
+Sum of points = (0, 1)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 1 processes... PASSED
+Executing ReduceTest with 2 processes...
+call mpiexec -exitcodes -n 2 ReduceTest
+Testing from root 0
+Sum of ranks = 1
+Sum of points = (1, 3)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 1
+Sum of ranks = 1
+Sum of points = (1, 3)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 2 processes... PASSED
+Executing ReduceTest with 7 processes...
+call mpiexec -exitcodes -n 7 ReduceTest
+Testing from root 0
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 1
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 2
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 3
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 4
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 5
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 6
+Sum of ranks = 21
+Sum of points = (21, 28)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 7 processes... PASSED
+Executing ReduceTest with 8 processes...
+call mpiexec -exitcodes -n 8 ReduceTest
+Testing from root 0
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 1
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 2
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 3
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 4
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 5
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 6
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 7
+Sum of ranks = 28
+Sum of points = (28, 36)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 8 processes... PASSED
+Executing ReduceTest with 13 processes...
+call mpiexec -exitcodes -n 13 ReduceTest
+Testing from root 0
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 1
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 2
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 3
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 4
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 5
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 6
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 7
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 8
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 9
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 10
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 11
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 12
+Sum of ranks = 78
+Sum of points = (78, 91)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 13 processes... PASSED
+Executing ReduceTest with 16 processes...
+call mpiexec -exitcodes -n 16 ReduceTest
+Testing from root 0
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 1
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 2
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 3
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 4
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 5
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 6
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 7
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 8
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 9
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 10
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 11
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 12
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 13
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 14
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 15
+Sum of ranks = 120
+Sum of points = (120, 136)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 16 processes... PASSED
+Executing ReduceTest with 21 processes...
+call mpiexec -exitcodes -n 21 ReduceTest
+Testing from root 0
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 1
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 2
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 3
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 4
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 5
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 6
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 7
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 8
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 9
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 10
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 11
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 12
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 13
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 14
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 15
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 16
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 17
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 18
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 19
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+Testing from root 20
+Sum of ranks = 210
+Sum of points = (210, 231)
+Testing reduction of integer arrays... done.
+Testing reduction of string arrays... done.
+Testing reduction of bools... done.
+Testing reduction of bool arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ReduceTest with 21 processes... PASSED
+Executing ScanTest with 1 processes...
+call mpiexec -exitcodes -n 1 ScanTest
+Sum of ranks = 0
+Sum of points = (0, 1)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 1 processes... PASSED
+Executing ScanTest with 2 processes...
+call mpiexec -exitcodes -n 2 ScanTest
+Sum of ranks = 1
+Sum of points = (1, 2)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 2 processes... PASSED
+Executing ScanTest with 7 processes...
+call mpiexec -exitcodes -n 7 ScanTest
+Sum of ranks = 21
+Sum of points = (21, 7)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 7 processes... PASSED
+Executing ScanTest with 8 processes...
+call mpiexec -exitcodes -n 8 ScanTest
+Sum of ranks = 28
+Sum of points = (28, 8)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 8 processes... PASSED
+Executing ScanTest with 13 processes...
+call mpiexec -exitcodes -n 13 ScanTest
+Sum of ranks = 78
+Sum of points = (78, 13)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 13 processes... PASSED
+Executing ScanTest with 16 processes...
+call mpiexec -exitcodes -n 16 ScanTest
+Sum of ranks = 120
+Sum of points = (120, 16)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 16 processes... PASSED
+Executing ScanTest with 21 processes...
+call mpiexec -exitcodes -n 21 ScanTest
+Sum of ranks = 210
+Sum of points = (210, 21)
+Testing scan of integer arrays... done.
+Testing scan of strings... done.
+Testing scan of string arrays... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScanTest with 21 processes... PASSED
+Executing ScatterTest with 1 processes...
+call mpiexec -exitcodes -n 1 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 1 processes... PASSED
+Executing ScatterTest with 2 processes...
+call mpiexec -exitcodes -n 2 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 2 processes... PASSED
+Executing ScatterTest with 7 processes...
+call mpiexec -exitcodes -n 7 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 7 processes... PASSED
+Executing ScatterTest with 8 processes...
+call mpiexec -exitcodes -n 8 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 8 processes... PASSED
+Executing ScatterTest with 13 processes...
+call mpiexec -exitcodes -n 13 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 13 processes... PASSED
+Executing ScatterTest with 16 processes...
+call mpiexec -exitcodes -n 16 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 16 processes... PASSED
+Executing ScatterTest with 21 processes...
+call mpiexec -exitcodes -n 21 ScatterTest
+Testing scatter of integers... done.
+Testing scatter of strings... done.
+Testing Scatter of bools... done.
+Testing ScatterFromFlattened of integers... done.
+Testing ScatterFromFlattened of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+ScatterTest with 21 processes... PASSED
+Executing SendReceiveTest with 1 processes...
+call mpiexec -exitcodes -n 1 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 1 processes... PASSED
+Executing SendReceiveTest with 2 processes...
+call mpiexec -exitcodes -n 2 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 2 processes... PASSED
+Executing SendReceiveTest with 7 processes...
+call mpiexec -exitcodes -n 7 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 7 processes... PASSED
+Executing SendReceiveTest with 8 processes...
+call mpiexec -exitcodes -n 8 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 8 processes... PASSED
+Executing SendReceiveTest with 13 processes...
+call mpiexec -exitcodes -n 13 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 13 processes... PASSED
+Executing SendReceiveTest with 16 processes...
+call mpiexec -exitcodes -n 16 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 16 processes... PASSED
+Executing SendReceiveTest with 21 processes...
+call mpiexec -exitcodes -n 21 SendReceiveTest
+Testing SendReceive of integer... done.
+Testing SendReceive of string... done.
+Testing SendReceive of integers... done.
+Testing SendReceive of strings... done.
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+[1] on BULLTERRIER-BU: 0
+[2] on BULLTERRIER-BU: 0
+[3] on BULLTERRIER-BU: 0
+[4] on BULLTERRIER-BU: 0
+[5] on BULLTERRIER-BU: 0
+[6] on BULLTERRIER-BU: 0
+[7] on BULLTERRIER-BU: 0
+[8] on BULLTERRIER-BU: 0
+[9] on BULLTERRIER-BU: 0
+[10] on BULLTERRIER-BU: 0
+[11] on BULLTERRIER-BU: 0
+[12] on BULLTERRIER-BU: 0
+[13] on BULLTERRIER-BU: 0
+[14] on BULLTERRIER-BU: 0
+[15] on BULLTERRIER-BU: 0
+[16] on BULLTERRIER-BU: 0
+[17] on BULLTERRIER-BU: 0
+[18] on BULLTERRIER-BU: 0
+[19] on BULLTERRIER-BU: 0
+[20] on BULLTERRIER-BU: 0
+
+---- exit code ----
+SendReceiveTest with 21 processes... PASSED
+Executing SpawnTest with 1 processes...
+call mpiexec -exitcodes -n 1 SpawnTest
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000020E9C8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: -532462766
+
+---- exit code ----
+SpawnTest with 1 processes... FAILED
+Executing SpawnTest with 2 processes...
+call mpiexec -exitcodes -n 2 SpawnTest
+
+Unhandled Exception: 
+
+Unhandled Exception: 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001DE738) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000018EA38) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: -532462766
+[1] on BULLTERRIER-BU: -532462766
+
+---- exit code ----
+SpawnTest with 2 processes... FAILED
+Executing SpawnTest with 7 processes...
+call mpiexec -exitcodes -n 7 SpawnTest
+
+
+Unhandled Exception:
+Unhandled Exception:
+ 
+
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000031E878) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+Unhandled Exception:
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000031E918) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+ 
+
+
+Unhandled Exception: 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000012E718) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001FEDA8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: 
+
+Unhandled Exception: 
+
+Unhandled Exception: 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000015E868) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000026EB88) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002EE7D8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+job aborted:
+[ranks] message
+
+[0-1] terminated
+
+[2] process exited without calling finalize
+
+[3-6] terminated
+
+---- error analysis -----
+
+[2] on BULLTERRIER-BU
+SpawnTest ended prematurely and may have crashed. exit code 0
+
+---- error analysis -----
+SpawnTest with 7 processes... FAILED
+Executing SpawnTest with 8 processes...
+call mpiexec -exitcodes -n 8 SpawnTest
+
+
+
+Unhandled Exception:
+Unhandled Exception:
+Unhandled Exception:
+ 
+
+
+ 
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000012E8B8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+Unhandled Exception:
+Unhandled Exception:
+
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002CEBE8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000032E788) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+ 
+ 
+Unhandled Exception:
+Unhandled Exception:
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000036E708) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+ 
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000026E9A8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000027EE68) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000027EE68) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000012EDA8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: -532462766
+[1] on BULLTERRIER-BU: -532462766
+[2] on BULLTERRIER-BU: -532462766
+[3] on BULLTERRIER-BU: -532462766
+[4] on BULLTERRIER-BU: -532462766
+[5] on BULLTERRIER-BU: -532462766
+[6] on BULLTERRIER-BU: -532462766
+[7] on BULLTERRIER-BU: -532462766
+
+---- exit code ----
+SpawnTest with 8 processes... FAILED
+Executing SpawnTest with 13 processes...
+call mpiexec -exitcodes -n 13 SpawnTest
+
+
+Unhandled Exception:
+Unhandled Exception:
+
+ 
+ 
+Unhandled Exception: 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000029E888) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000028E7E8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001DEC18) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000021EC98) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+Unhandled Exception:
+Unhandled Exception:
+
+Unhandled Exception:
+Unhandled Exception:
+Unhandled Exception:
+
+
+ 
+
+ 
+Unhandled Exception:
+ 
+ 
+ 
+Unhandled Exception:
+Unhandled Exception:
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000013E6E8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001BEAF8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000022E7C8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001BEAC8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+ 
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000015ECA8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000016EC78) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000014EB28) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001FE9C8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception:
+
+
+
+ System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002AE808) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: -532462766
+[1] on BULLTERRIER-BU: -532462766
+[2] on BULLTERRIER-BU: -532462766
+[3] on BULLTERRIER-BU: -532462766
+[4] on BULLTERRIER-BU: -532462766
+[5] on BULLTERRIER-BU: -532462766
+[6] on BULLTERRIER-BU: -532462766
+[7] on BULLTERRIER-BU: -532462766
+[8] on BULLTERRIER-BU: -532462766
+[9] on BULLTERRIER-BU: -532462766
+[10] on BULLTERRIER-BU: -532462766
+[11] on BULLTERRIER-BU: -532462766
+[12] on BULLTERRIER-BU: -532462766
+
+---- exit code ----
+SpawnTest with 13 processes... FAILED
+Executing SpawnTest with 16 processes...
+call mpiexec -exitcodes -n 16 SpawnTest
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000029E898) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000028EB08) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+Unhandled Exception:
+Unhandled Exception:
+Unhandled Exception:
+ 
+ 
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002EEAD8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000021E718) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000027E958) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+Unhandled Exception:
+
+
+
+
+Unhandled Exception:
+
+ 
+Unhandled Exception:
+Unhandled Exception:
+ 
+
+ 
+ 
+Unhandled Exception: 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000016E6C8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001FE8F8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000030E6B8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000012EAA8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000023E6C8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000013E688) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+Unhandled Exception:
+
+ 
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000030EA78) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000023EE48) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+Unhandled Exception:
+Unhandled Exception:
+ 
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000027EB38) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002BE8F8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002CEDC8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+job aborted:
+[ranks] message
+
+[0-13] terminated
+
+[14] process exited without calling finalize
+
+[15] terminated
+
+---- error analysis -----
+
+[14] on BULLTERRIER-BU
+SpawnTest ended prematurely and may have crashed. exit code 0
+
+---- error analysis -----
+SpawnTest with 16 processes... FAILED
+Executing SpawnTest with 21 processes...
+call mpiexec -exitcodes -n 21 SpawnTest
+
+
+Unhandled Exception:
+
+Unhandled Exception:
+
+
+
+ 
+Unhandled Exception:
+ 
+Unhandled Exception:
+Unhandled Exception:
+Unhandled Exception:
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000024E9F8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002DE8D8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+ 
+ 
+ 
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001BE878) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000025E688) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000026E968) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000017EE48) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001DE978) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+Unhandled Exception:
+Unhandled Exception:
+
+ 
+ 
+Unhandled Exception:
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000020E878) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000012EA88) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+ 
+
+
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000020E7E8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000021E978) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+Unhandled Exception:
+Unhandled Exception:
+ 
+ 
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000029EA18) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000002AE7E8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+
+
+Unhandled Exception:
+Unhandled Exception:
+
+ 
+ 
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000028E9F8) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000013E818) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000028EB78) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: 
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001BEE58) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000029EE28) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+
+Unhandled Exception:
+Unhandled Exception:
+ 
+ System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001AE828) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x000000000018EB58) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+Unhandled Exception: System.ArgumentException: Invalid communicator, error stack:
+MPI_Comm_test_inter(comm=0x0, flag=0x00000000001AE798) failed
+Invalid communicator
+Parameter name: comm
+   at MPI.Communicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Communicator.cs:line 143
+   at MPI.Intercommunicator.Adopt(Int32 comm) in C:\src\github_jm\MPI.NET\MPI\Intercommunicator.cs:line 133
+   at MPI.Intracommunicator.Spawn(String command, String[] argv, Int32 maxprocs, Int32 root) in C:\src\github_jm\MPI.NET\MPI\Intracommunicator.cs:line 2089
+   at SpawnTest.SpawnTest.Main(String[] args) in C:\src\github_jm\MPI.NET\Tests\SpawnTest\SpawnTest.cs:line 34
+
+job aborted:
+[ranks] message
+
+[0-6] terminated
+
+[7] process exited without calling finalize
+
+[8-20] terminated
+
+---- error analysis -----
+
+[7] on BULLTERRIER-BU
+SpawnTest ended prematurely and may have crashed. exit code 0
+
+---- error analysis -----
+SpawnTest with 21 processes... FAILED
+Executing UnitTestOutcomeTest with 1 processes...
+call mpiexec -exitcodes -n 1 UnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+
+---- exit code ----
+
+[0] on BULLTERRIER-BU: 0
+
+---- exit code ----
+UnitTestOutcomeTest with 1 processes... PASSED
+Executing UnitTestOutcomeTest with 2 processes...
+call mpiexec -exitcodes -n 2 UnitTestOutcomeTest
+===============================
+ABORTING - exception caught:
+Force failure of an assertion in BreakUnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+Pinging process with rank 1...
+job aborted:
+[ranks] message
+
+[0] terminated
+
+[1] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 1
+
+---- error analysis -----
+
+[1] on BULLTERRIER-BU
+UnitTestOutcomeTest aborted the job. abort code -1
+
+---- error analysis -----
+UnitTestOutcomeTest with 2 processes... FAILED
+Executing UnitTestOutcomeTest with 7 processes...
+call mpiexec -exitcodes -n 7 UnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+Pinging process with rank 1...
+===============================
+ABORTING - exception caught:
+Force failure of an assertion in BreakUnitTestOutcomeTest
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+
+job aborted:
+[ranks] message
+
+[0] terminated
+
+[1] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 1
+
+[2-6] terminated
+
+---- error analysis -----
+
+[1] on BULLTERRIER-BU
+UnitTestOutcomeTest aborted the job. abort code -1
+
+---- error analysis -----
+UnitTestOutcomeTest with 7 processes... FAILED
+Executing UnitTestOutcomeTest with 8 processes...
+call mpiexec -exitcodes -n 8 UnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+Pinging process with rank 1...
+===============================
+ABORTING - exception caught:
+Force failure of an assertion in BreakUnitTestOutcomeTest
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+
+job aborted:
+[ranks] message
+
+[0] terminated
+
+[1] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 1
+
+[2-7] terminated
+
+---- error analysis -----
+
+[1] on BULLTERRIER-BU
+UnitTestOutcomeTest aborted the job. abort code -1
+
+---- error analysis -----
+UnitTestOutcomeTest with 8 processes... FAILED
+Executing UnitTestOutcomeTest with 13 processes...
+call mpiexec -exitcodes -n 13 UnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+Pinging process with rank 1...
+===============================
+ABORTING - exception caught:
+Force failure of an assertion in BreakUnitTestOutcomeTest
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+
+job aborted:
+[ranks] message
+
+[0] terminated
+
+[1] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 1
+
+[2-12] terminated
+
+---- error analysis -----
+
+[1] on BULLTERRIER-BU
+UnitTestOutcomeTest aborted the job. abort code -1
+
+---- error analysis -----
+UnitTestOutcomeTest with 13 processes... FAILED
+Executing UnitTestOutcomeTest with 16 processes...
+call mpiexec -exitcodes -n 16 UnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+===============================
+Pinging process with rank 1...
+ABORTING - exception caught:
+Force failure of an assertion in BreakUnitTestOutcomeTest
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+
+job aborted:
+[ranks] message
+
+[0] terminated
+
+[1] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 1
+
+[2-15] terminated
+
+---- error analysis -----
+
+[1] on BULLTERRIER-BU
+UnitTestOutcomeTest aborted the job. abort code -1
+
+---- error analysis -----
+UnitTestOutcomeTest with 16 processes... FAILED
+Executing UnitTestOutcomeTest with 21 processes...
+call mpiexec -exitcodes -n 21 UnitTestOutcomeTest
+Rank 0 is alive and running on BULLTERRIER-BU.nexus.csiro.au
+Pinging process with rank 1...
+===============================
+ABORTING - exception caught:
+Force failure of an assertion in BreakUnitTestOutcomeTest
+ABORTING - exception caught and early fail option is on (ThrowMPIDebugException env var)
+===============================
+
+
+job aborted:
+[ranks] message
+
+[0] terminated
+
+[1] application aborted
+aborting MPI_COMM_WORLD (comm=0x44000000), error -1, comm rank 1
+
+[2-20] terminated
+
+---- error analysis -----
+
+[1] on BULLTERRIER-BU
+UnitTestOutcomeTest aborted the job. abort code -1
+
+---- error analysis -----
+UnitTestOutcomeTest with 21 processes... FAILED
+===Regression test failures===
+FAILED      IntercommunicatorTest:2
+FAILED      SpawnTest:1
+FAILED      SpawnTest:2
+FAILED      SpawnTest:7
+FAILED      SpawnTest:8
+FAILED      SpawnTest:13
+FAILED      SpawnTest:16
+FAILED      SpawnTest:21
+FAILED      UnitTestOutcomeTest:2
+FAILED      UnitTestOutcomeTest:7
+FAILED      UnitTestOutcomeTest:8
+FAILED      UnitTestOutcomeTest:13
+FAILED      UnitTestOutcomeTest:16
+FAILED      UnitTestOutcomeTest:21

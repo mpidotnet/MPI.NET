@@ -291,7 +291,7 @@ namespace MPI
         /// {
         ///   static int Main(string[] args)
         ///   {
-        ///     using (MPI.Environment env = new MPI.Environment(ref args))
+        ///     //using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {
         ///       Communicator world = Communicator.world;
         ///
@@ -1021,7 +1021,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             Intracommunicator world = Communicator.world;
         ///             if (world.Rank == 0)
@@ -1076,7 +1076,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             Intracommunicator world = Communicator.world;
         ///             if (world.Rank == 0)
@@ -1210,7 +1210,7 @@ namespace MPI
         /// {
         ///   static int Main(string[] args)
         ///   {
-        ///     using (MPI.Environment env = new MPI.Environment(ref args))
+        ///     //using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {
         ///       Intracommunicator world = Communicator.world;
         ///

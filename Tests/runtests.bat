@@ -53,13 +53,15 @@ for /D %%T in (%TESTS%) do (
   cd "%%T\bin\%CONFIGURATION%"
   REM echo we are in "%%T\bin\%CONFIGURATION%"
   
+
   rem Loop over each number of processes in the schedule
   for %%P in (!SCHEDULE!) do (  
     echo Executing %%T with %%P processes...
-    set ERRORLEVEL=0
+    set  exit_code=0
     echo call %MPIEXEC% -exitcodes -n %%P %%T
     %MPIEXEC% -exitcodes -n %%P %%T
-    if !ERRORLEVEL! neq 0 (
+    set exit_code=!ERRORLEVEL!
+    if !exit_code! neq 0 (
       if "!FAILURES!x" equ "x" ( 
         set FAILURES=%%T:%%P
       ) else (
@@ -67,7 +69,6 @@ for /D %%T in (%TESTS%) do (
       )
       echo %%T with %%P processes... FAILED!
     ) else (
-    
       echo %%T with %%P processes... PASSED
     )
     REM goto end

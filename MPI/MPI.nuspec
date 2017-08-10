@@ -4,7 +4,7 @@
     <id>MPI.NET</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>Douglas Gregor, Andrew Lumsdaine, Ben Martin; contrib. Daniel Collins, Jean-Michel Perraud, and others TBC</authors>
+    <authors>Douglas Gregor, Andrew Lumsdaine, Ben Martin; contrib. Daniel Collins, Jean-Michel Perraud, Olion17, and others TBC</authors>
     <owners>The Trustees of Indiana University</owners>
     <language>en-US</language>
     <licenseUrl>https://github.com/jmp75/MPI.NET/blob/master/LICENSE_1_0.txt</licenseUrl>
@@ -14,7 +14,7 @@
     <summary>MPI.NET is a high-performance, easy-to-use implementation of the Message Passing Interface (MPI) for Microsoft's .NET environment</summary>
     <description>MPI.NET, updated for .NET 4.0</description>
     <releaseNotes>This NuGet package is for Windows only. The MPI.NET code works on Linux, but needs to be compiled on the target platform. This package is compiled for use with Microsoft's msmpi.dll (Windows HPC)</releaseNotes>
-    <copyright>Copyright 2007 The Trustees of Indiana University; Contributions Copyright 2013 CSIRO</copyright>
+    <copyright>Copyright © 2007, 2008 The Trustees of Indiana University; Contributions Copyright © 2013-2017 CSIRO, and https://github.com/Olion17</copyright>
     <tags>MPI HPC</tags>
   </metadata>
 </package>

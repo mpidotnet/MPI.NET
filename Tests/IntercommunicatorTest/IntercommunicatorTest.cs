@@ -25,8 +25,6 @@ namespace IntercommunicatorTest
 
         public static void DoTest(string[] args)
         {
-            using (new MPI.Environment(ref args))
-            {
                 int rank = Communicator.world.Rank;
                 Intracommunicator sub_comm = (Intracommunicator)Communicator.world.Split(rank % 2, rank);
 
@@ -1080,8 +1078,6 @@ namespace IntercommunicatorTest
                     System.Console.WriteLine("Alltoall<string> Passed == " + success);
                 }
                 success = true;
-
-            }
         }
     }
 }

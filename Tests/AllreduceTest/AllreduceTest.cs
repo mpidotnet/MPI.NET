@@ -58,7 +58,7 @@ class AllreduceTest
 
     public static void DoTest(string[] args)
     {
-        using (MPI.Environment env = new MPI.Environment(ref args))
+        //using (MPI.Environment env = new MPI.Environment(ref args))
         {
             Intracommunicator world = Communicator.world;
 

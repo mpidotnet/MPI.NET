@@ -44,6 +44,16 @@
     <Compile Include="MPIDebug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPIUtils\MPIUtils.csproj">
+      <Project>{211c1eee-143f-4f93-bb41-715499433447}</Project>
+      <Name>MPIUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPI\MPI.csproj">
+      <Project>{3cb12c2e-85fe-44b6-8183-5790af3a3515}</Project>
+      <Name>MPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

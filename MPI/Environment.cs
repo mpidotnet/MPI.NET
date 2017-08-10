@@ -111,7 +111,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             System.Console.WriteLine("Hello, from process number " 
         ///                 + MPI.Communicator.world.Rank.ToString() + " of "
@@ -147,7 +147,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             System.Console.WriteLine("Hello, from process number " 
         ///                 + MPI.Communicator.world.Rank.ToString() + " of "

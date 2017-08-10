@@ -203,7 +203,7 @@ class DatatypesTest
     public static void DoTest(string[] args)
     {
         int dataSize = 10000000;
-        using (MPI.Environment env = new MPI.Environment(ref args))
+        //using (MPI.Environment env = new MPI.Environment(ref args))
         {
             if (Communicator.world.Size != 2)
             {

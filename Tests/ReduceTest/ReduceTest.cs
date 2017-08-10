@@ -139,7 +139,7 @@ class ReduceTest
 
     public static void DoTest(string[] args)
     {
-        using (MPI.Environment env = new MPI.Environment(ref args))
+        //using (MPI.Environment env = new MPI.Environment(ref args))
         {
             for (int i = 0; i < Communicator.world.Size; ++i)
             {

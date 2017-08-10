@@ -41,6 +41,30 @@ To run all unit tests:
 ```bat
 cd C:\path\to\MPI.NET\Tests
 .\runtests.bat Debug
+:: or with options
+.\runtests.bat Debug AllgatherTest
+```
+
+2017-08: I noticed some unit tests overall passing yet some debug assertions were false. There is now an option to abort tests early if something is amiss:
+
+```bat
+set ThrowMPIDebugException=True
+set MPIDebugSysDiagnostic=
+cd C:\path\to\MPI.NET\Tests
+runtests.bat Debug > log.txt 2>&1
+:: or with options
+.\runtests.bat Debug AllgatherTest > log.txt 2>&1
+```
+
+If instead you want to see the standard behavior of `System.Diagnostic.Debug` use instead:
+
+```bat
+set ThrowMPIDebugException=
+set MPIDebugSysDiagnostic=True
+cd C:\path\to\MPI.NET\Tests
+.\runtests.bat Debug
+:: or with options
+.\runtests.bat Debug AllgatherTest
 ```
 
 ## Installation on Unix
@@ -84,15 +108,6 @@ Documentation generation is currently not available within Unix. However, the li
 
 
 # Technical notes
-
-## Unit tests
-
-```bat
-runtests.bat Debug
-:: or with options
-runtests.bat Debug AllgatherTest
-```
-
 
 ## Creating the NuGet package for MPI.NET
 
