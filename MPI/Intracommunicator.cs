@@ -289,7 +289,7 @@ namespace MPI
         /// 
         /// class Allreduce
         /// {
-        ///   static void Main(string[] args)
+        ///   static int Main(string[] args)
         ///   {
         ///     using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {
@@ -1019,7 +1019,7 @@ namespace MPI
         /// 
         /// class Gather
         /// {
-        ///     static void Main(string[] args)
+        ///     static int Main(string[] args)
         ///     {
         ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
@@ -1074,7 +1074,7 @@ namespace MPI
         /// 
         /// class Gather
         /// {
-        ///     static void Main(string[] args)
+        ///     static int Main(string[] args)
         ///     {
         ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
@@ -1208,7 +1208,7 @@ namespace MPI
         /// 
         /// class Reduce
         /// {
-        ///   static void Main(string[] args)
+        ///   static int Main(string[] args)
         ///   {
         ///     using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {

@@ -13,10 +13,16 @@ using System;
 using System.Text;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 class AlltoallTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -29,7 +35,7 @@ class AlltoallTest
                 sendInts[dest] = world.Size * world.Rank + dest;
             int[] recvInts = world.Alltoall(sendInts);
             for (int source = 0; source < world.Size; ++source)
-                Debug.Assert(recvInts[source] == world.Size * source + world.Rank);
+                MPIDebug.Assert(recvInts[source] == world.Size * source + world.Rank);
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
 
@@ -40,7 +46,7 @@ class AlltoallTest
                 sendStrings[dest] = sendInts[dest].ToString();
             string[] recvStrings = world.Alltoall(sendStrings);
             for (int source = 0; source < world.Size; ++source)
-                Debug.Assert(recvStrings[source] == recvInts[source].ToString());
+                MPIDebug.Assert(recvStrings[source] == recvInts[source].ToString());
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
 
@@ -64,7 +70,7 @@ class AlltoallTest
             {
                 if (recvCounts[i] > 0)
                     for (int j = 0; j < i; j++)
-                        Debug.Assert(outData[p] == i);
+                        MPIDebug.Assert(outData[p] == i);
                 p += recvCounts[i];
             }           
             if (world.Rank == 0)
@@ -82,7 +88,7 @@ class AlltoallTest
             {
                 if (recvCounts[i] > 0)
                     for (int j = 0; j < i; j++)
-                        Debug.Assert(outData_s[p] == i.ToString());
+                        MPIDebug.Assert(outData_s[p] == i.ToString());
                 p += recvCounts[i];
             } 
             if (world.Rank == 0)

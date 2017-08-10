@@ -1714,7 +1714,7 @@ namespace MPI
         /// 
         /// class Reduce
         /// {
-        ///   static void Main(string[] args)
+        ///   static int Main(string[] args)
         ///   {
         ///     using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {

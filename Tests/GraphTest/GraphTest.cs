@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics;
 using MPI;
+using MPI.TestCommons;
 
 namespace GraphTest
 {
@@ -20,7 +21,12 @@ namespace GraphTest
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main(string[] args)
+        static int Main(string[] args)
+        {
+            return MPIDebug.Execute(DoTest, args);
+        }
+
+        public static void DoTest(string[] args)
         {
             using (new MPI.Environment(ref args))
             {
@@ -53,7 +59,7 @@ namespace GraphTest
                 for (int j = 0; j < edges.Length; j++)
                 {
                     for (int k = 0; k < edges[j].Length; k++)
-                        Debug.Assert(edges[j][k] == edges2[j][k]);
+                        MPIDebug.Assert(edges[j][k] == edges2[j][k]);
                 }
                 if (isRoot)
                     System.Console.WriteLine(" done.");
@@ -61,16 +67,16 @@ namespace GraphTest
                 // Test Edges 
                 if (isRoot)
                     System.Console.WriteLine("Testing NumEdges...");
-                Debug.Assert(gc.NumEdges == 3 * nprocesses);
+                MPIDebug.Assert(gc.NumEdges == 3 * nprocesses);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
                 // Test Neighbors
                 if (isRoot)
                     System.Console.WriteLine("Testing Neighbors...");
-                Debug.Assert(gc.Neighbors[0] == edges[gc.Rank][0]);
-                Debug.Assert(gc.Neighbors[1] == edges[gc.Rank][1]);
-                Debug.Assert(gc.Neighbors[2] == edges[gc.Rank][2]);
+                MPIDebug.Assert(gc.Neighbors[0] == edges[gc.Rank][0]);
+                MPIDebug.Assert(gc.Neighbors[1] == edges[gc.Rank][1]);
+                MPIDebug.Assert(gc.Neighbors[2] == edges[gc.Rank][2]);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
@@ -78,9 +84,9 @@ namespace GraphTest
                 // Test NeighborsOf()
                 if (isRoot)
                     System.Console.WriteLine("Testing NeighborsOf()...");
-                Debug.Assert(gc.NeighborsOf((gc.Rank + 1) % gc.Size)[0] == edges[(gc.Rank + 1) % gc.Size][0]);
-                Debug.Assert(gc.NeighborsOf((gc.Rank + 1) % gc.Size)[1] == edges[(gc.Rank + 1) % gc.Size][1]);
-                Debug.Assert(gc.NeighborsOf((gc.Rank + 1) % gc.Size)[2] == edges[(gc.Rank + 1) % gc.Size][2]);
+                MPIDebug.Assert(gc.NeighborsOf((gc.Rank + 1) % gc.Size)[0] == edges[(gc.Rank + 1) % gc.Size][0]);
+                MPIDebug.Assert(gc.NeighborsOf((gc.Rank + 1) % gc.Size)[1] == edges[(gc.Rank + 1) % gc.Size][1]);
+                MPIDebug.Assert(gc.NeighborsOf((gc.Rank + 1) % gc.Size)[2] == edges[(gc.Rank + 1) % gc.Size][2]);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 

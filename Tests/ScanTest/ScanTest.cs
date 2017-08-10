@@ -12,6 +12,7 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 public struct Point
 {
@@ -34,7 +35,12 @@ class ScanTest
 {
     public static int addInts(int x, int y) { return x + y; }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -45,14 +51,14 @@ class ScanTest
             // Test addition of integers
             int partial_sum = world.Scan(world.Rank, addInts);
             int expected = (world.Rank + 1) * world.Rank / 2;
-            Debug.Assert(partial_sum == expected);
+            MPIDebug.Assert(partial_sum == expected);
 
             if (world.Rank == world.Size - 1)
                 System.Console.WriteLine("Sum of ranks = " + partial_sum);
 
             // Test addition of integer points
             Point point_sum = world.Scan(new Point(world.Rank, 1), Point.Plus);
-            Debug.Assert(point_sum.x == partial_sum && point_sum.y == world.Rank + 1);
+            MPIDebug.Assert(point_sum.x == partial_sum && point_sum.y == world.Rank + 1);
 
             if (world.Rank == world.Size - 1)
                 System.Console.WriteLine("Sum of points = (" + point_sum.x + ", " + point_sum.y + ")");
@@ -61,7 +67,7 @@ class ScanTest
             if (world.Rank == world.Size - 1)
                 System.Console.Write("Testing scan of integer arrays...");
             int[] arraySum = world.Scan(new int[] { world.Rank, 1 }, Operation<int>.Add);
-            Debug.Assert(arraySum[0] == partial_sum && arraySum[1] == world.Rank + 1);
+            MPIDebug.Assert(arraySum[0] == partial_sum && arraySum[1] == world.Rank + 1);
             if (world.Rank == world.Size - 1)
                 System.Console.WriteLine(" done.");
 
@@ -74,7 +80,7 @@ class ScanTest
             {
                 expectedStr += p.ToString();
             }
-            Debug.Assert(expectedStr == str);
+            MPIDebug.Assert(expectedStr == str);
 
             if (world.Rank == world.Size - 1)
                 System.Console.WriteLine(" done.");
@@ -89,8 +95,8 @@ class ScanTest
                 expectedStrs[0] += p.ToString();
                 expectedStrs[1] += "World";
             }
-            Debug.Assert(expectedStrs[0] == strArray[0]);
-            Debug.Assert(expectedStrs[1] == strArray[1]);
+            MPIDebug.Assert(expectedStrs[0] == strArray[0]);
+            MPIDebug.Assert(expectedStrs[1] == strArray[1]);
 
             if (world.Rank == world.Size - 1)
                 System.Console.WriteLine(" done.");

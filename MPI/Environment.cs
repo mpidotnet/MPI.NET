@@ -109,7 +109,7 @@ namespace MPI
         /// 
         /// public class Hello 
         /// {
-        ///     static void Main(string[] args)
+        ///     static int Main(string[] args)
         ///     {
         ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
@@ -145,7 +145,7 @@ namespace MPI
         /// 
         /// public class Hello 
         /// {
-        ///     static void Main(string[] args)
+        ///     static int Main(string[] args)
         ///     {
         ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {

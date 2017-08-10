@@ -13,6 +13,7 @@
 using System;
 using System.Text;
 using MPI;
+using MPI.TestCommons;
 
 class Hello
 {

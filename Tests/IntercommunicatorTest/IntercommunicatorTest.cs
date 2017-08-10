@@ -4,6 +4,7 @@ using System.Text;
 using MPI;
 
 using System.Diagnostics;
+using MPI.TestCommons;
 
 namespace IntercommunicatorTest
 {
@@ -16,8 +17,13 @@ namespace IntercommunicatorTest
             y = Int32.Parse(b);
             return x.CompareTo(y);
         }
-        
-        static void Main(string[] args)
+
+        static int Main(string[] args)
+        {
+            return MPIDebug.Execute(DoTest, args);
+        }
+
+        public static void DoTest(string[] args)
         {
             using (new MPI.Environment(ref args))
             {
@@ -74,7 +80,7 @@ namespace IntercommunicatorTest
                         if (i != outValues_i[i])
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Gather<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -108,7 +114,7 @@ namespace IntercommunicatorTest
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Gather<string> Passed == " + success);
                 }
-                Debug.Assert(success);
+                MPIDebug.Assert(success);
                 success = true;
 
 
@@ -127,7 +133,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Scatter<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                     outValue_i = inter_comm.Scatter<int>(0);
                     inter_comm.Gather<int>((inter_comm.Rank == outValue_i ? 1 : 0), 0);
@@ -143,7 +149,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Scatter<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 1)
@@ -176,7 +182,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Scatter<string> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                     outValue_s = inter_comm.Scatter<string>(0);
                     inter_comm.Gather<int>((inter_comm.Rank.ToString() == outValue_s ? 1 : 0), 0);
@@ -192,7 +198,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Scatter<string> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 1)
@@ -222,7 +228,7 @@ namespace IntercommunicatorTest
                         if (b != 1)
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Broadcast<int>(int) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 else if (rank % 2 == 1)
                 {
@@ -248,7 +254,7 @@ namespace IntercommunicatorTest
                         if (b != 1)
                             success = false;
                     System.Console.WriteLine("Rank " + rank + ": Broadcast<string>(string) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 else if (rank % 2 == 1)
                 {
@@ -276,7 +282,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Broadcast<int>(int[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 0)
@@ -308,7 +314,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Broadcast<string>(string[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 0)
@@ -354,7 +360,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Allgather<string>() Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 0)
@@ -382,7 +388,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Allgather<int>() Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 0)
@@ -408,7 +414,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Alltoall<int>(int[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
 
@@ -431,7 +437,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Alltoall<string>(string[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
 
@@ -443,7 +449,7 @@ namespace IntercommunicatorTest
                     //System.Console.WriteLine("Received " + y + " from Reduce()");
                     checkValue_i = inter_comm.RemoteSize * inter_comm.RemoteSize;
                     System.Console.WriteLine("Reduce<int>(int) Passed == " + (checkValue_i == outValue_i));
-                    Debug.Assert(checkValue_i == outValue_i);
+                    MPIDebug.Assert(checkValue_i == outValue_i);
                 }
                 else if (rank % 2 == 0)
                     outValue_i = inter_comm.Reduce(0, Operation<int>.Add, Intercommunicator.Null);
@@ -485,7 +491,7 @@ namespace IntercommunicatorTest
                         j += 2;
                     }
                     System.Console.WriteLine("Reduce<int>(int[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 1)
@@ -525,7 +531,7 @@ namespace IntercommunicatorTest
                         j += 2;
                     }
                     System.Console.WriteLine("Reduce<string>(string[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 1)
@@ -551,7 +557,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Allreduce<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 0)
@@ -577,7 +583,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Allreduce<string> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                     success = true;
                 }
                 else if (rank % 2 == 0)
@@ -629,7 +635,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Allreduce<int>(int[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -673,7 +679,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("Allreduce<string>(string[]) Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -717,7 +723,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("ReduceScatter<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -777,7 +783,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("ReduceScatter<string> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -799,7 +805,7 @@ namespace IntercommunicatorTest
                         if (counts[i] > 0)
                             for (j = 0; j < i; j++)
                             {
-                                Debug.Assert(outValues_i[p] == i);
+                                MPIDebug.Assert(outValues_i[p] == i);
                                 if (outValues_i[p] != i)
                                     success = false;
                             }
@@ -880,7 +886,7 @@ namespace IntercommunicatorTest
                     inter_comm.ScatterFromFlattened(counts, 0, ref outValues_i);
                     for (int i = 0; i < inter_comm.Rank; i++)
                     {
-                        Debug.Assert(outValues_i[i] == inter_comm.Rank);
+                        MPIDebug.Assert(outValues_i[i] == inter_comm.Rank);
                         if (outValues_i[i] != inter_comm.Rank)
                             success = false;
                     }
@@ -894,7 +900,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("ScatterFromFlattened<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -925,7 +931,7 @@ namespace IntercommunicatorTest
                     inter_comm.ScatterFromFlattened(counts, 0, ref outValues_s);
                     for (int i = 0; i < inter_comm.Rank; i++)
                     {
-                        Debug.Assert(outValues_i[i] == inter_comm.Rank);
+                        MPIDebug.Assert(outValues_i[i] == inter_comm.Rank);
                         if (outValues_s[i] != inter_comm.Rank.ToString())
                             success = false;
                     }
@@ -939,7 +945,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("ScatterFromFlattened<string> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -960,7 +966,7 @@ namespace IntercommunicatorTest
                     if (counts[i] > 0)
                         for (j = 0; j < i; j++)
                         {
-                            Debug.Assert(outValues_i[p] == i);
+                            MPIDebug.Assert(outValues_i[p] == i);
                             if (outValues_i[p] != i)
                                 success = false;
                         }
@@ -973,7 +979,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("AllgatherFlattened<int> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -993,7 +999,7 @@ namespace IntercommunicatorTest
                     if (counts[i] > 0)
                         for (j = 0; j < i; j++)
                         {
-                            Debug.Assert(outValues_s[p] == i.ToString());
+                            MPIDebug.Assert(outValues_s[p] == i.ToString());
                             if (outValues_s[p] != i.ToString())
                                 success = false;
                         }
@@ -1006,7 +1012,7 @@ namespace IntercommunicatorTest
                         if (b == 0)
                             success = false;
                     System.Console.WriteLine("AllgatherFlattened<string> Passed == " + success);
-                    Debug.Assert(success);
+                    MPIDebug.Assert(success);
                 }
                 success = true;
 
@@ -1033,7 +1039,7 @@ namespace IntercommunicatorTest
                         {
                             if (outValues_i[p] != i)
                                 success = false;
-                            Debug.Assert(outValues_i[p] == i);
+                            MPIDebug.Assert(outValues_i[p] == i);
                         }
                     p += recvCounts[i];
                 }
@@ -1061,7 +1067,7 @@ namespace IntercommunicatorTest
                         {
                             if (outValues_s[p] != i.ToString())
                                 success = false;
-                            Debug.Assert(outValues_s[p] == i.ToString());
+                            MPIDebug.Assert(outValues_s[p] == i.ToString());
                         }
                     p += recvCounts[i];
                 }

@@ -12,6 +12,7 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 public struct Point
 {
@@ -50,7 +51,12 @@ class AllreduceTest
     public static int addInts(int x, int y) { return x + y; }
     public static string concat(string x, string y) { return x + y; }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (MPI.Environment env = new MPI.Environment(ref args))
         {
@@ -59,64 +65,64 @@ class AllreduceTest
             // Test addition of integers
             int sum = world.Allreduce(world.Rank, addInts);
             int expected = world.Size * (world.Size - 1) / 2;
-            Debug.Assert(sum == expected);
+            MPIDebug.Assert(sum == expected);
             if (world.Rank == 0)
                 System.Console.WriteLine("Sum of ranks = " + sum);
 
             // Test addition of integers through the Operations class
-            Debug.Assert(world.Allreduce(world.Rank, Operation<int>.Add) == expected);
+            MPIDebug.Assert(world.Allreduce(world.Rank, Operation<int>.Add) == expected);
 
             // Test addition of integer points
             Point pointSum = world.Allreduce(new Point(world.Rank, world.Size - world.Rank), Point.Plus);
-            Debug.Assert(pointSum.x == sum && pointSum.y == (world.Size + 1) * world.Size / 2);
+            MPIDebug.Assert(pointSum.x == sum && pointSum.y == (world.Size + 1) * world.Size / 2);
             if (world.Rank == 0)
                 System.Console.WriteLine("Sum of points = (" + pointSum.x + ", " + pointSum.y + ")");
 
             // Compute the minimum rank
             int minRank = world.Allreduce(world.Rank, Operation<int>.Min);
-            Debug.Assert(minRank == 0);
+            MPIDebug.Assert(minRank == 0);
             if (world.Rank == 0)
                 System.Console.WriteLine("Minimum of ranks = " + minRank);
 
             // Compute the minimum point
             Point minPoint = world.Allreduce(new Point(world.Rank, world.Size - world.Rank), Operation<Point>.Min);
-            Debug.Assert(minPoint.x == 0 && minPoint.y == world.Size);
+            MPIDebug.Assert(minPoint.x == 0 && minPoint.y == world.Size);
             if (world.Rank == 0)
                 System.Console.WriteLine("Minimum point = (" + minPoint.x + ", " + minPoint.y + ")");
 
             // Compute the maximum rank
             int maxRank = world.Allreduce(world.Rank, Operation<int>.Max);
-            Debug.Assert(maxRank == world.Size - 1);
+            MPIDebug.Assert(maxRank == world.Size - 1);
             if (world.Rank == 0)
                 System.Console.WriteLine("Maximum of ranks = " + maxRank);
 
             // Compute the maximum point
             Point maxPoint = world.Allreduce(new Point(world.Rank, world.Size - world.Rank), Operation<Point>.Max);
-            Debug.Assert(maxPoint.x == world.Size - 1 && maxPoint.y == 1);
+            MPIDebug.Assert(maxPoint.x == world.Size - 1 && maxPoint.y == 1);
             if (world.Rank == 0)
                 System.Console.WriteLine("Maximum point = (" + maxPoint.x + ", " + maxPoint.y + ")");
 
             // Test addition of integer points via the Operations class
             Point pointSum2 = world.Allreduce(new Point(world.Rank, world.Size - world.Rank), Operation<Point>.Add);
-            Debug.Assert(pointSum2.x == sum && pointSum2.y == (world.Size + 1) * world.Size / 2);
+            MPIDebug.Assert(pointSum2.x == sum && pointSum2.y == (world.Size + 1) * world.Size / 2);
 
             // Test concatenation of strings
             string strcat = world.Allreduce(world.Rank.ToString(), concat);
             string expectedStr = "";
             for (int i = 0; i < world.Size; ++i)
                 expectedStr += i;
-            Debug.Assert(expectedStr == strcat);
+            MPIDebug.Assert(expectedStr == strcat);
             if (world.Rank == 0)
                 System.Console.WriteLine("Concatenation of rank strings = " + strcat);
 
-            Debug.Assert(world.Allreduce(world.Rank.ToString(), Operation<string>.Add) == expectedStr);
+            MPIDebug.Assert(world.Allreduce(world.Rank.ToString(), Operation<string>.Add) == expectedStr);
 
             // Test addition of integer arrays
             if (world.Rank == 0)
                 System.Console.Write("Testing reduction of integer arrays...");
             int[] arraySum = null;
             world.Allreduce(new int[] { world.Rank, world.Size - world.Rank }, Operation<int>.Add, ref arraySum);
-            Debug.Assert(arraySum[0] == sum && arraySum[1] == (world.Size + 1) * world.Size / 2);
+            MPIDebug.Assert(arraySum[0] == sum && arraySum[1] == (world.Size + 1) * world.Size / 2);
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
 
@@ -132,8 +138,8 @@ class AllreduceTest
                 expectedStrs[0] += p.ToString();
                 expectedStrs[1] += "World";
             }
-            Debug.Assert(expectedStrs[0] == strArray[0]);
-            Debug.Assert(expectedStrs[1] == strArray[1]);
+            MPIDebug.Assert(expectedStrs[0] == strArray[0]);
+            MPIDebug.Assert(expectedStrs[1] == strArray[1]);
 
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");

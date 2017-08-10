@@ -14,12 +14,18 @@ using System.Collections.Generic;
 using System.Text;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 namespace CartTest
 {
     class CartTest
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
+        {
+            return MPIDebug.Execute(DoTest, args);
+        }
+
+        public static void DoTest(string[] args)
         {
             using (new MPI.Environment(ref args))
             {
@@ -42,7 +48,7 @@ namespace CartTest
                 bool[] periods = { true, true };
                 MPI.Intracommunicator ic = (MPI.Intracommunicator)MPI.Communicator.world;
                 MPI.CartesianCommunicator cc =  new CartesianCommunicator(ic, 2, dims, periods, false);
-                Debug.Assert(cc != null);
+                MPIDebug.Assert(cc != null);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
@@ -57,14 +63,14 @@ namespace CartTest
                 int[] temp_coords = { 0, 0 };
                 temp_dims = cc.Dimensions;
                 temp_periods = cc.Periodic;
-                Debug.Assert(temp_dims[0] == dims[0] && temp_dims[1] == dims[1]);
-                Debug.Assert(temp_periods[0] == periods[0] && temp_periods[1] == periods[1]);
+                MPIDebug.Assert(temp_dims[0] == dims[0] && temp_dims[1] == dims[1]);
+                MPIDebug.Assert(temp_periods[0] == periods[0] && temp_periods[1] == periods[1]);
                 temp_coords[0] = 0;
                 temp_coords[1] = 0;
                 temp_coords = cc.GetCartesianCoordinates(cc.Rank);
                 int temp_rank = cc.GetCartesianRank(temp_coords);
-                Debug.Assert(temp_rank == cc.Rank);
-                Debug.Assert(temp_coords[0] == coords[0] && temp_coords[1] == coords[1]);
+                MPIDebug.Assert(temp_rank == cc.Rank);
+                MPIDebug.Assert(temp_coords[0] == coords[0] && temp_coords[1] == coords[1]);
                 //System.Console.WriteLine(temp_rank + " ?= " + cc.Rank + " for coords = " + temp_coords[0] + ", " + temp_coords[1]);
 
                 // Test NumEdges
@@ -83,7 +89,7 @@ namespace CartTest
                     nodes_so_far *= dims[i];
                     nedges = nedges * dims[i] + nedges_slice;
                 }
-                Debug.Assert(nedges == cc.NumEdges);
+                MPIDebug.Assert(nedges == cc.NumEdges);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
@@ -98,7 +104,7 @@ namespace CartTest
                 int[] recvcoords = new int[ndims];
                 cc.Receive(source, 0, ref recvcoords);
                 //System.Console.WriteLine("Coords = " + coords[0] + ", " + coords[1] + "; Received message from coords = " + recvcoords[0] + ", " + recvcoords[1]);
-                Debug.Assert(coords[0] == (recvcoords[0] + 1) % dims[0] && coords[1] == recvcoords[1]);
+                MPIDebug.Assert(coords[0] == (recvcoords[0] + 1) % dims[0] && coords[1] == recvcoords[1]);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
                 
@@ -108,7 +114,7 @@ namespace CartTest
                 int[] remain_dims = {1, 0};
                 CartesianCommunicator subgrid = cc.Subgrid(remain_dims);
                 int subgrid_ndims = subgrid.Dimensions.Length;
-                Debug.Assert(subgrid_ndims == 1);
+                MPIDebug.Assert(subgrid_ndims == 1);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
@@ -160,9 +166,9 @@ namespace CartTest
                 local_neighbors.Sort();
                 Array.Sort(neighbors);
 
-                Debug.Assert(neighbors.Length == local_neighbors.Count);
+                MPIDebug.Assert(neighbors.Length == local_neighbors.Count);
                 for (int i = 0; i < neighbors.Length; i++)
-                    Debug.Assert(neighbors[i] == local_neighbors[i]);
+                    MPIDebug.Assert(neighbors[i] == local_neighbors[i]);
                 
                 //System.Console.WriteLine(neighbors.Length + " " + local_neighbors.Count);
                   
@@ -196,7 +202,7 @@ namespace CartTest
                 periods[2] = true;
                 ic = (MPI.Intracommunicator)MPI.Communicator.world;
                 cc = new CartesianCommunicator(ic, 3, dims, periods, false);
-                Debug.Assert(cc != null);
+                MPIDebug.Assert(cc != null);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
@@ -218,7 +224,7 @@ namespace CartTest
                     nodes_so_far *= dims[i];
                     nedges = nedges * dims[i] + nedges_slice;
                 }
-                Debug.Assert(nedges == cc.NumEdges);
+                MPIDebug.Assert(nedges == cc.NumEdges);
                 if (isRoot)
                     System.Console.WriteLine(" done.");
 
@@ -269,9 +275,9 @@ namespace CartTest
                 local_neighbors.Sort();
                 Array.Sort(neighbors);
 
-                Debug.Assert(neighbors.Length == local_neighbors.Count);
+                MPIDebug.Assert(neighbors.Length == local_neighbors.Count);
                 for (int i = 0; i < neighbors.Length; i++)
-                    Debug.Assert(neighbors[i] == local_neighbors[i]);
+                    MPIDebug.Assert(neighbors[i] == local_neighbors[i]);
                 
                 // System.Console.WriteLine(cc.Rank + ": " + cc.Coordinates[0] + ", " + cc.Coordinates[1] + ", " + cc.Coordinates[2]);
 

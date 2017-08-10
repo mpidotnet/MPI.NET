@@ -12,6 +12,7 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 public struct Point
 {
@@ -47,9 +48,9 @@ class ReduceTest
         int sum = world.Reduce(world.Rank, addInts, root);
         int expected = world.Size * (world.Size - 1) / 2;
         if (world.Rank == root)
-            Debug.Assert(sum == expected);
+            MPIDebug.Assert(sum == expected);
         else
-            Debug.Assert(sum == default(int));
+            MPIDebug.Assert(sum == default(int));
 
         if (world.Rank == root)
             System.Console.WriteLine("Sum of ranks = " + sum);
@@ -58,7 +59,7 @@ class ReduceTest
         if (world.Rank == root)
         {
             Point point_sum = world.Reduce(new Point(world.Rank, world.Size - world.Rank), Point.Plus, root);
-            Debug.Assert(point_sum.x == sum && point_sum.y == (world.Size + 1) * world.Size / 2);
+            MPIDebug.Assert(point_sum.x == sum && point_sum.y == (world.Size + 1) * world.Size / 2);
             System.Console.WriteLine("Sum of points = (" + point_sum.x + ", " + point_sum.y + ")");
         }
         else
@@ -70,7 +71,7 @@ class ReduceTest
             System.Console.Write("Testing reduction of integer arrays...");
             int[] arraySum = null;
             world.Reduce(new int[] { world.Rank, world.Size - world.Rank }, Operation<int>.Add, root, ref arraySum);
-            Debug.Assert(arraySum[0] == sum && arraySum[1] == (world.Size + 1) * world.Size / 2);
+            MPIDebug.Assert(arraySum[0] == sum && arraySum[1] == (world.Size + 1) * world.Size / 2);
             System.Console.WriteLine(" done.");
         }
         else
@@ -91,8 +92,8 @@ class ReduceTest
                 expectedStrs[0] += p.ToString();
                 expectedStrs[1] += "World";
             }
-            Debug.Assert(expectedStrs[0] == strArray[0]);
-            Debug.Assert(expectedStrs[1] == strArray[1]);
+            MPIDebug.Assert(expectedStrs[0] == strArray[0]);
+            MPIDebug.Assert(expectedStrs[1] == strArray[1]);
 
             System.Console.WriteLine(" done.");
         }
@@ -106,7 +107,7 @@ class ReduceTest
         {
             System.Console.Write("Testing reduction of bools...");
             bool result = world.Reduce(true, Operation<bool>.LogicalAnd, root);
-            Debug.Assert(result == true);
+            MPIDebug.Assert(result == true);
             System.Console.WriteLine(" done.");
         }
         else
@@ -120,9 +121,9 @@ class ReduceTest
             System.Console.Write("Testing reduction of bool arrays...");
             bool[] boolArray = null;
             world.Reduce(new bool[] { false, world.Rank % 2 != 0, true }, Operation<bool>.LogicalOr, root, ref boolArray);
-            Debug.Assert(boolArray[0] == false);
-            Debug.Assert(boolArray[1] == (world.Size > 1));
-            Debug.Assert(boolArray[2] == true);
+            MPIDebug.Assert(boolArray[0] == false);
+            MPIDebug.Assert(boolArray[1] == (world.Size > 1));
+            MPIDebug.Assert(boolArray[2] == true);
             System.Console.WriteLine(" done.");
         }
         else
@@ -131,7 +132,12 @@ class ReduceTest
         }
     }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (MPI.Environment env = new MPI.Environment(ref args))
         {

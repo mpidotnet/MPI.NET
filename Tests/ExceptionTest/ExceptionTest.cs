@@ -11,10 +11,16 @@
  */
 using System;
 using MPI;
+using MPI.TestCommons;
 
 class ExceptionTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {

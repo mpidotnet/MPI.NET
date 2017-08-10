@@ -12,6 +12,7 @@
 using System;
 using MPI;
 using System.Collections.Generic;
+using MPI.TestCommons;
 
 class NonblockingTest
 {
@@ -160,7 +161,12 @@ class NonblockingTest
         comm.Barrier();
     }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {

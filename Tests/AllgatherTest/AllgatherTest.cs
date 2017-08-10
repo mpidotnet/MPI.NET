@@ -12,10 +12,16 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 class AllgatherTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -23,18 +29,18 @@ class AllgatherTest
             if (isRoot)
                 System.Console.Write("Testing Allgather with integers...");
             int[] ranks = Communicator.world.Allgather(Communicator.world.Rank);
-            Debug.Assert(ranks.Length == Communicator.world.Size);
+            MPIDebug.Assert(ranks.Length == Communicator.world.Size);
             for (int i = 0; i < ranks.Length; ++i)
-                Debug.Assert(ranks[i] == i);
+                MPIDebug.Assert(ranks[i] == i);
             if (isRoot)
                 System.Console.WriteLine(" done.");
 
             if (isRoot)
                 System.Console.Write("Testing Allgather with strings...");
             string[] rankStrings = Communicator.world.Allgather(Communicator.world.Rank.ToString());
-            Debug.Assert(rankStrings.Length == Communicator.world.Size);
+            MPIDebug.Assert(rankStrings.Length == Communicator.world.Size);
             for (int i = 0; i < rankStrings.Length; ++i)
-                Debug.Assert(rankStrings[i] == i.ToString());
+                MPIDebug.Assert(rankStrings[i] == i.ToString());
             if (isRoot)
                 System.Console.WriteLine(" done.");
 
@@ -54,7 +60,7 @@ class AllgatherTest
             {
                 if (counts[i] > 0)
                    for (int j = 0; j < i; j++)
-                        Debug.Assert(outData[p] == i);
+                        MPIDebug.Assert(outData[p] == i);
                 p += counts[i];
             }
             if (isRoot)
@@ -72,7 +78,7 @@ class AllgatherTest
             {
                 if (counts[i] > 0)
                     for (int j = 0; j < i; j++)
-                        Debug.Assert(outData_s[p] == i.ToString());
+                        MPIDebug.Assert(outData_s[p] == i.ToString());
                 p += counts[i];
             }
             if (isRoot)

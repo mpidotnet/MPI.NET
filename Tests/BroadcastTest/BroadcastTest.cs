@@ -13,6 +13,7 @@ using System;
 using System.Text;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 class BroadcastTest
 {
@@ -28,7 +29,7 @@ class BroadcastTest
             System.Console.Write("Broadcasting integer from root " + root + "...");
         }
         world.Broadcast(ref intValue, root);
-        Debug.Assert(intValue == 17);
+        MPIDebug.Assert(intValue == 17);
         if (world.Rank == root)
             System.Console.WriteLine(" done.");
 
@@ -40,7 +41,7 @@ class BroadcastTest
             System.Console.Write("Broadcasting string from root " + root + "...");
         }
         world.Broadcast(ref strValue, root);
-        Debug.Assert(strValue == "Hello, World!");
+        MPIDebug.Assert(strValue == "Hello, World!");
         if (world.Rank == root)
             System.Console.WriteLine(" done.");
 
@@ -52,7 +53,7 @@ class BroadcastTest
             System.Console.Write("Broadcasting integer array from root " + root + "...");
         }
         world.Broadcast(ref intArray, root);
-        Debug.Assert(intArray[3] == 3);
+        MPIDebug.Assert(intArray[3] == 3);
         if (world.Rank == root)
             System.Console.WriteLine(" done.");
 
@@ -64,13 +65,18 @@ class BroadcastTest
             System.Console.Write("Broadcasting string array from root " + root + "...");
         }
         world.Broadcast(ref strArray, root);
-        Debug.Assert(strArray[0] == "Hello" && strArray[1] == "World");
+        MPIDebug.Assert(strArray[0] == "Hello" && strArray[1] == "World");
         if (world.Rank == root)
             System.Console.WriteLine(" done.");
 
     }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {

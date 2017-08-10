@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntercommunicatorTest", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendReceiveTest", "Tests\SendReceiveTest\SendReceiveTest.csproj", "{B05DDDB2-F328-433F-8C47-C65C1526F806}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCommons", "TestCommons\TestCommons.csproj", "{D281EB90-0D57-4210-82E0-191544B17398}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -230,6 +232,14 @@ Global
 		{B05DDDB2-F328-433F-8C47-C65C1526F806}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B05DDDB2-F328-433F-8C47-C65C1526F806}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B05DDDB2-F328-433F-8C47-C65C1526F806}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Debug|Win32.Build.0 = Debug|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D281EB90-0D57-4210-82E0-191544B17398}.Release|Win32.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

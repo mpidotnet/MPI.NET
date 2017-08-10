@@ -14,6 +14,7 @@ using System;
 using MPI;
 using System.Diagnostics;
 using System.Collections.Generic;
+using MPI.TestCommons;
 
 unsafe public struct Dimensions
 {
@@ -194,7 +195,12 @@ class DatatypesTest
         }
     }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         int dataSize = 10000000;
         using (MPI.Environment env = new MPI.Environment(ref args))
@@ -241,7 +247,7 @@ class DatatypesTest
                     for (int i = 0; i < 11; ++i)
                     {
                         System.Console.WriteLine(dims.values[i].ToString() + " ");
-                        Debug.Assert(dims.values[i] == (float)i);
+                        MPIDebug.Assert(dims.values[i] == (float)i);
                     }
                 }
 
@@ -249,7 +255,7 @@ class DatatypesTest
                 Secretive secret;
                 Communicator.world.Receive(0, 1, out secret);
                 System.Console.WriteLine(secret);
-                Debug.Assert(secret == new Secretive(17, 25));
+                MPIDebug.Assert(secret == new Secretive(17, 25));
 
                 // Receive and check the "complex data"
                 AggregateData aggregate = Communicator.world.Receive<AggregateData>(0, 2);
@@ -263,13 +269,13 @@ class DatatypesTest
                 Hidden hidden;
                 Communicator.world.Receive(0, 3, out hidden);
                 System.Console.WriteLine(hidden);
-                Debug.Assert(hidden == new Hidden(17, 25));
+                MPIDebug.Assert(hidden == new Hidden(17, 25));
 
                 // Receive and check a struct that requires serialization
                 ContainsBool containsBool;
                 Communicator.world.Receive(0, 4, out containsBool);
                 System.Console.WriteLine(containsBool);
-                Debug.Assert(containsBool == new ContainsBool(17));
+                MPIDebug.Assert(containsBool == new ContainsBool(17));
             }
 
         }

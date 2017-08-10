@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics;
 using MPI;
+using MPI.TestCommons;
 
 struct Point
 {
@@ -72,7 +73,12 @@ class StringHolder : ICloneable
 
 class AttributesTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -105,81 +111,81 @@ class AttributesTest
 
             // Check initial values in the parent communicator
             Console.Error.WriteLine("Checking initial values...");
-            Debug.Assert((int)parentComm.Attributes[nocopyIntAttr] == 17);
-            Debug.Assert((int)parentComm.Attributes[shallowIntAttr] == 25);
-            Debug.Assert((int)parentComm.Attributes[deepIntAttr] == 42);
-            Debug.Assert((Point)parentComm.Attributes[nocopyPointAttr] == new Point(1.1, 1.2, 1.3));
-            Debug.Assert((Point)parentComm.Attributes[shallowPointAttr] == new Point(2.1, 2.2, 2.3));
-            Debug.Assert((Point)parentComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
-            Debug.Assert(((StringHolder)parentComm.Attributes[nocopyStringAttr]).str == "Hello");
-            Debug.Assert(((StringHolder)parentComm.Attributes[shallowStringAttr]).str == "MPI");
-            Debug.Assert(((StringHolder)parentComm.Attributes[deepStringAttr]).str == "Attributes");
+            MPIDebug.Assert((int)parentComm.Attributes[nocopyIntAttr] == 17);
+            MPIDebug.Assert((int)parentComm.Attributes[shallowIntAttr] == 25);
+            MPIDebug.Assert((int)parentComm.Attributes[deepIntAttr] == 42);
+            MPIDebug.Assert((Point)parentComm.Attributes[nocopyPointAttr] == new Point(1.1, 1.2, 1.3));
+            MPIDebug.Assert((Point)parentComm.Attributes[shallowPointAttr] == new Point(2.1, 2.2, 2.3));
+            MPIDebug.Assert((Point)parentComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[nocopyStringAttr]).str == "Hello");
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[shallowStringAttr]).str == "MPI");
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[deepStringAttr]).str == "Attributes");
 
             // Duplicate the communicator
             Communicator childComm = (Communicator)parentComm.Clone();
 
             // Check values in the parent communicator (again)
-            Debug.Assert((int)parentComm.Attributes[nocopyIntAttr] == 17);
-            Debug.Assert((int)parentComm.Attributes[shallowIntAttr] == 25);
-            Debug.Assert((int)parentComm.Attributes[deepIntAttr] == 42);
-            Debug.Assert((Point)parentComm.Attributes[nocopyPointAttr] == new Point(1.1, 1.2, 1.3));
-            Debug.Assert((Point)parentComm.Attributes[shallowPointAttr] == new Point(2.1, 2.2, 2.3));
-            Debug.Assert((Point)parentComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
-            Debug.Assert(((StringHolder)parentComm.Attributes[nocopyStringAttr]).str == "Hello");
-            Debug.Assert(((StringHolder)parentComm.Attributes[shallowStringAttr]).str == "MPI");
-            Debug.Assert(((StringHolder)parentComm.Attributes[deepStringAttr]).str == "Attributes");
+            MPIDebug.Assert((int)parentComm.Attributes[nocopyIntAttr] == 17);
+            MPIDebug.Assert((int)parentComm.Attributes[shallowIntAttr] == 25);
+            MPIDebug.Assert((int)parentComm.Attributes[deepIntAttr] == 42);
+            MPIDebug.Assert((Point)parentComm.Attributes[nocopyPointAttr] == new Point(1.1, 1.2, 1.3));
+            MPIDebug.Assert((Point)parentComm.Attributes[shallowPointAttr] == new Point(2.1, 2.2, 2.3));
+            MPIDebug.Assert((Point)parentComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[nocopyStringAttr]).str == "Hello");
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[shallowStringAttr]).str == "MPI");
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[deepStringAttr]).str == "Attributes");
 
             // Check values in the child communicator
-            Debug.Assert(childComm.Attributes[nocopyIntAttr] == null);
-            Debug.Assert((int)childComm.Attributes[shallowIntAttr] == 25);
-            Debug.Assert((int)childComm.Attributes[deepIntAttr] == 42);
-            Debug.Assert(childComm.Attributes[nocopyPointAttr] == null);
-            Debug.Assert((Point)childComm.Attributes[shallowPointAttr] == new Point(2.1, 2.2, 2.3));
-            Debug.Assert((Point)childComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
-            Debug.Assert(childComm.Attributes[nocopyStringAttr] == null);
-            Debug.Assert(((StringHolder)childComm.Attributes[shallowStringAttr]).str == "MPI");
-            Debug.Assert(((StringHolder)childComm.Attributes[deepStringAttr]).str == "Attributes");
+            MPIDebug.Assert(childComm.Attributes[nocopyIntAttr] == null);
+            MPIDebug.Assert((int)childComm.Attributes[shallowIntAttr] == 25);
+            MPIDebug.Assert((int)childComm.Attributes[deepIntAttr] == 42);
+            MPIDebug.Assert(childComm.Attributes[nocopyPointAttr] == null);
+            MPIDebug.Assert((Point)childComm.Attributes[shallowPointAttr] == new Point(2.1, 2.2, 2.3));
+            MPIDebug.Assert((Point)childComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
+            MPIDebug.Assert(childComm.Attributes[nocopyStringAttr] == null);
+            MPIDebug.Assert(((StringHolder)childComm.Attributes[shallowStringAttr]).str == "MPI");
+            MPIDebug.Assert(((StringHolder)childComm.Attributes[deepStringAttr]).str == "Attributes");
 
             // Check modification of shallow-copy attributes
             parentComm.Attributes[shallowIntAttr] = 99;
-            Debug.Assert((int)parentComm.Attributes[shallowIntAttr] == 99);
-            Debug.Assert((int)childComm.Attributes[shallowIntAttr] == 25);
+            MPIDebug.Assert((int)parentComm.Attributes[shallowIntAttr] == 99);
+            MPIDebug.Assert((int)childComm.Attributes[shallowIntAttr] == 25);
 
             parentComm.Attributes[shallowPointAttr] = new Point(4.1, 4.2, 4.3);
-            Debug.Assert((Point)parentComm.Attributes[shallowPointAttr] == new Point(4.1, 4.2, 4.3));
-            Debug.Assert((Point)childComm.Attributes[shallowPointAttr] == new Point(4.1, 4.2, 4.3));
+            MPIDebug.Assert((Point)parentComm.Attributes[shallowPointAttr] == new Point(4.1, 4.2, 4.3));
+            MPIDebug.Assert((Point)childComm.Attributes[shallowPointAttr] == new Point(4.1, 4.2, 4.3));
 
             ((StringHolder)parentComm.Attributes[shallowStringAttr]).str = "Cached";
-            Debug.Assert(((StringHolder)parentComm.Attributes[shallowStringAttr]).str == "Cached");
-            Debug.Assert(((StringHolder)childComm.Attributes[shallowStringAttr]).str == "Cached");
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[shallowStringAttr]).str == "Cached");
+            MPIDebug.Assert(((StringHolder)childComm.Attributes[shallowStringAttr]).str == "Cached");
 
             // Check modification of deep-copy attributes
             parentComm.Attributes[deepIntAttr] = 99;
-            Debug.Assert((int)parentComm.Attributes[deepIntAttr] == 99);
-            Debug.Assert((int)childComm.Attributes[deepIntAttr] == 42);
+            MPIDebug.Assert((int)parentComm.Attributes[deepIntAttr] == 99);
+            MPIDebug.Assert((int)childComm.Attributes[deepIntAttr] == 42);
 
             parentComm.Attributes[deepPointAttr] = new Point(4.1, 4.2, 4.3);
-            Debug.Assert((Point)parentComm.Attributes[deepPointAttr] == new Point(4.1, 4.2, 4.3));
-            Debug.Assert((Point)childComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
+            MPIDebug.Assert((Point)parentComm.Attributes[deepPointAttr] == new Point(4.1, 4.2, 4.3));
+            MPIDebug.Assert((Point)childComm.Attributes[deepPointAttr] == new Point(3.1, 3.2, 3.3));
 
             ((StringHolder)parentComm.Attributes[deepStringAttr]).str = "Cached";
-            Debug.Assert(((StringHolder)parentComm.Attributes[deepStringAttr]).str == "Cached");
-            Debug.Assert(((StringHolder)childComm.Attributes[deepStringAttr]).str == "Attributes");
+            MPIDebug.Assert(((StringHolder)parentComm.Attributes[deepStringAttr]).str == "Cached");
+            MPIDebug.Assert(((StringHolder)childComm.Attributes[deepStringAttr]).str == "Attributes");
 
             // Check attribute deletion
             parentComm.Attributes.Remove(shallowIntAttr);
-            Debug.Assert(parentComm.Attributes[shallowIntAttr] == null);
-            Debug.Assert((int)childComm.Attributes[shallowIntAttr] == 25);
+            MPIDebug.Assert(parentComm.Attributes[shallowIntAttr] == null);
+            MPIDebug.Assert((int)childComm.Attributes[shallowIntAttr] == 25);
             parentComm.Attributes.Remove(shallowIntAttr);
 
             parentComm.Attributes.Remove(shallowPointAttr);
-            Debug.Assert(parentComm.Attributes[shallowPointAttr] == null);
-            Debug.Assert((Point)childComm.Attributes[shallowPointAttr] == new Point(4.1, 4.2, 4.3));
+            MPIDebug.Assert(parentComm.Attributes[shallowPointAttr] == null);
+            MPIDebug.Assert((Point)childComm.Attributes[shallowPointAttr] == new Point(4.1, 4.2, 4.3));
             parentComm.Attributes.Remove(shallowPointAttr);
 
             parentComm.Attributes.Remove(shallowStringAttr);
-            Debug.Assert(parentComm.Attributes[shallowStringAttr] == null);
-            Debug.Assert(((StringHolder)childComm.Attributes[shallowStringAttr]).str == "Cached");
+            MPIDebug.Assert(parentComm.Attributes[shallowStringAttr] == null);
+            MPIDebug.Assert(((StringHolder)childComm.Attributes[shallowStringAttr]).str == "Cached");
             parentComm.Attributes.Remove(shallowStringAttr);
         }
     }

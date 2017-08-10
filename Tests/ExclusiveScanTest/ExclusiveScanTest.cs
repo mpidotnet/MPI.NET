@@ -12,6 +12,7 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 public struct Point
 {
@@ -34,7 +35,12 @@ class ExscanTest
 {
     public static int addInts(int x, int y) { return x + y; }
 
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -47,7 +53,7 @@ class ExscanTest
                 System.Console.Write("Testing exclusive scan of strings...");
             int partial_sum = world.ExclusiveScan(world.Rank, addInts);
             int expected = world.Rank * (world.Rank - 1) / 2;
-            Debug.Assert(partial_sum == expected);
+            MPIDebug.Assert(partial_sum == expected);
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
 
@@ -55,7 +61,7 @@ class ExscanTest
             if (world.Rank == 0)
                 System.Console.Write("Testing exclusive scan of strings...");
             Point point_sum = world.ExclusiveScan(new Point(world.Rank, 1), Point.Plus);
-            Debug.Assert(point_sum.x == partial_sum && point_sum.y == world.Rank);
+            MPIDebug.Assert(point_sum.x == partial_sum && point_sum.y == world.Rank);
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
 
@@ -63,7 +69,7 @@ class ExscanTest
             if (world.Rank == 0)
                 System.Console.Write("Testing exclusive scan of integer arrays...");
             int[] arraySum = world.ExclusiveScan(new int[] { world.Rank, 1 }, Operation<int>.Add);
-            Debug.Assert((world.Rank == 0 && arraySum == null)
+            MPIDebug.Assert((world.Rank == 0 && arraySum == null)
                          || (world.Rank != 0 && arraySum[0] == partial_sum && arraySum[1] == world.Rank));
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
@@ -81,7 +87,7 @@ class ExscanTest
                     expectedStr += p.ToString();
                 }
             }
-            Debug.Assert(expectedStr == str);
+            MPIDebug.Assert(expectedStr == str);
 
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
@@ -99,11 +105,11 @@ class ExscanTest
                     expectedStrs[0] += p.ToString();
                     expectedStrs[1] += "World";
                 }
-                Debug.Assert(expectedStrs[0] == strArray[0]);
-                Debug.Assert(expectedStrs[1] == strArray[1]);
+                MPIDebug.Assert(expectedStrs[0] == strArray[0]);
+                MPIDebug.Assert(expectedStrs[1] == strArray[1]);
             }
             else
-                Debug.Assert(expectedStrs == null);
+                MPIDebug.Assert(expectedStrs == null);
 
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");

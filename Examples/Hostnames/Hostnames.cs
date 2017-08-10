@@ -12,6 +12,7 @@
  */
 using System;
 using MPI;
+using MPI.TestCommons;
 
 class Hostnames
 {

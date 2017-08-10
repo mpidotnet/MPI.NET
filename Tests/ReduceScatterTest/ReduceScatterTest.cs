@@ -12,10 +12,16 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 class ReduceScatterTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -39,10 +45,10 @@ class ReduceScatterTest
                     intValues[index] = i + world.Rank;
             }
             int[] intResults = world.ReduceScatter(intValues, Operation<int>.Add, counts);
-            Debug.Assert(intResults.Length == world.Rank);
+            MPIDebug.Assert(intResults.Length == world.Rank);
             for (int i = 0; i < world.Rank; ++i)
             {
-                Debug.Assert(intResults[i] == world.Size * i + world.Size * (world.Size - 1) / 2);
+                MPIDebug.Assert(intResults[i] == world.Size * i + world.Size * (world.Size - 1) / 2);
             }
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");
@@ -53,13 +59,13 @@ class ReduceScatterTest
             for (int i = 0; i < sum; ++i)
                 stringValues[i] = intValues[i].ToString();
             string[] stringResults = world.ReduceScatter(stringValues, Operation<string>.Add, counts);
-            Debug.Assert(stringResults.Length == world.Rank);
+            MPIDebug.Assert(stringResults.Length == world.Rank);
             for (int i = 0; i < world.Rank; ++i)
             {
                 string expected = "";
                 for (int p = 0; p < world.Size; ++p)
                     expected += (i + p).ToString();
-                Debug.Assert(stringResults[i] == expected);
+                MPIDebug.Assert(stringResults[i] == expected);
             }
             if (world.Rank == 0)
                 System.Console.WriteLine(" done.");

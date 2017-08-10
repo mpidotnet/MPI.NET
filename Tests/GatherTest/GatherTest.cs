@@ -12,10 +12,16 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 class GatherTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -25,9 +31,9 @@ class GatherTest
                 System.Console.Write("Testing Gather with integers...");
                 int[] ranks = new int[Communicator.world.Size];
                 Communicator.world.Gather(Communicator.world.Rank, 0, ref ranks);
-                Debug.Assert(ranks.Length == Communicator.world.Size);
+                MPIDebug.Assert(ranks.Length == Communicator.world.Size);
                 for (int i = 0; i < ranks.Length; ++i)
-                    Debug.Assert(ranks[i] == i);
+                    MPIDebug.Assert(ranks[i] == i);
                 System.Console.WriteLine(" done.");
             }
             else
@@ -40,9 +46,9 @@ class GatherTest
                 System.Console.Write("Testing Gather with strings...");
                 string[] rankStrings = new string[Communicator.world.Size];
                 Communicator.world.Gather(Communicator.world.Rank.ToString(), 0, ref rankStrings);
-                Debug.Assert(rankStrings.Length == Communicator.world.Size);
+                MPIDebug.Assert(rankStrings.Length == Communicator.world.Size);
                 for (int i = 0; i < rankStrings.Length; ++i)
-                    Debug.Assert(rankStrings[i] == i.ToString());
+                    MPIDebug.Assert(rankStrings[i] == i.ToString());
                 System.Console.WriteLine(" done.");
             }
             else
@@ -59,10 +65,10 @@ class GatherTest
                 for (int i = 0; i < Communicator.world.Size; i++)
                     inData[i] = i;
                 Communicator.world.GatherFlattened(inData, 0, ref outData);
-                Debug.Assert(outData.Length == Communicator.world.Size * Communicator.world.Size);
+                MPIDebug.Assert(outData.Length == Communicator.world.Size * Communicator.world.Size);
                 for (int i = 0; i < Communicator.world.Size; ++i)
                     for (int j = 0; j < Communicator.world.Size; j++)
-                        Debug.Assert(outData[i * Communicator.world.Size + j] == j);
+                        MPIDebug.Assert(outData[i * Communicator.world.Size + j] == j);
                 System.Console.WriteLine(" done.");
             }
             else
@@ -82,10 +88,10 @@ class GatherTest
                 for (int i = 0; i < Communicator.world.Size; i++)
                     inData[i] = i.ToString();
                 Communicator.world.GatherFlattened(inData, 0, ref outData);
-                Debug.Assert(outData.Length == Communicator.world.Size * Communicator.world.Size);
+                MPIDebug.Assert(outData.Length == Communicator.world.Size * Communicator.world.Size);
                 for (int i = 0; i < Communicator.world.Size; ++i)
                     for (int j = 0; j < Communicator.world.Size; j++)
-                        Debug.Assert(outData[i * Communicator.world.Size + j] == j.ToString());
+                        MPIDebug.Assert(outData[i * Communicator.world.Size + j] == j.ToString());
                 System.Console.WriteLine(" done.");
             }
             else
@@ -114,7 +120,7 @@ class GatherTest
                 {
                     if (counts[i] > 0)
                         for (int j = 0; j < i; j++)
-                            Debug.Assert(outData[p] == i);
+                            MPIDebug.Assert(outData[p] == i);
                     p += counts[i];
                 }               
                 System.Console.WriteLine(" done.");
@@ -146,7 +152,7 @@ class GatherTest
                 {
                     if (counts[i] > 0)
                         for (int j = 0; j < i; j++)
-                            Debug.Assert(outData[p] == i.ToString());
+                            MPIDebug.Assert(outData[p] == i.ToString());
                             //System.Console.WriteLine(p + " " + outData[p]);
                     p += counts[i];
                 }

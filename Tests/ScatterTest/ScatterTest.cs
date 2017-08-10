@@ -12,10 +12,16 @@
 using System;
 using MPI;
 using System.Diagnostics;
+using MPI.TestCommons;
 
 class ScatterTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (new MPI.Environment(ref args))
         {
@@ -28,7 +34,7 @@ class ScatterTest
                     ranks[i] = i;
 
                 int myRank = world.Scatter(ranks, 0);
-                Debug.Assert(myRank == 0);
+                MPIDebug.Assert(myRank == 0);
                 System.Console.WriteLine(" done.");
 
                 System.Console.Write("Testing scatter of strings...");
@@ -37,16 +43,16 @@ class ScatterTest
                     rankStrings[i] = i.ToString();
 
                 string myRankString = world.Scatter(rankStrings, 0);
-                Debug.Assert(myRankString == world.Rank.ToString());
+                MPIDebug.Assert(myRankString == world.Rank.ToString());
                 System.Console.WriteLine(" done.");
             }
             else
             {
                 int myRank = world.Scatter<int>(null, 0);
-                Debug.Assert(myRank == world.Rank);
+                MPIDebug.Assert(myRank == world.Rank);
 
                 string myRankString = world.Scatter<string>(null, 0);
-                Debug.Assert(myRankString == world.Rank.ToString());
+                MPIDebug.Assert(myRankString == world.Rank.ToString());
             }
 
             if (world.Rank == 0)
@@ -58,13 +64,13 @@ class ScatterTest
                     odds[i] = i % 2 == 1;
                 }
                 bool amIOdd = world.Scatter(odds, 0);
-                Debug.Assert(!amIOdd);
+                MPIDebug.Assert(!amIOdd);
                 System.Console.WriteLine(" done.");
             }
             else
             {
                 bool amIOdd = world.Scatter<bool>(null, 0);
-                Debug.Assert(amIOdd == (world.Rank % 2 == 1));
+                MPIDebug.Assert(amIOdd == (world.Rank % 2 == 1));
             }
 
             world.Barrier();
@@ -84,7 +90,7 @@ class ScatterTest
                     p += i;
                 }
                 world.ScatterFromFlattened(inRanks, counts, 0, ref outRanks);
-                Debug.Assert(outRanks.Length == 0);
+                MPIDebug.Assert(outRanks.Length == 0);
                 System.Console.WriteLine(" done.");               
             }
             else
@@ -96,7 +102,7 @@ class ScatterTest
 
                 world.ScatterFromFlattened(null, counts, 0, ref outRanks);
                 for (int i = 0; i < world.Rank; i++)
-                    Debug.Assert(outRanks[i] == world.Rank);
+                    MPIDebug.Assert(outRanks[i] == world.Rank);
             }
 
             if (world.Rank == 0)
@@ -115,7 +121,7 @@ class ScatterTest
                     p += i;
                 }
                 world.ScatterFromFlattened(inRanks, counts, 0, ref outRanks);
-                Debug.Assert(outRanks.Length == 0);
+                MPIDebug.Assert(outRanks.Length == 0);
                 System.Console.WriteLine(" done.");
             }
             else
@@ -127,7 +133,7 @@ class ScatterTest
 
                 world.ScatterFromFlattened(null, counts, 0, ref outRanks);
                 for (int i = 0; i < world.Rank; i++)
-                    Debug.Assert(outRanks[i] == world.Rank.ToString());
+                    MPIDebug.Assert(outRanks[i] == world.Rank.ToString());
             }
 
         }

@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using MPI;
+using MPI.TestCommons;
 
 class SendReceiveTest
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
+    {
+        return MPIDebug.Execute(DoTest, args);
+    }
+
+    public static void DoTest(string[] args)
     {
         using (MPI.Environment env = new MPI.Environment(ref args))
         {
@@ -25,7 +31,7 @@ class SendReceiveTest
             for (int i = 0; i < comm.Size; i++)
             {
                 comm.SendReceive(comm.Rank, i, 0, out recvValue_i);
-                Debug.Assert(recvValue_i == i);
+                MPIDebug.Assert(recvValue_i == i);
             }
             if (comm.Rank == 0)
                 System.Console.WriteLine(" done.");
@@ -35,7 +41,7 @@ class SendReceiveTest
             for (int i = 0; i < comm.Size; i++)
             {
                 comm.SendReceive(comm.Rank.ToString(), i, 0, out recvValue_s);
-                Debug.Assert(recvValue_s == i.ToString());
+                MPIDebug.Assert(recvValue_s == i.ToString());
             }
             if (comm.Rank == 0)
                 System.Console.WriteLine(" done.");
@@ -50,7 +56,7 @@ class SendReceiveTest
                 recvValues_i = new int[i];
                 comm.SendReceive(sendValues_i, i, 0, ref recvValues_i);
                 for (int j = 0; j < i; j++)
-                    Debug.Assert(recvValues_i[j] == i);
+                    MPIDebug.Assert(recvValues_i[j] == i);
             }
             if (comm.Rank == 0)
                 System.Console.WriteLine(" done.");
@@ -65,7 +71,7 @@ class SendReceiveTest
                 recvValues_s = new string[i];
                 comm.SendReceive(sendValues_s, i, 0, ref recvValues_s);
                 for (int j = 0; j < i; j++)
-                    Debug.Assert(recvValues_s[j] == i.ToString());
+                    MPIDebug.Assert(recvValues_s[j] == i.ToString());
             }
             if (comm.Rank == 0)
                 System.Console.WriteLine(" done.");
