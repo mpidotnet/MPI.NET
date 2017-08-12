@@ -79,19 +79,51 @@ Make sure you have the right toolchain. The sample below is taken from building 
 module list # make sure openmpi is loaded; otherwise load the version
 cd ~/src
 git clone https://github.com/jmp75/MPI.NET.git mpi.net
-cd ~/src/mpi.net
+cd ~/src/MPI.NET
 # This will depend on your installation, but you may need to make sure you use the GNU toolchain
 module unload intel-cc
 module unload intel-fc
 module load gcc
+module avail openmpi
 ```
 
-The most recent version compilation on Linux that I tested is against OpenMPI.
+Depending on your system you may have a choice of openmpi versions. You probably want to use gcc compiled ones if available, e.g.:
+
 ```bash
-LOCAL_DIR=/usr/local
+module load openmpi/1.8.8-mellanox-gcc
+```
+
+For information on one linux cluster test system `module list`sh includes:
+
+```txt
+mono/4.4.2.11
+openmpi/1.8.8-melanox-gcc
+gcc/4.9.3
+```
+
+You may want to check that the openmpi headers are in the INCLUDE environment variable - `module load` may not have done it...
+
+```bash
+echo $INCLUDE
+```
+
+as I did notice the need sometimes to add e.g.
+
+```bash
+export INCLUDE=$INCLUDE:/apps/openmpi/1.8.8-mellanox-gcc/include
+```
+
+otherwhise `./configure` would fail at `checking for MPI_Init...`.
+
+```bash
+LOCAL_DIR=/usr/local # or where you can install if you cannot 'sudo make install'
 sh autogen.sh
 ./configure --prefix=$LOCAL_DIR
 make
+```
+
+```bash
+/apps/openmpi/1.8.8-mellanox-gcc/include
 ```
 
 You may run the tests with the following command. Note that I had these tests somehow failing, but by the look of it because of shell scripting logistics. This may not be a showstopper if you get nothing passing.
