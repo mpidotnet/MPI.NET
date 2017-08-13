@@ -73,8 +73,9 @@ Support for MPI.NET on Unix platforms is provided based on the Mono C# compiler 
 
 ### Environments tested
 
-The most recent tests by the maintainer on 2017-08 were on:
-```
+The most recent tests by the maintainer on 2017-08 were on a Debian desktop:
+
+```txt
 uname -a
 # Linux xxxxxxxx-bu 4.11.0-2-amd64 #1 SMP Debian 4.11.11-1 (2017-07-22) x86_64 GNU/Linux
 mono --version
@@ -85,6 +86,15 @@ mcs --version
 # Mono C# compiler version 5.4.0.135
 ##  openMPI 2.2.1
 ```
+
+and on a Linux cluster
+
+```txt
+mono/4.4.2.11
+openmpi/1.8.8-melanox-gcc
+gcc/4.9.3
+```
+
 
 ### Building
 
@@ -137,6 +147,7 @@ otherwhise `./configure` would fail at `checking for MPI_Init...`.
 
 ```bash
 LOCAL_DIR=/usr/local # or where you can install if you cannot 'sudo make install'
+LOCAL_DIR=/home/per202/local # or where you can install if you cannot 'sudo make install'
 sh autogen.sh
 ./configure --prefix=$LOCAL_DIR
 make
@@ -151,6 +162,20 @@ cd path/to/MPI.NET
 chmod +x ./Tests/runtest.sh
 mkdir -p tmp
 ./Tests/runtests.sh > tmp/log.txt 2>&1 
+```
+
+To run one test at a time:
+
+```bash
+cd path/to/MPI.NET/Tests
+./runtest.sh ../ BroadcastTest/BroadcastTest.exe
+```
+
+If you want to only run for a level of parallelism of 4 rather than a serie sof cases:
+
+```bash
+cd path/to/MPI.NET/Tests
+./runtest.sh ../ BroadcastTest/BroadcastTest.exe "4"
 ```
 
 TODO: Ideally would be accessible via the following but need to beat automake files into shape for it:
