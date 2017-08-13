@@ -226,6 +226,7 @@ AC_OUTPUT([
 Makefile
 MPIUtils/Makefile
 MPI/Makefile
+TestCommons/Makefile
 Examples/Makefile
 Examples/Hello/Makefile
 Examples/Hostnames/Makefile
@@ -253,4 +254,7 @@ Tests/ReduceScatterTest/Makefile
 Tests/ReduceTest/Makefile
 Tests/ScanTest/Makefile
 Tests/ScatterTest/Makefile
+Tests/SendReceiveTest/Makefile
+Tests/UnitTestOutcomeTest/Makefile
 ])
+# TODO Tests/SpawnTest/Makefile
