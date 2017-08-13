@@ -13,8 +13,10 @@ check_SCRIPTS = DatatypesTest.exe
 EXTRA_DIST = DatatypesTest.cs
 CLEANFILES = DatatypesTest.exe
 
-DatatypesTest.exe: $(srcdir)/DatatypesTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -unsafe -lib:../../MPI -reference:MPI $(srcdir)/DatatypesTest.cs
+DatatypesTest.exe: $(srcdir)/DatatypesTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -unsafe -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/DatatypesTest.cs
+
+all: DatatypesTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

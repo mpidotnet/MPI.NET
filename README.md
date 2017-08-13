@@ -122,9 +122,9 @@ sh autogen.sh
 make
 ```
 
-```bash
-/apps/openmpi/1.8.8-mellanox-gcc/include
-```
+Unfortunately the environment of a Linux box is less uniform than for Windows, and you may well have issues compiling in your first try. See section Troubleshooting build on Linux for hints.
+
+### Once you have build
 
 You may run the tests with the following command. Note that I had these tests somehow failing, but by the look of it because of shell scripting logistics. This may not be a showstopper if you get nothing passing.
 ```bash

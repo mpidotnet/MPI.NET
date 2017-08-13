@@ -153,15 +153,19 @@ $cbridge_output = shift @ARGV;
 # Parse the mpi.h header to determine how to map from C# into C MPI
 $mpi_status_name="MPI_Status";
 
+print STDERR "MPI header: $mpi_header\n";
+
 load_mpi_header:
 $in_mpi_status=0;
 $in_enum=0;
 open (HEADER,"<$mpi_header") or die ("Cannot open MPI header $mpi_header");
 while(defined($line = <HEADER>)) {
     if ($in_mpi_status) {
+        # print STDOUT "We are in the struct def : $line\n";
         # We're in the body of the MPI_Status structure (or its alias)
-        if ($line =~ /^\s*}/) {
+        if ($line =~ /^\s*\}.*;.*$/) {
             $in_mpi_status=0;
+            # print STDOUT "Found end of struct definition : $line\n";
         } elsif ($line =~ /([A-Za-z_][A-Za-z0-9_]*)\s+([A-Za-z_][A-Za-z0-9_]*)[^;]*;/) {
             my $type = $1;
             my $name = $2;
@@ -175,16 +179,19 @@ while(defined($line = <HEADER>)) {
                 $type = "UIntPtr";
             }
             push(@mpi_status_fields, "            $access $type $name;\n");
+            # print STDOUT "Found struct member definition : $line\n";
         }
     } elsif ($line =~ /\s*#define\s+(OPAL_[A-Za-z0-9_]*)\s*(.*)/) { # this is found in OpenMPI's mpi.h 
+        # print STDOUT "Found OPAL line: $line";
         # Found an OPAL_* constant defined by the preprocessor
         my $name = $1;
         my $value = $2;
         if ($value =~ /\/\*/) {
             $value = $PREMATCH;
         }
-	$constants{$name} = $value;
+	    $constants{$name} = $value;
     } elsif ($line =~ /\s*#define\s+(MPI_[A-Za-z0-9_]*)\s*(.*)/) {
+        # print STDOUT "Found MPI_ constant: $line";
         # Found an MPI_* constant defined by the preprocessor
         my $name = $1;
         my $value = $2;
@@ -203,17 +210,22 @@ while(defined($line = <HEADER>)) {
 #			    $value = "256";
 #		    }
         }
-	$constants{$name} = $value;
-    } elsif ($line =~ /enum/) {
-	$in_enum = 1;
-	$next_enum_value = 0;
+	    $constants{$name} = $value;
+    } elsif ($line =~ /^enum/) {
+        # print STDOUT "Found enum: $line";
+        $in_enum = 1;
+        $next_enum_value = 0;
         parse_enum($POSTMATCH);
     } elsif ($in_enum) {
+        # print STDOUT "in enum: $line";
         parse_enum($line);
     } elsif ($line =~ /typedef\s+struct\s+([A-Za-z_][A-Za-z0-9_]*)\s+MPI_Status/) {
+        # print STDOUT "Found typedef struct MPI_Status: $line";
         $mpi_status_name = $1;
-    } elsif ($line =~ /struct $mpi_status_name[^;]*$/) {
+        # # print STDOUT "Found in \"$line\" struct name=\"$mpi_status_name\" \n";
+    } elsif ($line =~ /^struct\s+$mpi_status_name[^;]*$/) {
         $in_mpi_status=1;
+        # print STDOUT "Found the start of struct definition at $line";
     }
 }
 close (HEADER);

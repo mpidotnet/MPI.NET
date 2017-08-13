@@ -13,8 +13,10 @@ check_SCRIPTS = ReduceTest.exe
 EXTRA_DIST = ReduceTest.cs
 CLEANFILES = ReduceTest.exe
 
-ReduceTest.exe: $(srcdir)/ReduceTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/ReduceTest.cs
+ReduceTest.exe: $(srcdir)/ReduceTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/ReduceTest.cs
+
+all: ReduceTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

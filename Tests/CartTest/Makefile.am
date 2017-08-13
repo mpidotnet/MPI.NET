@@ -13,8 +13,10 @@ check_SCRIPTS = CartTest.exe
 EXTRA_DIST = CartTest.cs
 CLEANFILES = CartTest.exe
 
-CartTest.exe: $(srcdir)/CartTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/CartTest.cs
+CartTest.exe: $(srcdir)/CartTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/CartTest.cs
+
+all: CartTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

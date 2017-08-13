@@ -13,7 +13,9 @@ EXTRA_DIST = netcoll_cs.cs
 CLEANFILES = Netcoll.exe
 
 Netcoll.exe: $(srcdir)/netcoll_cs.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -unsafe -lib:../../MPI -reference:MPI $(srcdir)/netcoll_cs.cs
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -unsafe -lib:../../MPI -reference:MPI.dll $(srcdir)/netcoll_cs.cs
+
+all: Netcoll.exe
 
 TESTS=$(noinst_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

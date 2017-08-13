@@ -13,8 +13,10 @@ check_SCRIPTS = AllgatherTest.exe
 EXTRA_DIST = AllgatherTest.cs
 CLEANFILES = AllgatherTest.exe
 
-AllgatherTest.exe: $(srcdir)/AllgatherTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/AllgatherTest.cs
+AllgatherTest.exe: $(srcdir)/AllgatherTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/AllgatherTest.cs
+
+all: AllgatherTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

@@ -13,8 +13,10 @@ check_SCRIPTS = ExclusiveScanTest.exe
 EXTRA_DIST = ExclusiveScanTest.cs
 CLEANFILES = ExclusiveScanTest.exe
 
-ExclusiveScanTest.exe: $(srcdir)/ExclusiveScanTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/ExclusiveScanTest.cs
+ExclusiveScanTest.exe: $(srcdir)/ExclusiveScanTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/ExclusiveScanTest.cs
+
+all: ExclusiveScanTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

@@ -13,8 +13,10 @@ check_SCRIPTS = GatherTest.exe
 EXTRA_DIST = GatherTest.cs
 CLEANFILES = GatherTest.exe
 
-GatherTest.exe: $(srcdir)/GatherTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/GatherTest.cs
+GatherTest.exe: $(srcdir)/GatherTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/GatherTest.cs
+
+all: GatherTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

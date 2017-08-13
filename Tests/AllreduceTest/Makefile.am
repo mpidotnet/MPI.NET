@@ -13,8 +13,10 @@ check_SCRIPTS = AllreduceTest.exe
 EXTRA_DIST = AllreduceTest.cs
 CLEANFILES = AllreduceTest.exe
 
-AllreduceTest.exe: $(srcdir)/AllreduceTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/AllreduceTest.cs
+AllreduceTest.exe: $(srcdir)/AllreduceTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/AllreduceTest.cs
+
+all: AllreduceTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

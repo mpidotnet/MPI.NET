@@ -13,7 +13,9 @@ EXTRA_DIST = Hostnames.cs
 CLEANFILES = Hostnames.exe
 
 Hostnames.exe: $(srcdir)/Hostnames.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/Hostnames.cs
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll $(srcdir)/Hostnames.cs
+
+all: Hostnames.exe
 
 TESTS=$(noinst_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

@@ -13,8 +13,10 @@ check_SCRIPTS = AttributesTest.exe
 EXTRA_DIST = AttributesTest.cs
 CLEANFILES = AttributesTest.exe
 
-AttributesTest.exe: $(srcdir)/AttributesTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/AttributesTest.cs
+AttributesTest.exe: $(srcdir)/AttributesTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/AttributesTest.cs
+
+all: AttributesTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

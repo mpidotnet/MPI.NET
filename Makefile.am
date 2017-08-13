@@ -6,7 +6,7 @@
 #  
 # Authors: Douglas Gregor
 #          Andrew Lumsdaine
-SUBDIRS = MPIUtils MPI Examples Benchmarks Tests
+SUBDIRS = MPIUtils MPI TestCommons Examples Benchmarks Tests 
 
 EXTRA_DIST=LICENSE_1_0.txt README.txt
 

@@ -9,14 +9,14 @@
 CSHARP_FLAGS=@CSHARP_FLAGS@
 MPIEXEC=@MPIEXEC@
 
-check_SCRIPTS = IntercommunicatorTest.exe
-EXTRA_DIST = IntercommunicatorTest.cs
-CLEANFILES = IntercommunicatorTest.exe
+check_SCRIPTS = SendReceiveTest.exe
+EXTRA_DIST = SendReceiveTest.cs
+CLEANFILES = SendReceiveTest.exe
 
-IntercommunicatorTest.exe: $(srcdir)/IntercommunicatorTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/IntercommunicatorTest.cs
+SendReceiveTest.exe: $(srcdir)/SendReceiveTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/SendReceiveTest.cs
 
-all: IntercommunicatorTest.exe
+all: SendReceiveTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

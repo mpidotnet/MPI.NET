@@ -37,11 +37,11 @@ SOURCES=$(srcdir)/Attribute.cs			\
 # We want to install directly into /lib, but we can't write lib_SCRIPTS
 pkglibexecdir = $(libdir)
 pkglibexec_SCRIPTS = MPI.dll MPI.dll.config
-EXTRA_DIST = $(SOURCES) Unsafe.cs Unsafe.pl MPI.snk MPI.dll.config.in
+EXTRA_DIST = $(SOURCES) Unsafe.cs Unsafe.pl MPI.dll.config.in
 CLEANFILES = MPI.dll CustomUnsafe.cs cbridge.c
 
-MPI.dll: $(SOURCES) CustomUnsafe.cs $(srcdir)/MPI.snk ../MPIUtils/MPIUtils.dll 
-	$(MCS) -out:$@ -unsafe -target:library -lib:../MPIUtils -reference:MPIUtils $(CSHARP_FLAGS) -keyfile:$(srcdir)/MPI.snk $(SOURCES) CustomUnsafe.cs 
+MPI.dll: $(SOURCES) CustomUnsafe.cs ../MPIUtils/MPIUtils.dll 
+	$(MCS) -out:$@ -unsafe -target:library -lib:../MPIUtils -reference:MPIUtils.dll $(CSHARP_FLAGS) $(SOURCES) CustomUnsafe.cs 
 
 CustomUnsafe.cs cbridge.c: $(srcdir)/Unsafe.cs $(srcdir)/Unsafe.pl $(MPI_HEADER)
 	$(PERL) $(srcdir)/Unsafe.pl $(MPI_HEADER) $(srcdir)/Unsafe.cs CustomUnsafe.cs cbridge.c @DEFS@
@@ -62,3 +62,5 @@ LIBTOOL = @LIBTOOL@ --tag=CC
 
 libmpinet_la_SOURCES = cbridge.c
 libmpinet_la_LDFLAGS = -version-info 0:6:0
+
+all: MPI.dll

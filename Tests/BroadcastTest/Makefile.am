@@ -13,8 +13,10 @@ check_SCRIPTS = BroadcastTest.exe
 EXTRA_DIST = BroadcastTest.cs
 CLEANFILES = BroadcastTest.exe
 
-BroadcastTest.exe: $(srcdir)/BroadcastTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/BroadcastTest.cs
+BroadcastTest.exe: $(srcdir)/BroadcastTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/BroadcastTest.cs
+
+all: BroadcastTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

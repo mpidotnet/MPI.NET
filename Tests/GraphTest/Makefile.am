@@ -13,8 +13,10 @@ check_SCRIPTS = GraphTest.exe
 EXTRA_DIST = GraphTest.cs
 CLEANFILES = GraphTest.exe
 
-GraphTest.exe: $(srcdir)/GraphTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/GraphTest.cs
+GraphTest.exe: $(srcdir)/GraphTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/GraphTest.cs
+
+all: GraphTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

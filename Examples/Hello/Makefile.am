@@ -13,7 +13,9 @@ EXTRA_DIST = Hello.cs
 CLEANFILES = Hello.exe
 
 Hello.exe: $(srcdir)/Hello.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/Hello.cs
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll $(srcdir)/Hello.cs
+
+all: Hello.exe
 
 TESTS=$(noinst_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

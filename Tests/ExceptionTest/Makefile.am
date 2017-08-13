@@ -13,8 +13,10 @@ check_SCRIPTS = ExceptionTest.exe
 EXTRA_DIST = ExceptionTest.cs
 CLEANFILES = ExceptionTest.exe
 
-ExceptionTest.exe: $(srcdir)/ExceptionTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/ExceptionTest.cs
+ExceptionTest.exe: $(srcdir)/ExceptionTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/ExceptionTest.cs
+
+all: ExceptionTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

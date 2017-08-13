@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MPI;
-using MPI.TestCommons;
 
 struct Stats
 {

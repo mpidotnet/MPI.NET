@@ -7,15 +7,16 @@
 # Authors: Douglas Gregor
 #          Andrew Lumsdaine
 CSHARP_FLAGS=@CSHARP_FLAGS@
+MPIEXEC=@MPIEXEC@
 
-noinst_SCRIPTS = Pi.exe
-EXTRA_DIST = Pi.cs
-CLEANFILES = Pi.exe
+check_SCRIPTS = SpawnTest.exe
+EXTRA_DIST = SpawnTest.cs
+CLEANFILES = SpawnTest.exe
 
-Pi.exe: $(srcdir)/Pi.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll $(srcdir)/Pi.cs
+SpawnTest.exe: $(srcdir)/SpawnTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/SpawnTest.cs
 
-all: Pi.exe
+all: SpawnTest.exe
 
-TESTS=$(noinst_SCRIPTS)
+TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

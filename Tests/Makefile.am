@@ -22,6 +22,10 @@ SUBDIRS = AllgatherTest				\
 	  ReduceScatterTest			\
 	  ReduceTest				\
 	  ScanTest				\
-	  ScatterTest
+	  ScatterTest   \
+	  SendReceiveTest   \
+	  UnitTestOutcomeTest				
+
+#	TODO   SpawnTest 
 
 EXTRA_DIST=runtest.sh.in

@@ -13,7 +13,9 @@ EXTRA_DIST = PingPong.cs
 CLEANFILES = PingPong.exe
 
 PingPong.exe: $(srcdir)/PingPong.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/PingPong.cs
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll $(srcdir)/PingPong.cs
+
+all: PingPong.exe
 
 TESTS=$(noinst_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

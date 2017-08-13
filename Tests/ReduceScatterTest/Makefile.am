@@ -13,8 +13,10 @@ check_SCRIPTS = ReduceScatterTest.exe
 EXTRA_DIST = ReduceScatterTest.cs
 CLEANFILES = ReduceScatterTest.exe
 
-ReduceScatterTest.exe: $(srcdir)/ReduceScatterTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/ReduceScatterTest.cs
+ReduceScatterTest.exe: $(srcdir)/ReduceScatterTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/ReduceScatterTest.cs
+
+all: ReduceScatterTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

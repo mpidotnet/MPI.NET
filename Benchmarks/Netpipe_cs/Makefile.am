@@ -13,7 +13,9 @@ EXTRA_DIST = Netpipe_cs.cs
 CLEANFILES = Netpipe.exe
 
 Netpipe.exe: $(srcdir)/Netpipe_cs.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -unsafe -lib:../../MPI -reference:MPI $(srcdir)/Netpipe_cs.cs
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -unsafe -lib:../../MPI -reference:MPI.dll $(srcdir)/Netpipe_cs.cs
+
+all: Netpipe.exe
 
 TESTS=$(noinst_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

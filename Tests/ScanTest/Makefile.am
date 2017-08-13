@@ -13,8 +13,11 @@ check_SCRIPTS = ScanTest.exe
 EXTRA_DIST = ScanTest.cs
 CLEANFILES = ScanTest.exe
 
-ScanTest.exe: $(srcdir)/ScanTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/ScanTest.cs
+ScanTest.exe: $(srcdir)/ScanTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/ScanTest.cs
+
+all: ScanTest.exe
+
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

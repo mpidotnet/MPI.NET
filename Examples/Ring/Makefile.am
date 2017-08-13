@@ -13,7 +13,9 @@ EXTRA_DIST = Ring.cs
 CLEANFILES = Ring.exe
 
 Ring.exe: $(srcdir)/Ring.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/Ring.cs
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll $(srcdir)/Ring.cs
+
+all: Ring.exe
 
 TESTS=$(noinst_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

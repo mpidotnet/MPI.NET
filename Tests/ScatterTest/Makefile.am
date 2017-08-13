@@ -13,8 +13,10 @@ check_SCRIPTS = ScatterTest.exe
 EXTRA_DIST = ScatterTest.cs
 CLEANFILES = ScatterTest.exe
 
-ScatterTest.exe: $(srcdir)/ScatterTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/ScatterTest.cs
+ScatterTest.exe: $(srcdir)/ScatterTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/ScatterTest.cs
+
+all: ScatterTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

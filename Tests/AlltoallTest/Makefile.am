@@ -13,8 +13,10 @@ check_SCRIPTS = AlltoallTest.exe
 EXTRA_DIST = AlltoallTest.cs
 CLEANFILES = AlltoallTest.exe
 
-AlltoallTest.exe: $(srcdir)/AlltoallTest.cs ../../MPI/MPI.dll
-	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI $(srcdir)/AlltoallTest.cs
+AlltoallTest.exe: $(srcdir)/AlltoallTest.cs ../../MPI/MPI.dll  ../../TestCommons/TestCommons.dll 
+	$(MCS) -out:$@ -target:exe $(CSHARP_FLAGS) -lib:../../MPI -reference:MPI.dll -lib:../../TestCommons -reference:TestCommons.dll $(srcdir)/AlltoallTest.cs
+
+all: AlltoallTest.exe
 
 TESTS=$(check_SCRIPTS)
 TESTS_ENVIRONMENT=$(SHELL) $(top_builddir)/Tests/runtest.sh $(top_builddir)

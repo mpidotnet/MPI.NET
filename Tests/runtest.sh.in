@@ -1,3 +1,5 @@
+# NOTE: update runttest.sh.in, NOT runtest.sh
+
 # Copyright (C) 2007  The Trustees of Indiana University
 #
 # Use, modification and distribution is subject to the Boost Software
@@ -11,7 +13,8 @@
 # of processes. 
 #
 # Usage:
-#   runtest.sh BUILDDIR AllgatherTest.exe
+#   cd path/to/MPI.NET
+#   ./Tests/runtest.sh ./ ./Tests/BroadcastTest/BroadcastTest.exe "4"
 MPIEXEC=@MPIEXEC@
 MONO=@MONO@
 
@@ -20,6 +23,9 @@ BUILDDIR=$1
 
 # The test we will be executing
 test_name=$2
+
+# force the test schedule
+force_proc_schedule=$3
 
 # Find the absolute path from the relative BUILDDIR we are given
 OLDDIR=`pwd`
@@ -48,11 +54,23 @@ case "$test_name" in
   *IntercommunicatorTest.exe ) test_schedule="2 7 8 13 16 21" ;;
 esac
 
+if test "$force_proc_schedule" != "" ; then
+  test_schedule="$force_proc_schedule"
+fi
+
 result_code=0
-export MONO_PATH="$BUILDDIR/MPI:$BUILDDIR/MPIUtils:$MONO_PATH"
-echo $test_name
-echo $LD_LIBRARY_PATH
-echo $MONO_PATH
+
+ADDED_MONO_PATH="$BUILDDIR/MPI:$BUILDDIR/MPIUtils:$BUILDDIR/TestCommons"
+if test "$MONO_PATH" != "" ; then
+  export MONO_PATH="$ADDED_MONO_PATH:$MONO_PATH"
+else
+  export MONO_PATH="$ADDED_MONO_PATH"
+fi
+
+echo "INFO: test_name=$test_name"
+echo "INFO: LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+echo "INFO: MONO_PATH=$MONO_PATH"
+
 for procs in $test_schedule ; do
   echo $MPIEXEC -n $procs $MONO $test_name
   $MPIEXEC -n $procs $MONO $test_name
