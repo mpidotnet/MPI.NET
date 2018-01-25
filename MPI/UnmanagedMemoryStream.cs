@@ -196,8 +196,9 @@ namespace MPI
         public override int Read(byte[] buffer, int offset, int count)
         {
             // Make sure we don't read past the end of the buffer
-            if (count > this.count - position)
-                count = (int)this.count - (int)position;
+            int maxCount = Convert.ToInt32(checked(this.count - position));
+            if (count > maxCount)
+                count = maxCount;
 
             // Read from the buffer
             unsafe
@@ -206,7 +207,7 @@ namespace MPI
             }
 
             // Update the position
-            position = position + count;
+            position = checked(position + count);
 
             return count;
         }
@@ -227,11 +228,11 @@ namespace MPI
                     break;
 
                 case SeekOrigin.Current:
-                    absoluteOffset = position + offset;
+                    absoluteOffset = checked(position + offset);
                     break;
 
                 case SeekOrigin.End:
-                    absoluteOffset = count - offset;
+                    absoluteOffset = checked(count - offset);
                     break;
             }
 
@@ -265,13 +266,11 @@ namespace MPI
         /// <param name="count">The number of bytes to write to the stream.</param>
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (position + count > capacity)
+            long newPosition = checked(position + count);
+            if (newPosition > capacity)
             {
                 // Make sure we have enough space in the buffer
-                if (position + count > capacity * 2)
-                    Reserve(position + count);
-                else               
-                    Reserve(capacity * 2);
+                Reserve(Math.Max(newPosition, checked(capacity * 2)));
             }
 
             // Write the new data into the stream
@@ -281,7 +280,7 @@ namespace MPI
             }
 
             // Update our position
-            position = position + count;
+            position = newPosition;
             if (this.count < position)
                 this.count = position;
         }

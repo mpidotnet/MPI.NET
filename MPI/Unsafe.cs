@@ -2110,7 +2110,7 @@ namespace MPI
         ///   with rank i.
         /// </param>
         /// <param name="displs">
-        ///   An array whose ith element is the offset (in <paramref name="recbuf"/>) at which the
+        ///   An array whose ith element is the offset (in <paramref name="recvbuf"/>) at which the
         ///   data from process i should be placed.
         /// </param>
         /// <param name="recvtype">The type of data that will be stored in the receive buffer.</param>
@@ -2266,8 +2266,7 @@ namespace MPI
         /// <summary>
         /// Gather the values provided by each process into an array containing the contributions of all
         /// of the processes. This routine differs from <see cref="MPI_Allgather"/> in that the results 
-        /// are gathered to only the "root" process, which is identified by its <paramref name="rank"/> 
-        /// in the communicator. 
+        /// are gathered to only the "root" process. 
         /// See <see cref="MPI.Intracommunicator.Gather&lt;T&gt;(T, int)"/>
         /// </summary>
         /// <param name="sendbuf">Buffer containing the values that will be sent from this process.</param>
@@ -2294,8 +2293,7 @@ namespace MPI
         /// <summary>
         /// Gather the values provided by each process into an array containing the contributions of all
         /// of the processes. This routine differs from <see cref="MPI_Allgather"/> in that the results 
-        /// are gathered to only the "root" process, which is identified by its <paramref name="rank"/> 
-        /// in the communicator. 
+        /// are gathered to only the "root" process. 
         /// See <see cref="MPI.Intracommunicator.Gather&lt;T&gt;(T, int)"/>
         /// </summary>
         /// <param name="sendbuf">Buffer containing the values that will be sent from this process.</param>
