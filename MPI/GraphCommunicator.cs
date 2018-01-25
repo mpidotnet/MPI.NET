@@ -11,7 +11,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.IO;
-using MPIUtils;
 
 namespace MPI
 {  
@@ -75,16 +74,16 @@ namespace MPI
             
             int nedges = 0;
             foreach (int[] arr in edges)
-                nedges += arr.Length;
+                checked { nedges += arr.Length; }
             int[] index = new int[nnodes];
             int[] edges_flat = new int[nedges];
 
             int j = 0;
             for (int i = 0; i < nnodes; i++)
             {
-                index[i] = j + edges[i].Length;
+                index[i] = checked(j + edges[i].Length);
                 Array.Copy(edges[i], 0, edges_flat, j, edges[i].Length);
-                j = j + edges[i].Length;
+                j = checked(j + edges[i].Length);
             }
 
             unsafe
@@ -126,7 +125,7 @@ namespace MPI
             
             int nedges = 0;
             foreach (int[] arr in edges)
-	            nedges += arr.Length;
+	            checked { nedges += arr.Length; }
 
             int[] index = new int[nnodes];
             int[] edges_flat = new int[nedges];
@@ -134,9 +133,9 @@ namespace MPI
             int j = 0;
             for (int i = 0; i < nnodes; i++)
             {
-                index[i] = j + edges[i].Length;
+                index[i] = checked(j + edges[i].Length);
                 Array.Copy(edges[i], 0, edges_flat, j, edges[i].Length);
-                j = j + edges[i].Length;
+                j = checked(j + edges[i].Length);
             }
 
             unsafe

@@ -12,7 +12,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Collections.Generic;
-using MPIUtils;
 
 namespace MPI
 {
@@ -342,7 +341,7 @@ namespace MPI
                     nedges++;
                 int nedges_slice;
                 int nodes_so_far = Dims[0];
-                for (int i = 1; i < NDims; i++)
+                for (int i = 1; i < NDims; i++) checked
                 {
                     nedges_slice = Dims[i] - 1;
                     if (Periodic[i] == true)
