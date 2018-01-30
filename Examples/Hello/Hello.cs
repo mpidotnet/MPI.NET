@@ -30,7 +30,7 @@ class Hello
                 System.Console.WriteLine("Hello, from process number "
                                          + MPI.Communicator.world.Rank + " of "
                                          + MPI.Communicator.world.Size);
-            });
+            }, ref args);
 
         }
         else
