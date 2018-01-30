@@ -96,11 +96,15 @@ namespace MPI
         /// This is preferable to creating an Environment in a "using" block, since that may hang if an exception is thrown.
         /// </summary>
         /// <param name="action">Receives the world communicator and performs MPI actions.</param>
+        /// <param name="args">
+        ///   Arguments passed to the <c>Main</c> function in your program. MPI 
+        ///   may use some of these arguments for its initialization, and will remove 
+        ///   them from this argument before returning.
+        /// </param>
         /// <param name="cleanupEnvironment">If true, the MPi environment will be disposed of on completion 
         /// and any thrown exceptions will result in Abort being called</param>
-        public static void Run(Action<Intracommunicator> action, bool cleanupEnvironment = true)
+        public static void Run(Action<Intracommunicator> action, ref string[] args, bool cleanupEnvironment = true)
         {
-            string[] args = null;
             var env = new Environment(ref args);
 
             if(cleanupEnvironment)
