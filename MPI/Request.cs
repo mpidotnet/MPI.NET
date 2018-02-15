@@ -9,11 +9,12 @@
  */
 using System;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using MPIUtils;
 
 namespace MPI
 {
+    using System.Threading;
     // MPI data type definitions
 #if MPI_HANDLES_ARE_POINTERS
     using MPI_Aint = IntPtr;
@@ -130,7 +131,8 @@ namespace MPI
             Unsafe.MPI_Status status;
             unsafe
             {
-                // Wait until the request completes
+                // Wait until the request completes.
+                // On normal completion, this will set request to null.
                 int errorCode = Unsafe.MPI_Wait(ref request, out status);
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
@@ -194,21 +196,6 @@ namespace MPI
         {
             if (request != Unsafe.MPI_REQUEST_NULL)
             {
-                unsafe
-                {
-                    if (!Environment.Finalized) 
-                    {
-                        // TODO: Will this be a problem if it's called from
-                        // a separate garbage-collection thread?
-                        int errorCode = Unsafe.MPI_Request_free(ref request);
-                        if (errorCode != Unsafe.MPI_SUCCESS)
-                            throw Environment.TranslateErrorIntoException(errorCode);
-                    }
-                }
-            }
-
-            if (handle != null)
-            {
                 // We are in trouble. The user no longer has any references to 
                 // this object, but the communication has not completed. Our
                 // handle has the memory associated with the communication pinned.
@@ -229,15 +216,13 @@ namespace MPI
         /// </summary>
         protected void Cleanup()
         {
-            if (handle != null)
+            if (request != Unsafe.MPI_REQUEST_NULL)
             {
-                // Unpin the memory associated with this transaction
-                handle.Value.Free();
-                handle = null;
+                throw new Exception("Called Cleanup when request is not null");
             }
 
-            // Null-out our MPI request object
-            request = Unsafe.MPI_REQUEST_NULL;
+            // Unpin the memory associated with this transaction
+            handle.Free();
 
             // Suppress finalization; there will be nothing to do.
             GC.SuppressFinalize(this);
@@ -263,7 +248,7 @@ namespace MPI
         /// <summary>
         /// Handle to the pinned memory used in this request.
         /// </summary>
-        protected GCHandle? handle;
+        protected GCHandle handle;
     }
 
     /// <summary>
@@ -273,8 +258,8 @@ namespace MPI
     [StructLayout(LayoutKind.Sequential)]
     struct TwoRequests
     {
-      public MPI_Request first;
-      public MPI_Request second;
+      public MPI_Request body;
+      public MPI_Request header;
     }
 
     /// <summary>
@@ -290,75 +275,53 @@ namespace MPI
         /// <param name="comm">The communicator over which the initial message will be sent.</param>
         /// <param name="dest">The destination rank for this message.</param>
         /// <param name="tag">The message tag.</param>
-        /// <param name="stream">The stream of bytes that should be transmitted.</param>
+        /// <param name="buffer">The bytes that should be transmitted.  Must not be modified by the caller.</param>
+        /// <param name="byteCount">The number of bytes from the beginning of buffer that should be transmitted.</param>
         /// <param name="count">The number of serialized objects stored in <paramref name="buffer"/>.</param>
-        internal SerializedSendRequest(Communicator comm, int dest, int tag, UnmanagedMemoryStream stream, int count)
+        internal SerializedSendRequest(Communicator comm, int dest, int tag, byte[] buffer, int byteCount, int count)
         {
             this.count = count;
-            this.tagAllocator = comm.tagAllocator;
             this.cachedStatus = null;
-            this.stream = stream;
 
-            // Create the message header containing the size of the serialized data and its
-            // tag on the shadow communicator
-            SerializedMessageHeader header;
-            header.tag = tagAllocator.AllocateSendTag();
-            header.bytes = (int)stream.Length;
+            // Create the message header containing the size of the serialized data
+            this.headerObj = byteCount;
 
             // Pin down this object and initiate the send of the length
-            headerObj = header;
             headerHandle = GCHandle.Alloc(headerObj, GCHandleType.Pinned);
             int errorCode;
             unsafe
             {
-                errorCode = Unsafe.MPI_Isend(headerHandle.AddrOfPinnedObject(), 1, FastDatatypeCache<SerializedMessageHeader>.datatype,
-                                             dest, tag, comm.comm, out requests.second);
+                errorCode = Unsafe.MPI_Isend(headerHandle.AddrOfPinnedObject(), 1, FastDatatypeCache<int>.datatype,
+                                                 dest, tag, comm.comm, out requests.header);
             }
 
             if (errorCode != Unsafe.MPI_SUCCESS)
             {
                 headerHandle.Free();
-                stream.Dispose();
                 throw Environment.TranslateErrorIntoException(errorCode);
             }
 
-            // Initiate a send of the serialized data
-            unsafe
+            if (byteCount > 0)
             {
-                errorCode = Unsafe.MPI_Isend(stream.Buffer, (int)stream.Length, 
-                                             Unsafe.MPI_BYTE, dest, header.tag, comm.shadowComm, out requests.first);
-            }
-            
-            if (errorCode != Unsafe.MPI_SUCCESS)
-            {
-                Unsafe.MPI_Cancel(ref requests.second);
-                headerHandle.Free();
-                stream.Dispose();
-                throw Environment.TranslateErrorIntoException(errorCode);
-            }
-
-            // In the common case, the header will already have been sent. 
-            // Check if that has happened.
-            unsafe
-            {
-                int flag;
-                Unsafe.MPI_Status status;
-                errorCode = Unsafe.MPI_Test(ref requests.second, out flag, out status);
+                this.bufferHandle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                // Initiate a send of the serialized data
+                unsafe
+                {
+                    errorCode = Unsafe.MPI_Isend(bufferHandle.AddrOfPinnedObject(), byteCount,
+                                                 Unsafe.MPI_BYTE, dest, tag, comm.comm, out requests.body);
+                }
 
                 if (errorCode != Unsafe.MPI_SUCCESS)
                 {
-                    Unsafe.MPI_Cancel(ref requests.first);
+                    Unsafe.MPI_Cancel(ref requests.header);
                     headerHandle.Free();
-                    stream.Dispose();
+                    bufferHandle.Free();
                     throw Environment.TranslateErrorIntoException(errorCode);
                 }
-
-                if (flag != 0)
-                {
-                    // The length has already been sent; unpin this Request object and clear out the MPI request
-                    headerHandle.Free();
-                    requests.second = Unsafe.MPI_REQUEST_NULL;
-                }
+            }
+            else
+            {
+                requests.body = Unsafe.MPI_REQUEST_NULL;
             }
         }
 
@@ -370,10 +333,17 @@ namespace MPI
             Unsafe.MPI_Status status;
             unsafe
             {
-                if (requests.second == Unsafe.MPI_REQUEST_NULL)
+                if (requests.header == Unsafe.MPI_REQUEST_NULL)
                 {
                     // Wait until the request completes
-                    int errorCode = Unsafe.MPI_Wait(ref requests.first, out status);
+                    int errorCode = Unsafe.MPI_Wait(ref requests.body, out status);
+                    if (errorCode != Unsafe.MPI_SUCCESS)
+                        throw Environment.TranslateErrorIntoException(errorCode);
+                }
+                else if (requests.body == Unsafe.MPI_REQUEST_NULL)
+                {
+                    // Wait until the request completes
+                    int errorCode = Unsafe.MPI_Wait(ref requests.header, out status);
                     if (errorCode != Unsafe.MPI_SUCCESS)
                         throw Environment.TranslateErrorIntoException(errorCode);
                 }
@@ -381,7 +351,7 @@ namespace MPI
                 {
                     // Wait until both requests complete
                     Unsafe.MPI_Status[] statuses = new Unsafe.MPI_Status[2];
-                    fixed (MPI_Request* requestsPtr = &requests.first)
+                    fixed (MPI_Request* requestsPtr = &requests.body)
                     {
                         int errorCode = Unsafe.MPI_Waitall(2, &requestsPtr[0], statuses);
                         if (errorCode != Unsafe.MPI_SUCCESS)
@@ -406,16 +376,23 @@ namespace MPI
             unsafe
             {
                 int flag;
-                if (requests.second == Unsafe.MPI_REQUEST_NULL)
+                if (requests.header == Unsafe.MPI_REQUEST_NULL)
                 {
-                    // Test whether the serialized data request has completed
-                    int errorCode = Unsafe.MPI_Test(ref requests.first, out flag, out status);
+                    // Test whether the request has completed
+                    int errorCode = Unsafe.MPI_Test(ref requests.body, out flag, out status);
+                    if (errorCode != Unsafe.MPI_SUCCESS)
+                        throw Environment.TranslateErrorIntoException(errorCode);
+                }
+                else if (requests.body == Unsafe.MPI_REQUEST_NULL)
+                {
+                    // Test whether the request has completed
+                    int errorCode = Unsafe.MPI_Test(ref requests.header, out flag, out status);
                     if (errorCode != Unsafe.MPI_SUCCESS)
                         throw Environment.TranslateErrorIntoException(errorCode);
                 }
                 else
                 {
-                    fixed (MPI_Request* requestPtr = &requests.first)
+                    fixed (MPI_Request* requestPtr = &requests.body)
                     {
                         // Test whether both requests completed
                         Unsafe.MPI_Status[] statuses = new Unsafe.MPI_Status[2];
@@ -453,23 +430,23 @@ namespace MPI
             unsafe
             {
                 // Cancel both MPI requests
-                if (requests.first != Unsafe.MPI_REQUEST_NULL)
+                if (requests.body != Unsafe.MPI_REQUEST_NULL)
                 {
-                    errorCode1 = Unsafe.MPI_Cancel(ref requests.first);
+                    errorCode1 = Unsafe.MPI_Cancel(ref requests.body);
 
                     if (errorCode1 == Unsafe.MPI_SUCCESS)
                     {
-                        errorCode1 = Unsafe.MPI_Test(ref requests.first, out flag, out status);
+                        errorCode1 = Unsafe.MPI_Test(ref requests.body, out flag, out status);
                     }
                 }
-                if (requests.second != Unsafe.MPI_REQUEST_NULL)
+                if (requests.header != Unsafe.MPI_REQUEST_NULL)
                 {
-                    errorCode2 = Unsafe.MPI_Cancel(ref requests.second);
+                    errorCode2 = Unsafe.MPI_Cancel(ref requests.header);
 
                     if (errorCode2 == Unsafe.MPI_SUCCESS)
                     {
                         int myFlag = 0;
-                        errorCode2 = Unsafe.MPI_Test(ref requests.first, out myFlag, out status);
+                        errorCode2 = Unsafe.MPI_Test(ref requests.body, out myFlag, out status);
                         if (myFlag != 0 && flag == 0)
                             flag = myFlag;
                     }
@@ -491,29 +468,19 @@ namespace MPI
         /// </summary>
         protected void Cleanup()
         {
-            unsafe
+            if (requests.body != Unsafe.MPI_REQUEST_NULL)
             {
-                fixed (MPI_Request* requestPtr = &requests.first) 
-                {
-                    if (requestPtr[0] != Unsafe.MPI_REQUEST_NULL)
-                    {
-                        // Dispose of the unmanaged memory buffer
-                        stream.Dispose();
+                throw new Exception("Called Cleanup when requests.body is not null");
+            }
+            if (requests.header != Unsafe.MPI_REQUEST_NULL)
+            {
+                throw new Exception("Called Cleanup when requests.header is not null");
+            }
 
-                        // Return the tag on the shadow communicator
-                        tagAllocator.ReturnSendTag(((SerializedMessageHeader)headerObj).tag);
-                    }
-
-                    // If we haven't done so set, unpin ourself
-                    if (requestPtr[1] != Unsafe.MPI_REQUEST_NULL)
-                    {
-                        headerHandle.Free();
-                    }   
-
-                    // Clear out the request handles
-                    requestPtr[0] = Unsafe.MPI_REQUEST_NULL;
-                    requestPtr[1] = Unsafe.MPI_REQUEST_NULL;
-                }
+            headerHandle.Free();
+            if (bufferHandle != default(GCHandle))
+            {
+                bufferHandle.Free();
             }
 
             // Suppress finalization; there will be nothing to do.
@@ -522,21 +489,15 @@ namespace MPI
 
         ~SerializedSendRequest()
         {
-            unsafe
+            if (requests.body != Unsafe.MPI_REQUEST_NULL
+                || requests.header != Unsafe.MPI_REQUEST_NULL)
             {
-                fixed (MPI_Request* requestPtr = &requests.first)
-                {
-                    if (requestPtr[0] != Unsafe.MPI_REQUEST_NULL
-                        || requestPtr[1] != Unsafe.MPI_REQUEST_NULL)
-                    {
-                        // We are in trouble. The user no longer has any references to 
-                        // this object, but the communication has not completed. If the
-                        // stream gets finalized, it will de-allocate memory and probably
-                        // fail. 
-                        System.Console.Error.WriteLine("ERROR: Invalid use of MPI.Request object; your application may crash.");
-                        System.Console.Error.WriteLine("To fix this problem, you must complete non-blocking communications explicitly.");                        
-                    }
-                }
+                // We are in trouble. The user no longer has any references to 
+                // this object, but the communication has not completed. If the
+                // stream gets finalized, it will de-allocate memory and probably
+                // fail. 
+                System.Console.Error.WriteLine("ERROR: Invalid use of MPI.Request object; your application may crash.");
+                System.Console.Error.WriteLine("To fix this problem, you must complete non-blocking communications explicitly.");
             }
         }
 
@@ -551,27 +512,20 @@ namespace MPI
         /// </summary>
         protected int count;
 
-        /// <summary>
-        /// Header sent in the first message corresponding to the serialized send.
-        /// </summary>
-        protected object headerObj;
-
-        /// <summary>
-        /// Tag allocator user by the communicator to temporarily retrieve tags
-        /// for sending serialized data.
-        /// </summary>
-        protected TagAllocator tagAllocator;
-
-        /// <summary>
-        /// Handle that pins down the header object, so that it does not move.
-        /// </summary>
+        /// <summary> 
+        /// Header sent in the first message corresponding to the serialized send. 
+        /// </summary> 
+        protected object headerObj; 
+ 
+        /// <summary> 
+        /// Handle that pins down the header object, so that it does not move. 
+        /// </summary> 
         protected GCHandle headerHandle;
 
         /// <summary>
-        /// Stream containing the serialized representation of the data to send
-        /// in unmanaged memory (that map be owned by MPI).
+        /// Handle that pins down the buffer object, so that it does not move. 
         /// </summary>
-        protected UnmanagedMemoryStream stream;
+        protected GCHandle bufferHandle;
 
         /// <summary>
         /// The two outstanding MPI requests. The first request contains the send request
@@ -588,8 +542,9 @@ namespace MPI
     /// </summary>
     class ValueReceiveRequest<T> : ReceiveRequest
     {
-        internal ValueReceiveRequest(MPI_Comm comm, int source, int tag)
+        internal ValueReceiveRequest(MPI_Comm comm, int source, int tag, Action<T> action = null)
         {
+            this.action = action;
             this.cachedStatus = null;
             this.value = default(T);
             handle = GCHandle.Alloc(value, GCHandleType.Pinned);
@@ -619,13 +574,14 @@ namespace MPI
             Unsafe.MPI_Status status;
             unsafe
             {
+                // On normal completion, this will set request to null.
                 int errorCode = Unsafe.MPI_Wait(ref request, out status);
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
             }
 
+            action?.Invoke((T)value);
             Cleanup();
-
             cachedStatus = new CompletedStatus(status, 1);
             return cachedStatus;
         }
@@ -639,6 +595,7 @@ namespace MPI
             Unsafe.MPI_Status status;
             unsafe
             {
+                // If completed, this will set request to null.
                 int errorCode = Unsafe.MPI_Test(ref request, out flag, out status);
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
@@ -646,12 +603,11 @@ namespace MPI
 
             if (flag == 0)
                 return null;
-            else
-            {
-	        Cleanup();
-                cachedStatus = new CompletedStatus(status, 1);
-                return cachedStatus;
-            }
+
+            action?.Invoke((T)value);
+            Cleanup();
+            cachedStatus = new CompletedStatus(status, 1);
+            return cachedStatus;
         }
 
         public override void Cancel()
@@ -684,9 +640,10 @@ namespace MPI
         {
             if (request != Unsafe.MPI_REQUEST_NULL)
             {
-                handle.Free();
-                request = Unsafe.MPI_REQUEST_NULL;
+                throw new Exception("Called Cleanup when request is not null");
             }
+            handle.Free();
+            action = null;
 
             GC.SuppressFinalize(this);
         }
@@ -716,7 +673,7 @@ namespace MPI
         protected CompletedStatus cachedStatus;
 
         /// <summary>
-        /// Handle to <c>this</c>, which will be pinned so that <c>value</c>'s
+        /// Handle to <c>value</c>, which will be pinned so that <c>value</c>'s
         /// address will remain the same.
         /// </summary>
         protected GCHandle handle;
@@ -729,7 +686,12 @@ namespace MPI
         /// <summary>
         /// The actual value we'll be receiving
         /// </summary>
+        /// <remarks>
+        /// Must be type "object" so that it is boxed.
+        /// </remarks>
         protected object value;
+
+        protected Action<T> action;
     }
 
     /// <summary>
@@ -744,16 +706,14 @@ namespace MPI
             this.cachedStatus = null;
             this.array = array;
             handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            unsafe
+            // Initiate the non-blocking receive into "value"
+            int errorCode = Unsafe.MPI_Irecv(handle.AddrOfPinnedObject(), array.Length,
+                                             FastDatatypeCache<T>.datatype,
+                                             source, tag, comm, out request);
+            if (errorCode != Unsafe.MPI_SUCCESS)
             {
-                // Initiate the non-blocking receive into "value"
-                int errorCode = Unsafe.MPI_Irecv(Marshal.UnsafeAddrOfPinnedArrayElement(array, 0), array.Length, FastDatatypeCache<T>.datatype, 
-                                                 source, tag, comm, out request);
-                if (errorCode != Unsafe.MPI_SUCCESS)
-                {
-                    handle.Free();
-                    throw Environment.TranslateErrorIntoException(errorCode);
-                }
+                handle.Free();
+                throw Environment.TranslateErrorIntoException(errorCode);
             }
         }
 
@@ -850,9 +810,9 @@ namespace MPI
         {
             if (request != Unsafe.MPI_REQUEST_NULL)
             {
-                handle.Free();
-                request = Unsafe.MPI_REQUEST_NULL;
+                throw new Exception("Called Cleanup when request is not null");
             }
+            handle.Free();
 
             GC.SuppressFinalize(this);
         }
@@ -906,19 +866,20 @@ namespace MPI
     /// <typeparam name="T">Any serializable type.</typeparam>
     class SerializedReceiveRequest<T> : ReceiveRequest
     {
-        internal SerializedReceiveRequest(Communicator comm, int source, int tag)
+        internal SerializedReceiveRequest(Communicator comm, int source, int tag, Action<T> action = null)
         {
-            shadowComm = comm.shadowComm;
+            this.comm = comm;
+            this.action = action;
             stream = null;
             value = default(T);
             cachedStatus = null;
-            headerObj = default(SerializedMessageHeader);
+            headerObj = default(int);
 
             // Pin ourselves and post a request to receive the header.
             handle = GCHandle.Alloc(headerObj, GCHandleType.Pinned);
             unsafe
             {
-                int errorCode = Unsafe.MPI_Irecv(handle.AddrOfPinnedObject(), 1, FastDatatypeCache<SerializedMessageHeader>.datatype,
+                int errorCode = Unsafe.MPI_Irecv(handle.AddrOfPinnedObject(), 1, FastDatatypeCache<int>.datatype,
                                                  source, tag, comm.comm, out request);
                 if (errorCode != Unsafe.MPI_SUCCESS)
                 {
@@ -936,65 +897,15 @@ namespace MPI
 
         public override CompletedStatus Wait()
         {
-            if (cachedStatus != null)
-                return cachedStatus;
-
-            Unsafe.MPI_Status status;
-
-            if (stream == null)
-            {
-                // We need to complete the receive of the header, first
-                unsafe
-                {
-                    int errorCode = Unsafe.MPI_Wait(ref request, out status);
-                    if (errorCode != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(errorCode);
-                }
-
-                // Cleanup this receive
-                request = Unsafe.MPI_REQUEST_NULL;
-                handle.Free();
-
-                SerializedMessageHeader header = (SerializedMessageHeader)headerObj;
-                if (header.bytes == 0)
-                {
-                    // If the second message is empty, we're done
-                    GC.SuppressFinalize(this);
-                    cachedStatus = new CompletedStatus(status, 1);
-                    return cachedStatus;
-                }
-
-                SetupSerializedReceive(status);
-            }
-
-            // Complete the receive of the serialized data
-            unsafe
-            {
-                int errorCode = Unsafe.MPI_Wait(ref request, out status);
-                if (errorCode != Unsafe.MPI_SUCCESS)
-                    throw Environment.TranslateErrorIntoException(errorCode);
-            }
-
-            // Cleanup
-            request = Unsafe.MPI_REQUEST_NULL;
-            GC.SuppressFinalize(this);
-
-            // Deserialize the data
-            try
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                value = (T)formatter.Deserialize(stream);
-                status.MPI_TAG = originalTag;
-                cachedStatus = new CompletedStatus(status, 1);
-            }
-            finally
-            {
-                stream.Dispose();
-            }
-            return cachedStatus;
+            return TestOrWait(true);
         }
 
         public override CompletedStatus Test()
+        {
+            return TestOrWait(false);
+        }
+
+        protected CompletedStatus TestOrWait(bool wait)
         {
             if (cachedStatus != null)
                 return cachedStatus;
@@ -1004,7 +915,16 @@ namespace MPI
 
             unsafe
             {
-                int errorCode = Unsafe.MPI_Test(ref request, out flag, out status);
+                int errorCode;
+                if (wait)
+                {
+                    errorCode = Unsafe.MPI_Wait(ref request, out status);
+                    flag = 1;
+                }
+                else
+                {
+                    errorCode = Unsafe.MPI_Test(ref request, out flag, out status);
+                }
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
             }
@@ -1017,42 +937,40 @@ namespace MPI
                 // We completed the receive of the header message.
 
                 // Cleanup this receive
-                request = Unsafe.MPI_REQUEST_NULL;
                 handle.Free();
 
-                SerializedMessageHeader header = (SerializedMessageHeader)headerObj;
-                if (header.bytes == 0)
+                int length = (int)headerObj;
+                if (length == 0)
                 {
                     // If the second message is empty, we're done
-                    GC.SuppressFinalize(this);
+                    action?.Invoke(value);
+                    Cleanup();
                     cachedStatus = new CompletedStatus(status, 1);
                     return cachedStatus;
                 }
 
-                // Setup the serialized receive and test again, just in case
-                SetupSerializedReceive(status);
-                return Test();
+                // Setup the serialized receive and test again
+                SetupSerializedReceive(status, length);
+                return TestOrWait(wait);
             }
-           
-            // We completed the receive of the serialized data.
 
-            // Cleanup
-            request = Unsafe.MPI_REQUEST_NULL;
-            GC.SuppressFinalize(this);
+            // We completed the receive of the serialized data.
+            status.MPI_TAG = originalTag;
+            cachedStatus = new CompletedStatus(status, 1);
 
             // Deserialize the data
             try
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                value = (T)formatter.Deserialize(stream);
-                status.MPI_TAG = originalTag;
-                cachedStatus = new CompletedStatus(status, 1);
+                value = comm.Serialization.Serializer.Deserialize<T>(stream);
             }
             finally
             {
                 stream.Dispose();
+                stream = null;
             }
+            action?.Invoke(value);
 
+            Cleanup();
             return cachedStatus;
         }
 
@@ -1076,12 +994,26 @@ namespace MPI
 
                     cachedStatus = new CompletedStatus(status, 0);
                 }
-                request = Unsafe.MPI_REQUEST_NULL;
                 if (stream == null)
                     handle.Free();
                 else
                     stream.Dispose();
+                Cleanup();
             }
+        }
+
+        /// <summary>
+        /// Cleanup any resources we're still holding on to.
+        /// </summary>
+        protected void Cleanup()
+        {
+            if (request != Unsafe.MPI_REQUEST_NULL)
+            {
+                throw new Exception("Called Cleanup when request is not null");
+            }
+            action = null;
+
+            GC.SuppressFinalize(this);
         }
 
         ~SerializedReceiveRequest()
@@ -1099,28 +1031,26 @@ namespace MPI
 
         /// <summary>
         /// Given the header data, this routine will set up the receive of the
-        /// serialized data on the shadow communicator.
+        /// serialized data.
         /// </summary>
         /// <param name="status">
         ///   The status message returned from the completion of the first
         ///   receive (of the header data).
         /// </param>
-        protected void SetupSerializedReceive(Unsafe.MPI_Status status)
+        /// <param name="length">Number of bytes to receive.</param>
+        protected void SetupSerializedReceive(Unsafe.MPI_Status status, int length)
         {
             // Save the tag
             originalTag = status.MPI_TAG;
 
-            // Extract the header
-            SerializedMessageHeader header = (SerializedMessageHeader)headerObj;
-
             // Create the stream
-            stream = new UnmanagedMemoryStream(header.bytes);
+            stream = new UnmanagedMemoryStream(length);
 
             unsafe
             {
-                // Receive serialized data via the shadow communicator
-                int errorCode = Unsafe.MPI_Irecv(stream.Buffer, header.bytes, Unsafe.MPI_BYTE,
-                                                 status.MPI_SOURCE, header.tag, shadowComm, out request);
+                // Receive serialized data
+                int errorCode = Unsafe.MPI_Irecv(stream.Buffer, length, Unsafe.MPI_BYTE,
+                                                 status.MPI_SOURCE, originalTag, comm.comm, out request);
                 if (errorCode != Unsafe.MPI_SUCCESS)
                 {
                     stream.Dispose();
@@ -1143,8 +1073,7 @@ namespace MPI
         protected int originalTag;
 
         /// <summary>
-        /// Handle that pins down either the header object (when receiving the header)
-        /// or the stream's buffer (when receiving the serialized data).
+        /// Handle that pins down either the header object when receiving the header.
         /// </summary>
         protected GCHandle handle;
 
@@ -1153,10 +1082,9 @@ namespace MPI
         /// </summary>
         protected MPI_Request request;
 
-        /// <summary>
-        /// "Shadow" communicator through which we will receive the serialized data.
-        /// </summary>
-        protected MPI_Comm shadowComm;
+        protected Communicator comm;
+
+        protected Action<T> action;
 
         /// <summary>
         /// Stream that will receive the serialized data.
@@ -1226,9 +1154,7 @@ namespace MPI
             T[] receivedArray = (T[])request.GetValue();
             if (receivedArray.Length > array.Length)
                 throw new AccessViolationException("Non-blocking array received overran receive buffer");
-
-            for (int i = 0; i < receivedArray.Length; ++i)
-                array[i] = receivedArray[i];
+            receivedArray.CopyTo(array, 0);
 
             cachedStatus = new CompletedStatus(status.status, receivedArray.Length);
             return cachedStatus;
@@ -1242,7 +1168,7 @@ namespace MPI
 
         /// <summary>
         /// The user-provided array, where values will be copied once the receive
-        /// has completed.
+        /// has completed.  Its length must be at least the length of the received array.
         /// </summary>
         protected T[] array;
 

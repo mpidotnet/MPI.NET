@@ -18,11 +18,29 @@ class Hello
 {
     static void Main(string[] args)
     {
-        using (new MPI.Environment(ref args))
+        PrintCommunicatorInformation(ref args, false);
+    }
+
+    private static void PrintCommunicatorInformation(ref string[] args, bool runAsUtility)
+    {
+        if (runAsUtility)
         {
-            System.Console.WriteLine("Hello, from process number " 
-                + MPI.Communicator.world.Rank.ToString() + " of "
-                + MPI.Communicator.world.Size.ToString());
+            MPI.Environment.Run(communicator =>
+            {
+                System.Console.WriteLine("Hello, from process number "
+                                         + MPI.Communicator.world.Rank + " of "
+                                         + MPI.Communicator.world.Size);
+            }, ref args);
+
+        }
+        else
+        {
+            using (new MPI.Environment(ref args))
+            {
+                System.Console.WriteLine("Hello, from process number "
+                                         + MPI.Communicator.world.Rank + " of "
+                                         + MPI.Communicator.world.Size);
+            }
         }
     }
 }

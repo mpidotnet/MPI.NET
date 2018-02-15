@@ -10,8 +10,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using MPIUtils;
 
@@ -144,12 +142,8 @@ namespace MPI
             else
             {
                 GCHandle handle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Allgather(Memory.LoadAddress(ref inValue), 1, datatype,
-                                                     Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), 1, datatype, comm);
-                }
+                int errorCode = Unsafe.MPI_Allgather(Memory.LoadAddress(ref inValue), 1, datatype,
+                                                     handle.AddrOfPinnedObject(), 1, datatype, comm);
                 handle.Free();
 
                 if (errorCode != Unsafe.MPI_SUCCESS)
@@ -230,7 +224,7 @@ namespace MPI
         public void AllgatherFlattened<T>(T[] inValues, int[] counts, ref T[] outValues)
         {
             if (counts.Length != Size)
-                throw new ArgumentException("counts should be the size of the remote group", "counts");
+                throw new ArgumentException($"counts.Length ({counts.Length}) != Communicator.Size ({Size})");
             
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
@@ -246,7 +240,7 @@ namespace MPI
                 int size = counts[0];
                 int[] displs = new int[counts.Length];
                 displs[0] = 0;
-                for (int i = 1; i < counts.Length; i++)
+                for (int i = 1; i < counts.Length; i++) checked
                 {
                    displs[i] = displs[i - 1] + counts[i - 1];
                    size += counts[i];
@@ -257,12 +251,8 @@ namespace MPI
                 // Pin the array while we are gathering into it.
                 GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                 GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Allgatherv(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), inValues.Length, datatype,
-                                      Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), counts, displs, datatype, comm);
-                }
+                int errorCode = Unsafe.MPI_Allgatherv(inHandle.AddrOfPinnedObject(), inValues.Length, datatype,
+                                      outHandle.AddrOfPinnedObject(), counts, displs, datatype, comm);
                 inHandle.Free();
                 outHandle.Free();
 
@@ -289,9 +279,9 @@ namespace MPI
         /// 
         /// class Allreduce
         /// {
-        ///   static int Main(string[] args)
+        ///   static void Main(string[] args)
         ///   {
-        ///     //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///     using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {
         ///       Communicator world = Communicator.world;
         ///
@@ -354,7 +344,7 @@ namespace MPI
         /// </param>
         /// <returns>
         ///   The values that result from combining all of the values in <paramref name="values"/>
-        ///   element-by-element. If needed, this array will be resized to the same size as <paramref name="inValues"/>.
+        ///   element-by-element.
         /// </returns>
         public T[] Allreduce<T>(T[] values, ReductionOperation<T> op)
         {
@@ -380,7 +370,7 @@ namespace MPI
         /// </param>
         /// <param name="outValues">
         ///   The values that result from combining all of the values in <paramref name="inValues"/>
-        ///   element-by-element. If needed, this array will be resized to the same size as <paramref name="inValues"/>.
+        ///   element-by-element.
         ///   Supply this argument when you have pre-allocated space for the resulting array.
         /// </param>
         public void Allreduce<T>(T[] inValues, ReductionOperation<T> op, ref T[] outValues)
@@ -404,13 +394,9 @@ namespace MPI
                 {
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Allreduce(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), 
-                                                         Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0),
+                    int errorCode = Unsafe.MPI_Allreduce(inHandle.AddrOfPinnedObject(), 
+                                                         outHandle.AddrOfPinnedObject(),
                                                          inValues.Length, datatype, mpiOp.Op, comm);
-                    }
                     inHandle.Free();
                     outHandle.Free();
                     
@@ -469,85 +455,87 @@ namespace MPI
             {
                 if (Size == 1)
                 {
-                    for (int i = 0; i < inValues.Length; ++i)
-                        outValues[i] = inValues[i];
+                    inValues.CopyTo(outValues, 0);
                     return;
                 }
 
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                int[] sendCounts = new int[Size];
-                int[] sendOffsets = new int[Size];
-
-                using (UnmanagedMemoryStream sendStream = new UnmanagedMemoryStream())
-                {
-                    // Serialize all of the outgoing data to the outgoing stream
-                    for (int dest = 0; dest < Size; ++dest)
-                    {
-                        sendOffsets[dest] = (int)sendStream.Length;
-                        if (dest != Rank)
-                            formatter.Serialize(sendStream, inValues[dest]);
-                        sendCounts[dest] = (int)sendStream.Length - sendOffsets[dest];
-                    }
-
-                    // Use all-to-all on integers to tell every process how much data
-                    // it will be receiving.
-                    int[] recvCounts = Alltoall(sendCounts);
-
-                    // Compute the offsets at which each of the streams will be received
-                    int[] recvOffsets = new int[Size];
-                    recvOffsets[0] = 0;
-                    for (int i = 1; i < Size; ++i)
-                        recvOffsets[i] = recvOffsets[i - 1] + recvCounts[i - 1];
-
-                    // Total length of the receive buffer
-                    int recvLength = recvOffsets[Size - 1] + recvCounts[Size - 1];
-
-                    using (UnmanagedMemoryStream recvStream = new UnmanagedMemoryStream(recvLength))
-                    {
-                        // Build receive buffer and exchange all of the data
-                        recvStream.SetLength(recvLength);
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Alltoallv(sendStream.Buffer, sendCounts, sendOffsets, Unsafe.MPI_BYTE,
-                                                                 recvStream.Buffer, recvCounts, recvOffsets, Unsafe.MPI_BYTE, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-
-                        // De-serialize the received data
-                        for (int source = 0; source < Size; ++source)
-                        {
-                            if (source == Rank)
-                                // We never transmitted this object, so we don't need to de-serialize it.
-                                outValues[source] = inValues[source];
-                            else
-                            {
-                                // Seek to the proper location in the stream and de-serialize
-                                recvStream.Position = recvOffsets[source];
-                                outValues[source] = (T)formatter.Deserialize(recvStream);
-                            }
-                        }
-                    }
-                }
+                if (SplitLargeObjects)
+                    Serialization.Alltoall(this, inValues, outValues);
+                else            
+                    Alltoall_serialized(inValues, ref outValues);
             }
             else
             {
                 GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                 GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Alltoall(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), 1, datatype,
-                                                    Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), 1, datatype, comm);
-                }
+                int errorCode = Unsafe.MPI_Alltoall(inHandle.AddrOfPinnedObject(), 1, datatype,
+                                                    outHandle.AddrOfPinnedObject(), 1, datatype, comm);
                 inHandle.Free();
                 outHandle.Free();
 
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
+            }
+        }
+
+        protected void Alltoall_serialized<T>(T[] inValues, ref T[] outValues)
+        {
+            int[] sendCounts = new int[Size];
+            int[] sendOffsets = new int[Size];
+
+            using (UnmanagedMemoryStream sendStream = new UnmanagedMemoryStream())
+            {
+                // Serialize all of the outgoing data to the outgoing stream
+                for (int dest = 0; dest < Size; ++dest)
+                {
+                    sendOffsets[dest] = Convert.ToInt32(sendStream.Length);
+                    if (dest != Rank)
+                        Serialize(sendStream, inValues[dest]);
+                    sendCounts[dest] = checked(Convert.ToInt32(sendStream.Length) - sendOffsets[dest]);
+                }
+
+                // Use all-to-all on integers to tell every process how much data
+                // it will be receiving.
+                int[] recvCounts = Alltoall(sendCounts);
+
+                // Compute the offsets at which each of the streams will be received
+                int[] recvOffsets = new int[Size];
+                recvOffsets[0] = 0;
+                for (int i = 1; i < Size; ++i) checked
+                {
+                    recvOffsets[i] = recvOffsets[i - 1] + recvCounts[i - 1];
+                }
+
+                // Total length of the receive buffer
+                int recvLength = checked(recvOffsets[Size - 1] + recvCounts[Size - 1]);
+
+                using (UnmanagedMemoryStream recvStream = new UnmanagedMemoryStream(recvLength))
+                {
+                    // Build receive buffer and exchange all of the data
+                    unsafe
+                    {
+                        int errorCode = Unsafe.MPI_Alltoallv(sendStream.Buffer, sendCounts, sendOffsets, Unsafe.MPI_BYTE,
+                                                             recvStream.Buffer, recvCounts, recvOffsets, Unsafe.MPI_BYTE, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
+
+                    // De-serialize the received data
+                    for (int source = 0; source < Size; ++source)
+                    {
+                        if (source == Rank)
+                            // We never transmitted this object, so we don't need to de-serialize it.
+                            outValues[source] = inValues[source];
+                        else
+                        {
+                            // Seek to the proper location in the stream and de-serialize
+                            recvStream.Position = recvOffsets[source];
+                            outValues[source] = Deserialize<T>(recvStream);
+                        }
+                    }
+                }
             }
         }
 
@@ -567,7 +555,7 @@ namespace MPI
         /// </param>
         public T[] AlltoallFlattened<T>(T[] inValues, int count)
         {
-            T[] returnValues = new T[count*Size];
+            T[] returnValues = null;
             AlltoallFlattened(inValues, count, ref returnValues);
             return returnValues;
         }
@@ -601,33 +589,6 @@ namespace MPI
             AlltoallFlattened(inValues, sendCounts, recvCounts, ref outValues);
         }
 
-                /// <summary>
-        /// Collective operation in which every process sends data to every other process. <c>Alltoall</c>
-        /// differs from <see cref="Allgather&lt;T&gt;(T)"/> in that a given process can send different
-        /// data to all of the other processes, rather than contributing the same piece of data to all
-        /// processes. 
-        /// </summary>
-        /// <typeparam name="T">Any serializable type.</typeparam>
-        /// <param name="inValues">
-        ///   The array of values that will be sent to each process. sendCounts[i] worth of data will
-        ///   be sent to process i.
-        /// </param>
-        /// <param name="sendCounts">
-        ///   The numbers of items to be sent to each process.
-        /// </param>
-        ///   The numbers of items to be received by each process.
-        /// <param name="recvCounts">
-        /// </param>
-        public T[] AlltoallFlattened<T>(T[] inValues, int[] sendCounts, int[] recvCounts)
-        {
-            int totalCounts = 0;
-            for (int i = 0; i < Size; i++)
-                totalCounts += recvCounts[i];
-            T[] returnValues = new T[totalCounts * Size];
-            AlltoallFlattened(inValues, sendCounts, recvCounts, ref returnValues);
-            return returnValues;
-        }
-
         /// <summary>
         /// Collective operation in which every process sends data to every other process. <c>Alltoall</c>
         /// differs from <see cref="Allgather&lt;T&gt;(T)"/> in that a given process can send different
@@ -642,138 +603,174 @@ namespace MPI
         /// <param name="sendCounts">
         ///   The numbers of items to be sent to each process.
         /// </param>
-        ///   The numbers of items to be received by each process.
         /// <param name="recvCounts">
+        ///   The numbers of items to be received by each process.
+        /// </param>
+        public T[] AlltoallFlattened<T>(T[] inValues, int[] sendCounts, int[] recvCounts)
+        {
+            T[] returnValues = null;
+            AlltoallFlattened(inValues, sendCounts, recvCounts, ref returnValues);
+            return returnValues;
+        }
+
+        /// <summary>
+        /// Collective operation in which every process sends data to every other process. <c>Alltoall</c>
+        /// differs from <see cref="Allgather&lt;T&gt;(T)"/> in that a given process can send different
+        /// data to all of the other processes, rather than contributing the same piece of data to all
+        /// processes. 
+        /// </summary>
+        /// <typeparam name="T">Any serializable type.</typeparam>
+        /// <param name="inValues">
+        ///   An array holding all values that will be sent. The first sendCounts[0] items are sent to
+        ///   process 0, the next sendCounts[1] items are sent to process 1, and so on.
+        ///   The length of the array must be at least the sum of sendCounts.
+        /// </param>
+        /// <param name="sendCounts">
+        ///   The number of items to be sent to each process.  Must be non-negative and have length this.Size.
+        /// </param>
+        /// <param name="recvCounts">
+        ///   The number of items to be received by each process.  Must be non-negative and have length this.Size.
         /// </param>
         /// <param name="outValues">
-        ///   The array of values received from all of the other processes.
+        ///   An array that receives the concatenated values from all of the other processes.
+        ///   If null or the length of the array is less than the sum of recvCounts, it will be assigned to a new array.
         /// </param>
         public void AlltoallFlattened<T>(T[] inValues, int[] sendCounts, int[] recvCounts, ref T[] outValues)
         {
             if (sendCounts.Length != Size)
-                throw new ArgumentException("sendCounts should be the size of the communicator", "sendCounts");
+                throw new ArgumentException($"sendCounts.Length ({sendCounts.Length}) != Communicator.Size ({Size})");
             if (recvCounts.Length != Size)
-                throw new ArgumentException("recvCounts should be the size of the communicator", "recvCounts");
+                throw new ArgumentException($"recvCounts.Length ({recvCounts.Length}) != Communicator.Size ({Size})");
+            if (Size == 1)
+            {
+                outValues = inValues;
+                return;
+            }
 
+            SpanTimer.Enter("AlltoallFlattened");
             int totalCounts = 0;
-            for (int i = 0; i < recvCounts.Length; i++)
+            for (int i = 0; i < recvCounts.Length; i++) checked
+            {
                 totalCounts += recvCounts[i];
+            }
             // Make sure the outgoing array is the right size
-            if (outValues == null || outValues.Length != totalCounts)
+            if (outValues == null || outValues.Length < totalCounts)
                 outValues = new T[totalCounts];
 
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
             {
-                T[] temp;
-                int currentLocation;
-                int selfLocation = 0;
-
-                if (Size == 1)
-                {
-                    for (int i = 0; i < inValues.Length; ++i)
-                        outValues = inValues;
-                    return;
-                }
-
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                int[] sendCountsSerialized = new int[Size];
-                int[] sendOffsets = new int[Size];
-
-                using (UnmanagedMemoryStream sendStream = new UnmanagedMemoryStream())
-                {
-                    currentLocation = 0;
-                    // Serialize all of the outgoing data to the outgoing stream
-                    for (int dest = 0; dest < Size; ++dest)
-                    {
-                        sendOffsets[dest] = (int)sendStream.Length;
-                        if (dest == Rank)
-                            selfLocation = currentLocation;
-                        else
-                        {
-                            temp = new T[sendCounts[dest]];
-                            Array.Copy(inValues, currentLocation, temp, 0, sendCounts[dest]);
-                            currentLocation += sendCounts[dest];
-                            formatter.Serialize(sendStream, temp);
-                        }
-                        sendCountsSerialized[dest] = (int)sendStream.Length - sendOffsets[dest];
-                    }
-
-                    // Use all-to-all on integers to tell every process how much data
-                    // it will be receiving.
-                    int[] recvCountsSerialized = Alltoall(sendCountsSerialized);
-
-                    // Compute the offsets at which each of the streams will be received
-                    int[] recvOffsets = new int[Size];
-                    recvOffsets[0] = 0;
-                    for (int i = 1; i < Size; ++i)
-                        recvOffsets[i] = recvOffsets[i - 1] + recvCountsSerialized[i - 1];
-
-                    // Total length of the receive buffer
-                    int recvLength = recvOffsets[Size - 1] + recvCountsSerialized[Size - 1];
-
-                    using (UnmanagedMemoryStream recvStream = new UnmanagedMemoryStream(recvLength))
-                    {
-                        // Build receive buffer and exchange all of the data
-                        recvStream.SetLength(recvLength);
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Alltoallv(sendStream.Buffer, sendCountsSerialized, sendOffsets, Unsafe.MPI_BYTE,
-                                                                 recvStream.Buffer, recvCountsSerialized, recvOffsets, Unsafe.MPI_BYTE, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-
-                        // De-serialize the received data
-                        currentLocation = 0;
-                        for (int source = 0; source < Size; ++source)
-                        {
-                            if (source == Rank)
-                            {
-                                // We never transmitted this object, so we don't need to de-serialize it.
-                                Array.Copy(inValues, selfLocation, outValues, currentLocation, sendCounts[source]);
-                                currentLocation += sendCounts[source];
-                            }
-                            else
-                            {
-                                // Seek to the proper location in the stream and de-serialize
-                                recvStream.Position = recvOffsets[source];
-                                temp = (T[])formatter.Deserialize(recvStream);
-                                Array.Copy(temp, 0, outValues, currentLocation, temp.Length);
-                                currentLocation += temp.Length;
-                            }
-                        }
-                    }
-                }
+                if (SplitLargeObjects)
+                    Serialization.AlltoallFlattened(this, inValues, sendCounts, recvCounts, outValues);
+                else
+                    AlltoallFlattened_serialized(inValues, sendCounts, recvCounts, outValues);
             }
             else
             {
-                int[] sendDispls = new int[Size];
-                int[] recvDispls = new int[Size];
+                int[] sendDispls = new int[sendCounts.Length];
+                int[] recvDispls = new int[recvCounts.Length];
                 sendDispls[0] = 0;
                 recvDispls[0] = 0;
-                for (int i = 1; i < Size; i++)
+                for (int i = 1; i < sendDispls.Length; i++) checked
                 {
                     sendDispls[i] = sendDispls[i - 1] + sendCounts[i - 1];
                     recvDispls[i] = recvDispls[i - 1] + recvCounts[i - 1];
                 }
+                int lastIndex = sendCounts.Length - 1;
+                int totalSendCount = checked(sendDispls[lastIndex] + sendCounts[lastIndex]);
+                if (totalSendCount > inValues.Length)
+                {
+                    throw new ArgumentException($"Sum of sendCounts ({totalSendCount}) > inValues.Length ({inValues.Length})");
+                }
 
                 GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                 GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Alltoallv(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), sendCounts, sendDispls, datatype,
-                                                    Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), recvCounts, recvDispls, datatype, comm);
-                }
+                int errorCode = Unsafe.MPI_Alltoallv(inHandle.AddrOfPinnedObject(), sendCounts, sendDispls, datatype,
+                                                    outHandle.AddrOfPinnedObject(), recvCounts, recvDispls, datatype, comm);
                 inHandle.Free();
                 outHandle.Free();
 
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
+            }
+            SpanTimer.Leave("AlltoallFlattened");
+        }
+
+        protected void AlltoallFlattened_serialized<T>(T[] inValues, int[] sendCounts, int[] recvCounts, T[] outValues)
+        {
+            using (UnmanagedMemoryStream sendStream = new UnmanagedMemoryStream())
+            {
+                int selfLocation = 0;
+                int inLocation = 0;
+                // Serialize all of the outgoing data to the outgoing stream
+                int[] sendOffsets = new int[Size];
+                int[] sendCountsSerialized = new int[Size];
+                for (int dest = 0; dest < Size; ++dest) checked
+                {
+                    sendOffsets[dest] = Convert.ToInt32(sendStream.Length);
+                    if (dest == Rank)
+                        selfLocation = inLocation;
+                    else if (sendCounts[dest] > 0)
+                    {
+                        var temp = new T[sendCounts[dest]];
+                        Array.Copy(inValues, inLocation, temp, 0, sendCounts[dest]);
+                        Serialize(sendStream, temp);
+                    }
+                    inLocation += sendCounts[dest];
+                    sendCountsSerialized[dest] = Convert.ToInt32(sendStream.Length) - sendOffsets[dest];
+                }
+
+                // Use all-to-all on integers to tell every process how much data
+                // it will be receiving.
+                int[] recvCountsSerialized = Alltoall(sendCountsSerialized);
+
+                // Compute the offsets at which each of the streams will be received
+                int[] recvOffsets = new int[Size];
+                recvOffsets[0] = 0;
+                for (int i = 1; i < Size; ++i) checked
+                {
+                    recvOffsets[i] = recvOffsets[i - 1] + recvCountsSerialized[i - 1];
+                }
+
+                // Total length of the receive buffer
+                int recvLength = checked(recvOffsets[Size - 1] + recvCountsSerialized[Size - 1]);
+
+                using (UnmanagedMemoryStream recvStream = new UnmanagedMemoryStream(recvLength))
+                {
+                    // Build receive buffer and exchange all of the data
+                    unsafe
+                    {
+                        int errorCode = Unsafe.MPI_Alltoallv(sendStream.Buffer, sendCountsSerialized, sendOffsets, Unsafe.MPI_BYTE,
+                                                             recvStream.Buffer, recvCountsSerialized, recvOffsets, Unsafe.MPI_BYTE, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
+
+                    // De-serialize the received data
+                    int outLocation = 0;
+                    for (int source = 0; source < Size; ++source) checked
+                    {
+                        if (source == Rank)
+                        {
+                            // We never transmitted this object, so we don't need to de-serialize it.
+                            if (sendCounts[source] != recvCounts[source])
+                                throw new ArgumentException($"sendCounts[Rank] ({sendCounts[Rank]}) != recvCounts[Rank] ({recvCounts[Rank]})");
+                            Array.Copy(inValues, selfLocation, outValues, outLocation, recvCounts[source]);
+                        }
+                        else if (recvCounts[source] > 0)
+                        {
+                            // Seek to the proper location in the stream and de-serialize
+                            recvStream.Position = recvOffsets[source];
+                            var temp = Deserialize<T[]>(recvStream);
+                            if (temp.Length != recvCounts[source])
+                                throw new Exception($"Deserialized array has length {temp.Length}; expected {recvCounts[source]}");
+                            Array.Copy(temp, 0, outValues, outLocation, temp.Length);
+                        }
+                        outLocation += recvCounts[source];
+                    }
+                }
             }
         }
 
@@ -985,13 +982,9 @@ namespace MPI
                 {
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Exscan(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0),
-                                                      Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0),
+                    int errorCode = Unsafe.MPI_Exscan(inHandle.AddrOfPinnedObject(),
+                                                      outHandle.AddrOfPinnedObject(),
                                                       inValues.Length, datatype, mpiOp.Op, comm);
-                    }
                     outHandle.Free();
                     inHandle.Free();
                     
@@ -1021,7 +1014,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             Intracommunicator world = Communicator.world;
         ///             if (world.Rank == 0)
@@ -1061,7 +1054,7 @@ namespace MPI
         /// <summary>
         ///   Gather the values from each process into an array of values at the 
         ///   <paramref name="root"/> process. On the root process, <c>outValues[p]</c>
-        ///   will be equal to the <paramref name="value"/> parameter of the process
+        ///   will be equal to the <paramref name="inValue"/> parameter of the process
         ///   with rank <c>p</c> when this routine returns. Use this variant of the routine 
         ///   when you want to pre-allocate storage for the <paramref name="outValues"/> array.
         /// </summary>
@@ -1076,7 +1069,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             Intracommunicator world = Communicator.world;
         ///             if (world.Rank == 0)
@@ -1118,7 +1111,7 @@ namespace MPI
         ///   Similar to <see cref="Gather&lt;T&gt;(T,int)"/> but here all values are aggregated into one large array.
         /// </summary>
         /// <typeparam name="T">Any serializable type.</typeparam>
-        /// <param name="inValues">The values to be contributed by this process.</param>
+        /// <param name="inValues">The values to be contributed by this process.  Must have the same length in all processes.</param>
         /// <param name="root">The rank of the root node.</param>
         /// <returns>The aggregated gathered values.</returns>
         public T[] GatherFlattened<T>(T[] inValues, int root)
@@ -1150,7 +1143,7 @@ namespace MPI
         ///   Similar to <see cref="Gather&lt;T&gt;(T,int)"/> but here all values are aggregated into one large array.
         /// </summary>
         /// <typeparam name="T">Any serializable type.</typeparam>
-        /// <param name="inValues">The values to be contributed by this process.</param>
+        /// <param name="inValues">The values to be contributed by this process.  Must have the same length in all processes.</param>
         /// <param name="root">The rank of the root node.</param>
         /// <param name="outValues">
         ///   The array to write the gathered values to; use this parameter when you have preallocated
@@ -1159,16 +1152,11 @@ namespace MPI
         /// <returns>The aggregated gathered values.</returns>
         public void GatherFlattened<T>(T[] inValues, int root, ref T[] outValues)
         {
-            if (Rank == root)
-                if (outValues == null || outValues.Length != inValues.Length * Size)
-                    outValues = new T[inValues.Length * Size];
-            
-
             int[] counts = new int[Size];
             for (int i = 0; i < Size; i++)
                 counts[i] = inValues.Length;
 
-            GatherFlattened_impl<T>((Rank == root), Size, inValues, counts, root, ref outValues);
+            GatherFlattened<T>(inValues, counts, root, ref outValues);
         }
 
         /// <summary>
@@ -1177,12 +1165,12 @@ namespace MPI
         /// <typeparam name="T">Any serializable type.</typeparam>
         /// <param name="inValues">The values to be contributed by this process.</param>
         /// <param name="counts">
-        ///   The number of elements contributed by each process.
+        ///   The number of elements contributed by each process.  Only relevant at the root.
         /// </param>
         /// <param name="root">The rank of the root node.</param>
         /// <param name="outValues">
         ///   The array to write the gathered values to; use this parameter when you have preallocated
-        ///   space for the array.
+        ///   space for the array.  Only relevant at the root.
         /// </param>
         /// <returns>The aggregated gathered values.</returns>
         public void GatherFlattened<T>(T[] inValues, int[] counts, int root, ref T[] outValues)
@@ -1210,7 +1198,7 @@ namespace MPI
         /// {
         ///   static int Main(string[] args)
         ///   {
-        ///     //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///     using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {
         ///       Intracommunicator world = Communicator.world;
         ///
@@ -1237,7 +1225,7 @@ namespace MPI
         /// </param>
         /// <param name="root">
         ///   The rank of the process that is the root of the reduction operation, which will receive the result
-        ///   of the reduction operation in its <paramref name="outValue"/> argument.
+        ///   of the reduction operation.
         /// </param>
         /// <returns>
         ///   On the root, returns the result of the reduction operation. The other processes receive a default value.
@@ -1266,7 +1254,7 @@ namespace MPI
         /// </param>
         /// <param name="root">
         ///   The rank of the process that is the root of the reduction operation, which will receive the result
-        ///   of the reduction operation in its <paramref name="outValue"/> argument.
+        ///   of the reduction operation in its <paramref name="outValues"/> argument.
         /// </param>
         /// <param name="outValues">
         ///   The variable that will receive the results of the reduction operation. Only the <paramref name="root"/>
@@ -1291,12 +1279,8 @@ namespace MPI
                     using (Operation<T> mpiOp = new Operation<T>(op))
                     {
                         GCHandle handle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
-                        int errorCode;
-                        unsafe
-                        {
-                            errorCode = Unsafe.MPI_Reduce(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), new IntPtr(0),
+                        int errorCode = Unsafe.MPI_Reduce(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), new IntPtr(),
                                               inValues.Length, datatype, mpiOp.Op, root, comm);
-                        }
                         handle.Free();
 
                         if (errorCode != Unsafe.MPI_SUCCESS)
@@ -1333,13 +1317,9 @@ namespace MPI
                     {
                         GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                         GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                        int errorCode;
-                        unsafe
-                        {
-                            errorCode = Unsafe.MPI_Reduce(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0),
-                                                          Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0),
+                        int errorCode = Unsafe.MPI_Reduce(inHandle.AddrOfPinnedObject(),
+                                                          outHandle.AddrOfPinnedObject(),
                                                           inValues.Length, datatype, mpiOp.Op, root, comm);
-                        }
                         inHandle.Free();
                         outHandle.Free();
 
@@ -1419,10 +1399,10 @@ namespace MPI
         }
 
         /// <summary>
-        /// A collective operation that first performs a reduction on the given <paramref name="values"/> 
+        /// A collective operation that first performs a reduction on the given <paramref name="inValues"/> 
         /// (see <see cref="Intracommunicator.Reduce&lt;T&gt;(T[], MPI.ReductionOperation&lt;T&gt;, int, ref T[])"/> and then scatters
         /// the results by sending some elements to each process. The reduction will be performed on 
-        /// the entire array of <paramref name="values"/> (like the array form of 
+        /// the entire array of <paramref name="inValues"/> (like the array form of 
         /// <see cref="Intracommunicator.Reduce&lt;T&gt;(T[], MPI.ReductionOperation&lt;T&gt;, int, ref T[])"/>). Then, the array will
         /// be scattered, with process i receiving <paramref name="counts"/>[i] elements. The process
         /// with rank 0 will receive the first <c>counts[0]</c> elements, the process with rank 1 will 
@@ -1453,8 +1433,10 @@ namespace MPI
 
             // Make sure inValues has the right length
             int sum = 0;
-            for (int i = 0; i < Size; ++i)
+            for (int i = 0; i < Size; ++i) checked
+            {
                 sum += counts[i];
+            }
             if (inValues.Length != sum)
                 throw new ArgumentException("inValues array must have enough values for all of the receivers", "inValues");
 
@@ -1472,7 +1454,6 @@ namespace MPI
                 // Reduce the entire array to a root
                 T[] results = Reduce(inValues, op, 0);
 
-                BinaryFormatter formatter = new BinaryFormatter();
                 if (Rank == 0)
                 {
                     // This is the root process
@@ -1487,13 +1468,13 @@ namespace MPI
                         for (int dest = 1; dest < Size; ++dest)
                         {
                             // Serialize the outgoing elements for the process with rank "dest"
-                            resultOffsets[dest] = (int)sendStream.Length;
+                            resultOffsets[dest] = Convert.ToInt32(sendStream.Length);
                             for (int i = 0; i < counts[dest]; ++i)
                             {
-                                formatter.Serialize(sendStream, results[position]);
+                                Serialize(sendStream, results[position]);
                                 ++position;
                             }
-                            resultCounts[dest] = (int)sendStream.Length - resultOffsets[dest];
+                            resultCounts[dest] = checked(Convert.ToInt32(sendStream.Length) - resultOffsets[dest]);
                         }
 
                         // Scatter the counts to tell each process how many bytes to expect
@@ -1521,7 +1502,6 @@ namespace MPI
                     using (UnmanagedMemoryStream receiveStream = new UnmanagedMemoryStream(receiveCount))
                     {
                         // Receive the serialized form of our part of the result
-                        receiveStream.SetLength(receiveCount);
                         unsafe
                         {
                             int errorCode = Unsafe.MPI_Scatterv(new IntPtr(), null, null, Unsafe.MPI_BYTE,
@@ -1532,7 +1512,12 @@ namespace MPI
 
                         // Deserialize the incoming stream
                         for (int i = 0; i < counts[Rank]; ++i)
-                            outValues[i] = (T)formatter.Deserialize(receiveStream);
+                        {
+                            // Seek to the appropriate position in the stream, since we cannot trust the deserializer to stop at the right place.
+                            //receiveStream.Position = ???
+                            throw new NotImplementedException();
+                            outValues[i] = Deserialize<T>(receiveStream);
+                        }
                     }
                 }
             }
@@ -1543,13 +1528,9 @@ namespace MPI
                 {
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Reduce_scatter(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0),
-                                                                  Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0),
-                                                                  counts, datatype, mpiOp.Op, comm);
-                    }
+                    int errorCode = Unsafe.MPI_Reduce_scatter(inHandle.AddrOfPinnedObject(),
+                                                              outHandle.AddrOfPinnedObject(),
+                                                              counts, datatype, mpiOp.Op, comm);
                     inHandle.Free();
                     outHandle.Free();
 
@@ -1694,13 +1675,9 @@ namespace MPI
                 {
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Scan(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0),
-                                                    Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0),
+                    int errorCode = Unsafe.MPI_Scan(inHandle.AddrOfPinnedObject(),
+                                                    outHandle.AddrOfPinnedObject(),
                                                     inValues.Length, datatype, mpiOp.Op, comm);
-                    }
                     outHandle.Free();
                     inHandle.Free();
 
@@ -1737,8 +1714,6 @@ namespace MPI
          /// </summary>
          /// <typeparam name="T">Any serializable type.</typeparam>
          /// <returns>
-         ///   The ith value of the <paramref name="values"/> array provided by the root process, where i is
-         ///   the rank of the calling process.
          /// </returns>
         public T Scatter<T>(int root)
         {
@@ -1803,66 +1778,12 @@ namespace MPI
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
             {
-                if (Size == 1)
-                    return values[0];
-                else if (isRoot)
-                {
-                    // There is no associated MPI datatype for this type, so we will
-                    // need to serialize the values for transmission.
-                    BinaryFormatter formatter = new BinaryFormatter();
-
-                    using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
-                    {
-                        int[] counts = new int[Size];
-                        int[] offsets = new int[Size];
-
-                        for (int dest = 0; dest < Size; ++dest)
-                        {
-                            // Serialize this value to the stream
-                            offsets[dest] = (int)stream.Length;
-                            if (dest != root)
-                                formatter.Serialize(stream, values[dest]);
-                            counts[dest] = (int)stream.Length - offsets[dest];
-                        }
-
-                        // Scatter the byte counts
-                        Scatter<int>(counts);
-
-                        // Scatter the data
-                        unsafe
-                        {
-                            int errorCode = MPI.Unsafe.MPI_Scatterv(stream.Buffer, counts, offsets, Unsafe.MPI_BYTE,
-                                                                    new IntPtr(), 0, Unsafe.MPI_BYTE, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-                    }
-
-                    // Extract our own value at the root
-                    return values[Rank];
-                }
-                else
-                {
-                    // The number of serialized bytes we'll receive
-                    int bytes = Scatter<int>(root);
-
-                    using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(bytes))
-                    {
-                        stream.SetLength(bytes);
-
-                        // Receive serialized data
-                        unsafe
-                        {
-                            int errorCode = MPI.Unsafe.MPI_Scatterv(new IntPtr(), null, null, Unsafe.MPI_BYTE,
-                                                                    stream.Buffer, bytes, Unsafe.MPI_BYTE, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        return (T)formatter.Deserialize(stream);
-                    }
-                }
+                // There is no associated MPI datatype for this type, so we will
+                // need to serialize the values for transmission.
+                SpanTimer.Enter("Scatter");
+                var result = Scatter_serialized(isRoot, values, root);
+                SpanTimer.Leave("Scatter");
+                return result;
             }
             else
             {
@@ -1873,7 +1794,7 @@ namespace MPI
                     unsafe
                     {
                         GCHandle handle = GCHandle.Alloc(values, GCHandleType.Pinned);
-                        errorCode = Unsafe.MPI_Scatter(Marshal.UnsafeAddrOfPinnedArrayElement(values, 0), 1, datatype,
+                        errorCode = Unsafe.MPI_Scatter(handle.AddrOfPinnedObject(), 1, datatype,
                                                            Memory.LoadAddressOfOut(out result), 1, datatype, root, comm);
                         handle.Free();
                     }
@@ -1888,6 +1809,69 @@ namespace MPI
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
                 return result;
+            }
+        }
+
+        protected T Scatter_serialized<T>(bool isRoot, T[] values, int root)
+        {
+            if (Size == 1)
+                return values[0];
+            else if (SplitLargeObjects)
+            {
+                return Serialization.ScatterLarge(this, isRoot, values, root);
+            }
+            else if (isRoot)
+            {
+                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
+                {
+                    int[] counts = new int[Size];
+                    int[] offsets = new int[Size];
+
+                    for (int dest = 0; dest < counts.Length; ++dest)
+                    {
+                        // Serialize this value to the stream
+                        offsets[dest] = Convert.ToInt32(stream.Length);
+                        if (dest != root)
+                        {
+                            Serialize(stream, values[dest]);
+                        }
+                        counts[dest] = checked(Convert.ToInt32(stream.Length) - offsets[dest]);
+                    }
+
+                    // Scatter the byte counts
+                    Scatter<int>(counts);
+
+                    // Scatter the data
+                    unsafe
+                    {
+                        int errorCode = MPI.Unsafe.MPI_Scatterv(stream.Buffer, counts, offsets, Unsafe.MPI_BYTE,
+                                                                new IntPtr(), 0, Unsafe.MPI_BYTE, root, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
+                }
+
+                // Extract our own value at the root
+                return values[Rank];
+            }
+            else
+            {
+                // The number of serialized bytes we'll receive
+                int bytes = Scatter<int>(root);
+
+                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(bytes))
+                {
+                    // Receive serialized data
+                    unsafe
+                    {
+                        int errorCode = MPI.Unsafe.MPI_Scatterv(new IntPtr(), null, null, Unsafe.MPI_BYTE,
+                                                                stream.Buffer, bytes, Unsafe.MPI_BYTE, root, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
+
+                    return Deserialize<T>(stream);
+                }
             }
         }
 
@@ -1965,27 +1949,20 @@ namespace MPI
         /// <param name="outValues">The array to write to at the receiving process. Does not have to be preallocated.</param>
         public void ScatterFromFlattened<T>(T[] inValues, int[] counts, int root, ref T[] outValues)
         {
-            int[] displs = null;
-            if (Rank == root)
-            {
-                displs = new int[counts.Length];
-                displs[0] = 0;
-                for (int i = 1; i < counts.Length; i++)
-                    displs[i] = displs[i - 1] + counts[i - 1];
-            }
-
+            if (counts.Length != Size)
+                throw new ArgumentException($"counts.Length ({counts.Length}) != Communicator.Size ({Size})");
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
             {
                 if (Rank == root)
                 {
                     T[][] tempIn = new T[Size][];
-                    int p = 0;
-                    for (int i = 0; i < Size; i++) 
+                    int inLocation = 0;
+                    for (int i = 0; i < Size; i++) checked
                     {
                         tempIn[i] = new T[counts[i]];
-                        Array.Copy(inValues, p, tempIn[i], 0, counts[i]);
-                        p += counts[i];
+                        Array.Copy(inValues, inLocation, tempIn[i], 0, counts[i]);
+                        inLocation += counts[i];
                     }
                     outValues = Scatter<T[]>(tempIn);
 
@@ -2000,15 +1977,24 @@ namespace MPI
 
                 if (Rank == root)
                 {
+                    int[] displs = new int[counts.Length];
+                    displs[0] = 0;
+                    for (int i = 1; i < counts.Length; i++) checked
+                    {
+                        displs[i] = displs[i - 1] + counts[i - 1];
+                    }
+                    int lastIndex = counts.Length - 1;
+                    int totalCount = checked(displs[lastIndex] + counts[lastIndex]);
+                    if (totalCount > inValues.Length)
+                    {
+                        throw new ArgumentException($"Sum of counts ({totalCount}) > inValues.Length ({inValues.Length})");
+                    }
+
                     // Pin the array while we are scattering it.
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Scatterv(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), counts, displs, datatype,
-                                          Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), counts[Rank], datatype, root, comm);
-                    }
+                    int errorCode = Unsafe.MPI_Scatterv(inHandle.AddrOfPinnedObject(), counts, displs, datatype,
+                                          outHandle.AddrOfPinnedObject(), counts[Rank], datatype, root, comm);
                     inHandle.Free();
                     outHandle.Free();
 
@@ -2019,12 +2005,8 @@ namespace MPI
                 {
                     // Pin the array while we are scattering it.
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Scatterv(new IntPtr(0), counts, new int[0], datatype,
-                                          Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), counts[Rank], datatype, root, comm);
-                    }
+                    int errorCode = Unsafe.MPI_Scatterv(new IntPtr(0), counts, new int[0], datatype,
+                                                        outHandle.AddrOfPinnedObject(), counts[Rank], datatype, root, comm);
                     outHandle.Free();
 
                     if (errorCode != Unsafe.MPI_SUCCESS)
@@ -2044,9 +2026,6 @@ namespace MPI
         /// <param name="argv">A list of arguments to pass to the program.</param>
         /// <param name="maxprocs">The number of processes to be created.</param>
         /// <param name="root">The process from which to execute the child programs.</param>
-        /// <param name="array_of_errorcodes">An array to store the success of each child process. Should have length equal to <paramref name="maxprocs"/>.</param>
-        /// <returns>An Intercommunicator with the original Intracommunicator processes in one group and the child processes in the other group.</returns>
-        //public Intercommunicator Spawn(string command, string[] argv, int maxprocs, int root, out int[] array_of_errorcodes)
         public Intercommunicator Spawn(string command, string[] argv, int maxprocs, int root)
         {
             MPI_Comm intercomm;
@@ -2090,86 +2069,6 @@ namespace MPI
             //System.Console.WriteLine("There!");
             return retval;
         }
-
-        /// <summary>
-        ///   Spawns child MPI processes, providing an <see cref="Intercommunicator"/> for communicating with them.
-        /// </summary>
-        /// <param name="command">The name of the program to execute.</param>
-        /// <param name="argv">A list of arguments to pass to the program.</param>
-        /// <param name="maxprocs">The number of processes to be created.</param>
-        /// <param name="root">The process from which to execute the child programs.</param>
-        /// <param name="array_of_errorcodes">An array to store the success of each child process. Should have length equal to <paramref name="maxprocs"/>.</param>
-        /// <returns>An Intercommunicator with the original Intracommunicator processes in one group and the child processes in the other group.</returns>
-        //public Intercommunicator Spawn(string command, string[] argv, int maxprocs, int root, out int[] array_of_errorcodes)
-        /*
-        public Intercommunicator SpawnMultiple(string[] commands, string[][] argvs, int[] maxprocs, int root)
-        {
-            MPI_Comm intercomm;
-            unsafe
-            {
-                int count = commands.Length;
-                byte[][] byte_commands = new byte[commands.Length][];
-                for (int i = 0; i < commands.Length; i++)
-                    byte_commands[i] = System.Text.Encoding.ASCII.GetBytes(commands[i]);
-
-
-                // Copy commands
-                ASCIIEncoding ascii = new ASCIIEncoding();
-                byte** my_commands = stackalloc byte*[commands.Length];
-                for (int i = 0; i < commands.Length; ++i)
-                {
-                    // Copy argument into a byte array (C-style characters)
-                    char[] command = commands[i].ToCharArray();
-                    fixed (char* commandp = command)
-                    {
-                        int length = ascii.GetByteCount(command);
-                        byte* c_command = stackalloc byte[length];
-                        if (length > 0)
-                        {
-                            ascii.GetBytes(commandp, command.Length, c_command, length);
-                        }
-                        my_commands[i] = c_command;
-                    }
-                }
-
-                // Copy args into C-style argc/argv
-                ASCIIEncoding ascii = new ASCIIEncoding();
-                byte** my_argv = stackalloc byte*[argv.Length];
-                for (int argidx = 0; argidx < argv.Length; ++argidx)
-                {
-                    // Copy argument into a byte array (C-style characters)
-                    char[] arg = argv[argidx].ToCharArray();
-                    fixed (char* argp = arg)
-                    {
-                        int length = ascii.GetByteCount(arg);
-                        byte* c_arg = stackalloc byte[length];
-                        if (length > 0)
-                        {
-                            ascii.GetBytes(argp, arg.Length, c_arg, length);
-                        }
-                        my_argv[argidx] = c_arg;
-                    }
-                }
-                if (argv == null || argv.Length == 0)
-                {
-                    //my_argv = Unsafe.MPI_ARGV_NULL;
-                     my_argv = (byte**)0;
-                }
-
-                fixed (byte* byte_command_p = byte_command)
-                {
-                    //Unsafe.MPI_Comm_spawn(byte_command_p, my_argv, maxprocs, Unsafe.MPI_INFO_NULL, root, comm, out intercomm, out array_of_errorcodes);
-                    Unsafe.MPI_Comm_spawn(byte_command_p, my_argv, maxprocs, Unsafe.MPI_INFO_NULL, root, comm, out intercomm, (int*)0);
-                }
-            }
-            //System.Console.WriteLine("Almost there...");
-            //if (world.Rank == 0)
-            //    System.Diagnostics.Debugger.Break();
-            Intercommunicator retval = Intercommunicator.Adopt(intercomm);
-            //System.Console.WriteLine("There!");
-            return retval;
-        }
-        */
 
 #endif
 

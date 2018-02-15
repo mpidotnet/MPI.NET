@@ -104,6 +104,7 @@ namespace MPI
             {
                 // Find the overloaded operator and create a call to it
                 MethodInfo opMethod = typeof(T).GetMethod(methodName, new Type[] { typeof(T), typeof(T) });
+                if (opMethod == null) throw new MissingMethodException($"Type {typeof(T)} does not implement method {methodName}");
                 generator.EmitCall(OpCodes.Call, opMethod, null);
             }
 
@@ -679,7 +680,7 @@ namespace MPI
             ///   The length of the <paramref name="invec"/> and <paramref name="inoutvec"/> arrays.
             /// </param>
             /// <param name="datatype">
-            ///   The MPI datatype for the data stored in <paramref name="invec"/> and <paramref name="outvec"/>.
+            ///   The MPI datatype for the data stored in <paramref name="invec"/> and <paramref name="inoutvec"/>.
             ///   This should be the same as the intermediate of <see cref="DatatypeCache.GetDatatype"/> applied to the
             ///   type <c>T</c>.
             /// </param>
@@ -689,7 +690,7 @@ namespace MPI
                 {
                     int size = Marshal.SizeOf(typeof(T));
                     int count = *len;
-                    for (int i = 0; i < count; ++i)
+                    for (int i = 0; i < count; ++i) checked
                     {
                         // Note: we end up having to marshal from untyped memory into values of type T,
                         // compute in terms of 'T', then marshal back into untyped memory. 
@@ -717,19 +718,20 @@ namespace MPI
             {
                 // Since we could not find a predefined operation, wrap up the user's operation 
                 // in a delegate that matches the signature of MPI_User_function
-                wrapper = new WrapReductionOperation(op);
 
                 unsafe
                 {
                     // Create the MPI_Op from the wrapper delegate
-                  MPIDelegate wrapperDelegate;
-                  if (UseGeneratedUserOps)
-                      wrapperDelegate = MakeMPIDelegate(op);
-                  else
-                      wrapperDelegate = new MPIDelegate(wrapper.Apply);
-                  int errorCode = Unsafe.MPI_Op_create(Marshal.GetFunctionPointerForDelegate(wrapperDelegate), 0, out mpiOp);
-                  if (errorCode != Unsafe.MPI_SUCCESS)
-                      throw Environment.TranslateErrorIntoException(errorCode);
+                    if (UseGeneratedUserOps)
+                        wrapperDelegate = MakeMPIDelegate(op);
+                    else
+                    {
+                        WrapReductionOperation wrapper = new WrapReductionOperation(op);
+                        wrapperDelegate = new MPIDelegate(wrapper.Apply);
+                    }
+                    int errorCode = Unsafe.MPI_Op_create(Marshal.GetFunctionPointerForDelegate(wrapperDelegate), 0, out mpiOp);
+                    if (errorCode != Unsafe.MPI_SUCCESS)
+                        throw Environment.TranslateErrorIntoException(errorCode);
                 }
             }
         }
@@ -740,7 +742,7 @@ namespace MPI
         /// </summary>
         public void Dispose()
         {
-            if (wrapper != null)
+            if (wrapperDelegate != null)
             {
                 unsafe
                 {
@@ -766,9 +768,10 @@ namespace MPI
         }
 
         /// <summary>
-        /// The wrapper around the user's reduction operation.
+        /// The wrapper around the user's reduction operation.  
+        /// We keep a reference so that it doesn't get garbage collected until the operation is disposed.
         /// </summary>
-        private WrapReductionOperation wrapper = null;
+        private MPIDelegate wrapperDelegate = null;
 
         /// <summary>
         /// The actual <c>MPI_Op</c> corresponding to this operation.

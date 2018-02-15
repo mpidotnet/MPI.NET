@@ -91,6 +91,50 @@ namespace MPI
     public class Environment : IDisposable
     {
         /// <summary>
+        /// Initialize the MPI environment, execute action with the world communicator, and finalize the MPI environment.
+        /// If any exception is thrown by action, all processes will be terminated.
+        /// This is preferable to creating an Environment in a "using" block, since that may hang if an exception is thrown.
+        /// </summary>
+        /// <param name="action">Receives the world communicator and performs MPI actions.</param>
+        /// <param name="args">
+        ///   Arguments passed to the <c>Main</c> function in your program. MPI 
+        ///   may use some of these arguments for its initialization, and will remove 
+        ///   them from this argument before returning.
+        /// </param>
+        /// <param name="cleanupEnvironment">If true, the MPi environment will be disposed of on completion 
+        /// and any thrown exceptions will result in Abort being called</param>
+        public static void Run(Action<Intracommunicator> action, ref string[] args, bool cleanupEnvironment = true)
+        {
+            var env = new Environment(ref args);
+
+            if(cleanupEnvironment)
+            {
+                try
+                {
+                    action(Communicator.world);
+                    env.Dispose();
+                }
+                catch (Exception exception)
+                {
+                    try
+                    {
+                        Console.Error.WriteLine(exception);
+                    }
+                    catch
+                    {
+                        // exception.ToString() can sometimes throw an exception.
+                        Console.Error.WriteLine($"{exception.GetType().Name}: {exception.Message}");
+                    }
+                    Abort(1);
+                }
+            }
+            else
+            {
+                action(Communicator.world);
+            }
+        }
+
+        /// <summary>
         ///   Initializes the MPI environment. This variant of the <see cref="Environment"/> constructor 
         ///   initializes the MPI environment with the <see cref="MPI.Threading.Serialized"/> threading model.
         /// </summary>
@@ -111,7 +155,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             System.Console.WriteLine("Hello, from process number " 
         ///                 + MPI.Communicator.world.Rank.ToString() + " of "
@@ -147,7 +191,7 @@ namespace MPI
         /// {
         ///     static int Main(string[] args)
         ///     {
-        ///         //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///         using (MPI.Environment env = new MPI.Environment(ref args))
         ///         {
         ///             System.Console.WriteLine("Hello, from process number " 
         ///                 + MPI.Communicator.world.Rank.ToString() + " of "
@@ -159,6 +203,11 @@ namespace MPI
         /// </example>
         public Environment(ref string[] args, Threading threading)
         {
+            if (Finalized)
+            {
+                throw new ObjectDisposedException("Constructor called when object already finalized.");
+            }
+
             if (!Initialized)
             {
                 int requiredThreadLevel = 0;
@@ -278,18 +327,6 @@ namespace MPI
             if (!Finalized)
             {
                 Unsafe.MPI_Finalize();
-            }
-        }
-
-        /// <summary>
-        ///   Verifies that the MPI environment has been finalized by calling <c>Dispose()</c>.
-        /// </summary>
-        ~Environment()
-        {
-            if (!Finalized)
-            {
-                System.Console.WriteLine("ERROR: MPI.Environment not finalized.");
-                System.Console.WriteLine("Please call Dispose() on your MPI.Environment object.");
             }
         }
 

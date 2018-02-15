@@ -9,12 +9,13 @@
  */
 using System;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using MPIUtils;
 
 namespace MPI
 {
+    using System.Collections.Concurrent;
+    using System.IO;
+    using System.Threading.Tasks;
     // MPI data type definitions
 #if MPI_HANDLES_ARE_POINTERS
     using MPI_Aint = IntPtr;
@@ -56,24 +57,6 @@ namespace MPI
     public delegate T ReductionOperation<T>(T x, T y);
 
     /// <summary>
-    /// Structure sent on the main MPI communicator for the <see cref="Communicator"/>
-    /// class to indicate that serialized data will be coming on the shadow communicator.
-    /// </summary>
-    internal struct SerializedMessageHeader
-    {
-        /// <summary>
-        /// The tag of the message containing the serialized data, which will come via
-        /// the shadow communicator.
-        /// </summary>
-        public int tag;
-
-        /// <summary>
-        /// Number of bytes in the serialized data.
-        /// </summary>
-        public int bytes;
-    };
-
-    /// <summary>
     ///   Provides communication among a set of MPI processes.
     /// </summary>
     /// 
@@ -106,7 +89,7 @@ namespace MPI
     ///   interact with each other via intercommunicators.</para>
     /// </remarks>
     public abstract class Communicator : IDisposable, ICloneable
-    {       
+    {
         /// <summary>
         /// Communicators can only be constructed from other communicators or adopted
         /// from low-level communicators.
@@ -114,21 +97,19 @@ namespace MPI
         internal Communicator()
         {
             comm = Unsafe.MPI_COMM_NULL;
-            shadowComm = Unsafe.MPI_COMM_NULL;
-            tagAllocator = new TagAllocator();
         }
 
-        #region Communicator management
-        /// <summary>
-        ///   Adopts a low-level MPI communicator that was created with any of the low-level MPI facilities.
-        ///   The resulting <c>Communicator</c> object will manage the lifetime of the low-level MPI communicator,
-        ///   and will free the communicator when it is disposed or finalized.
-        /// </summary>
-        /// <remarks>
-        ///   This constructor should only be used in rare cases where the program 
-        ///   is creating MPI communicators through the low-level MPI interface.
-        /// </remarks>
-        public static Communicator Adopt(MPI_Comm comm)
+    #region Communicator management
+    /// <summary>
+    ///   Adopts a low-level MPI communicator that was created with any of the low-level MPI facilities.
+    ///   The resulting <c>Communicator</c> object will manage the lifetime of the low-level MPI communicator,
+    ///   and will free the communicator when it is disposed or finalized.
+    /// </summary>
+    /// <remarks>
+    ///   This constructor should only be used in rare cases where the program 
+    ///   is creating MPI communicators through the low-level MPI interface.
+    /// </remarks>
+    public static Communicator Adopt(MPI_Comm comm)
         {
             if (comm == Unsafe.MPI_COMM_NULL)
                 return null;
@@ -173,20 +154,6 @@ namespace MPI
             // We need MPI errors to return error codes rather than failing immediately
             Unsafe.MPI_Errhandler_set(comm, Unsafe.MPI_ERRORS_RETURN);
 
-            // Create the "shadow" communicator for sending extra data
-            // across the wire.
-            unsafe
-            {
-                int errorCode = Unsafe.MPI_Comm_dup(comm, out shadowComm);
-                if (errorCode != Unsafe.MPI_SUCCESS)
-                    throw Environment.TranslateErrorIntoException(errorCode);
-
-            }
-
-            // Moved the following line to try to fix https://github.com/jmp75/MPI.NET/issues/2
-            // before the unsafe section above, shadowComm == Unsafe.MPI_COMM_NULL, likely cause of the crash.
-            Unsafe.MPI_Errhandler_set(shadowComm, Unsafe.MPI_ERRORS_RETURN);
-
             // Set up the communicator's attributes
             Attributes = new AttributeSet(comm);
         }
@@ -206,30 +173,25 @@ namespace MPI
                         int errorCode = Unsafe.MPI_Comm_free(ref comm);
                         if (errorCode != Unsafe.MPI_SUCCESS)
                             throw Environment.TranslateErrorIntoException(errorCode);
-                        errorCode = Unsafe.MPI_Comm_free(ref shadowComm);
-                        if (errorCode != Unsafe.MPI_SUCCESS)
-                            throw Environment.TranslateErrorIntoException(errorCode);
                     }
                 }
                 comm = Unsafe.MPI_COMM_NULL;
-                shadowComm = Unsafe.MPI_COMM_NULL;
             }
         }
 
         /// <summary>
         /// Free the MPI communicator.
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
+            Serialization.Dispose();
+
             // Free any non-predefined communicators
             if (comm != Unsafe.MPI_COMM_SELF && comm != Unsafe.MPI_COMM_WORLD && comm != Unsafe.MPI_COMM_NULL)
             {
                 unsafe
                 {
                   int errorCode = Unsafe.MPI_Comm_free(ref comm);
-                  if (errorCode != Unsafe.MPI_SUCCESS)
-                      throw Environment.TranslateErrorIntoException(errorCode);
-                  errorCode = Unsafe.MPI_Comm_free(ref shadowComm);
                   if (errorCode != Unsafe.MPI_SUCCESS)
                       throw Environment.TranslateErrorIntoException(errorCode);
                 }
@@ -471,7 +433,32 @@ namespace MPI
                 return MPI.Group.Adopt(group);
             }
         }
+
+        /// <summary>
+        /// If true, serialized objects are split into multiple messages of size SerializationBufferSize.
+        /// All processes communicating with this Communicator must have the same value.
+        /// </summary>
+        public bool SplitLargeObjects = true;
+        /// <summary>
+        /// Properties that control serialization behavior.
+        /// </summary>
+        public Serialization Serialization { get; } = new Serialization();
         #endregion
+
+        internal void Serialize<T>(Stream stream, T value)
+        {
+            SpanTimer.Enter("Serialize");
+            Serialization.Serializer.Serialize(stream, value);
+            SpanTimer.Leave("Serialize");
+        }
+
+        internal T Deserialize<T>(Stream stream)
+        {
+            SpanTimer.Enter("Deserialize");
+            var result = Serialization.Serializer.Deserialize<T>(stream);
+            SpanTimer.Leave("Deserialize");
+            return result;
+        }
 
         #region Point-to-point communication
         /// <summary>
@@ -498,33 +485,34 @@ namespace MPI
             {
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-                
-                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
+                if (SplitLargeObjects)
                 {
-                    // Serialize the data to a stream
-                    formatter.Serialize(stream, value);
-
-                    // Send a message containing the size of the serialized data and its
-                    // tag on the shadow communicator
-                    SerializedMessageHeader header;
-                    header.tag = tagAllocator.AllocateSendTag();
-                    header.bytes = (int)stream.Length;
-                    Send(header, dest, tag);
-
-                    int errorCode = Unsafe.MPI_SUCCESS;
-                    if (header.bytes > 0)
+                    Serialization.SendLarge(this, value, dest, tag);
+                }
+                else
+                {
+                    using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
                     {
-                        // Send a message containing the actual serialized data
-                        unsafe
-                        {
-                            errorCode = Unsafe.MPI_Send(stream.Buffer, header.bytes, Unsafe.MPI_BYTE, dest, header.tag, shadowComm);
-                        }
-                    }
-                    tagAllocator.ReturnSendTag(header.tag);
+                        // Serialize the data to a stream
+                        Serialize(stream, value);
 
-                    if (errorCode != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(errorCode);
+                        // Send a message containing the size of the serialized data
+                        int length = Convert.ToInt32(stream.Length);
+                        Send(length, dest, tag);
+
+                        int errorCode = Unsafe.MPI_SUCCESS;
+                        if (length > 0)
+                        {
+                            // Send a message containing the actual serialized data
+                            unsafe
+                            {
+                                errorCode = Unsafe.MPI_Send(stream.Buffer, length, Unsafe.MPI_BYTE, dest, tag, comm);
+                            }
+                        }
+
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
                 }
             }
             else
@@ -589,50 +577,43 @@ namespace MPI
             {
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter inFormatter = new BinaryFormatter();
-
                 using (UnmanagedMemoryStream inStream = new UnmanagedMemoryStream())
                 {
                     // Serialize the data to a stream
-                    inFormatter.Serialize(inStream, inValue);
+                    Serialize(inStream, inValue);
 
                     // Send a message containing the size of the serialized data and its
                     // tag on the shadow communicator
-                    SerializedMessageHeader inHeader;
-                    SerializedMessageHeader outHeader;
-                    inHeader.tag = tagAllocator.AllocateSendTag();
-                    inHeader.bytes = (int)inStream.Length;
-                    SendReceive(inHeader, dest, sendTag, source, recvTag, out outHeader, out status);
+                    int inLength = Convert.ToInt32(inStream.Length);
+                    int outLength;
+                    SendReceive(inLength, dest, sendTag, source, recvTag, out outLength, out status);
                     unsafe
                     {
-                        int errorCode = Unsafe.MPI_Sendrecv(new IntPtr(&inHeader), 1, FastDatatypeCache<SerializedMessageHeader>.datatype, dest, sendTag,
-                                                            new IntPtr(&outHeader), 1, FastDatatypeCache<SerializedMessageHeader>.datatype, source, recvTag, comm, out mpiStatus);
+                        int errorCode = Unsafe.MPI_Sendrecv(new IntPtr(&inLength), 1, FastDatatypeCache<int>.datatype, dest, sendTag,
+                                                            new IntPtr(&outLength), 1, FastDatatypeCache<int>.datatype, source, recvTag, comm, out mpiStatus);
                         if (errorCode != Unsafe.MPI_SUCCESS)
                             throw Environment.TranslateErrorIntoException(errorCode);
                     }
 
-                    using (UnmanagedMemoryStream outStream = new UnmanagedMemoryStream(outHeader.bytes))
+                    using (UnmanagedMemoryStream outStream = new UnmanagedMemoryStream(outLength))
                     {
                         Unsafe.MPI_Status junkStatus;
-                        outStream.SetLength(outHeader.bytes);
-                        BinaryFormatter outFormatter = new BinaryFormatter();
 
                         int errorCode = Unsafe.MPI_SUCCESS;
-                        if (inHeader.bytes > 0 && outHeader.bytes > 0)
+                        if (inLength > 0 || outLength > 0)
                         {
                             // Send a message containing the actual serialized data
                             unsafe
                             {
-                                errorCode = Unsafe.MPI_Sendrecv(inStream.Buffer, inHeader.bytes, Unsafe.MPI_BYTE, dest, inHeader.tag,
-                                                                outStream.Buffer, outHeader.bytes, Unsafe.MPI_BYTE, mpiStatus.MPI_SOURCE, outHeader.tag, shadowComm, out junkStatus);
+                                errorCode = Unsafe.MPI_Sendrecv(inStream.Buffer, inLength, Unsafe.MPI_BYTE, dest, sendTag,
+                                                                outStream.Buffer, outLength, Unsafe.MPI_BYTE, mpiStatus.MPI_SOURCE, recvTag, comm, out junkStatus);
                             }
                         }
-                        tagAllocator.ReturnSendTag(inHeader.tag);
 
                         if (errorCode != Unsafe.MPI_SUCCESS)
                             throw Environment.TranslateErrorIntoException(errorCode);
                         
-                        outValue = (T)outFormatter.Deserialize(outStream);
+                        outValue = Deserialize<T>(outStream);
                     }
                 }
             }
@@ -712,26 +693,18 @@ namespace MPI
                 // We have an MPI datatype for this value type, so transmit it using that MPI datatype.
                 GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                 GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    IntPtr inPtr = Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0);
-                    IntPtr outPtr = Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0);
-                    errorCode = Unsafe.MPI_Sendrecv(inPtr, inValues.Length, datatype, dest, sendTag,
-                                                    outPtr, outValues.Length, datatype, source, recvTag, comm, out mpiStatus);
-
-                    if (errorCode != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(errorCode);
-                    errorCode = Unsafe.MPI_Get_count(ref mpiStatus, datatype, out count);
-                    if (errorCode != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(errorCode);
-                }
+                int errorCode = Unsafe.MPI_Sendrecv(inHandle.AddrOfPinnedObject(), inValues.Length, datatype, dest, sendTag,
+                                                    outHandle.AddrOfPinnedObject(), outValues.Length, datatype, source, recvTag, comm, out mpiStatus);
                 inHandle.Free();
                 outHandle.Free();
+                if (errorCode != Unsafe.MPI_SUCCESS)
+                    throw Environment.TranslateErrorIntoException(errorCode);
+                errorCode = Unsafe.MPI_Get_count(ref mpiStatus, datatype, out count);
+                if (errorCode != Unsafe.MPI_SUCCESS)
+                    throw Environment.TranslateErrorIntoException(errorCode);
 
                 status = new CompletedStatus(mpiStatus, count);
-            }
-            
+            }            
         }
 
 
@@ -812,47 +785,44 @@ namespace MPI
         /// </param>
         public void Receive<T>(int source, int tag, out T value, out CompletedStatus status)
         {
-            Unsafe.MPI_Status mpiStatus;
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
             {
                 // Since there is no MPI datatype for this type, we will need to receive
                 // serialized data.
-
-                // Receive a message containing the size and shadow tag of the serialized data
-                SerializedMessageHeader header;
-                unsafe
+                if (SplitLargeObjects)
                 {
-                    int errorCode = Unsafe.MPI_Recv(new IntPtr(&header), 1, FastDatatypeCache<SerializedMessageHeader>.datatype,
-                                    source, tag, comm, out mpiStatus);
-                    if (errorCode != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(errorCode);
+                    Serialization.ReceiveLarge(this, source, tag, out value, out status);
                 }
-
-                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(header.bytes))
+                else
                 {
-                    Unsafe.MPI_Status junkStatus;
-                    stream.SetLength(header.bytes);
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    // Receive a message containing the size of the serialized data
+                    int length;
+                    Receive(source, tag, out length, out status);
 
-                    // Receive the second message containing the serialized data (if any)
-                    if (header.bytes > 0)
+                    using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(length))
                     {
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Recv(stream.Buffer, header.bytes, Unsafe.MPI_BYTE, 
-                                                            mpiStatus.MPI_SOURCE, header.tag, shadowComm, out junkStatus);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
+                        Unsafe.MPI_Status junkStatus;
 
+                        // Receive the second message containing the serialized data (if any)
+                        if (length > 0)
+                        {
+                            unsafe
+                            {
+                                int errorCode = Unsafe.MPI_Recv(stream.Buffer, length, Unsafe.MPI_BYTE,
+                                                                source, tag, comm, out junkStatus);
+                                if (errorCode != Unsafe.MPI_SUCCESS)
+                                    throw Environment.TranslateErrorIntoException(errorCode);
+                            }
                         }
+                        value = Deserialize<T>(stream);
                     }
-                    value = (T)formatter.Deserialize(stream);
                 }
             }
             else
             {
                 // We have an MPI datatype for this value type, so transmit it using that MPI datatype.
+                Unsafe.MPI_Status mpiStatus;
                 unsafe
                 {
                     IntPtr ptr = Memory.LoadAddressOfOut(out value);
@@ -860,8 +830,8 @@ namespace MPI
                     if (errorCode != Unsafe.MPI_SUCCESS)
                         throw Environment.TranslateErrorIntoException(errorCode);
                 }
+                status = new CompletedStatus(mpiStatus, 1);
             }
-            status = new CompletedStatus(mpiStatus, 1);
         }
 
         /// <summary>
@@ -893,12 +863,7 @@ namespace MPI
                 // We have an MPI datatype for this value type, so transmit it using that MPI datatype.
                 // Pin the array so we can make sure it won't move during the send.
                 GCHandle handle = GCHandle.Alloc(values, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(values, 0);
-                    errorCode = Unsafe.MPI_Send(ptr, values.Length, datatype, dest, tag, comm);
-                }
+                int errorCode = Unsafe.MPI_Send(handle.AddrOfPinnedObject(), values.Length, datatype, dest, tag, comm);
                 handle.Free();
 
                 if (errorCode != Unsafe.MPI_SUCCESS)
@@ -980,30 +945,24 @@ namespace MPI
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
             {
-                object valuesObj;
-                Receive(source, tag, out valuesObj, out status);
-                values = (T[])valuesObj;
+                Receive(source, tag, out values, out status);
                 status = new CompletedStatus(status.status, values.Length);
             }
             else
             {
                 // We have an MPI datatype for this value type, so transmit it using that MPI datatype.
                 Unsafe.MPI_Status mpiStatus;
-                int count = 0;
 
                 // Pin the array so we can make sure it won't move during the receive.
                 GCHandle handle = GCHandle.Alloc(values, GCHandleType.Pinned);
-                unsafe
-                {
-                    IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(values, 0);
-                    int result = Unsafe.MPI_Recv(ptr, values.Length, datatype, source, tag, comm, out mpiStatus);
-                    if (result != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(result);
-                    result = Unsafe.MPI_Get_count(ref mpiStatus, datatype, out count);
-                    if (result != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(result);
-                }
+                int result = Unsafe.MPI_Recv(handle.AddrOfPinnedObject(), values.Length, datatype, source, tag, comm, out mpiStatus);
                 handle.Free();
+                if (result != Unsafe.MPI_SUCCESS)
+                    throw Environment.TranslateErrorIntoException(result);
+                int count = 0;
+                result = Unsafe.MPI_Get_count(ref mpiStatus, datatype, out count);
+                if (result != Unsafe.MPI_SUCCESS)
+                    throw Environment.TranslateErrorIntoException(result);
                 status = new CompletedStatus(mpiStatus, count);
             }
         }
@@ -1028,24 +987,10 @@ namespace MPI
             {
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-
                 // Serialize the data to a stream
-                UnmanagedMemoryStream stream = new UnmanagedMemoryStream();
-                formatter.Serialize(stream, value);
-                if (stream.Length == 0)
-                {
-                    // If the serialized data is of length zero, we'll only end up sending 
-                    // one message anyway, so skip the overhead of SerializedSendRequest.
-                    SerializedMessageHeader header;
-                    header.bytes = 0;
-                    header.tag = tag;
-                    return ImmediateSend(header, dest, tag);
-                }
-                else
-                {
-                    return new SerializedSendRequest(this, dest, tag, stream, 1);
-                }
+                MemoryStream stream = new MemoryStream();
+                Serialize(stream, value);
+                return new SerializedSendRequest(this, dest, tag, stream.GetBuffer(), Convert.ToInt32(stream.Length), 1);
             }
             else
             {
@@ -1055,12 +1000,7 @@ namespace MPI
                 object valueObj = value;
                 GCHandle handle = GCHandle.Alloc(valueObj, GCHandleType.Pinned);
                 MPI_Request request;
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Isend(handle.AddrOfPinnedObject(), 1, datatype, dest, tag, comm, out request);
-                }
-
+                int errorCode = Unsafe.MPI_Isend(handle.AddrOfPinnedObject(), 1, datatype, dest, tag, comm, out request);
                 if (errorCode != Unsafe.MPI_SUCCESS)
                 {
                     handle.Free();
@@ -1095,37 +1035,18 @@ namespace MPI
             {
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the values for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-
                 // Serialize the data to a stream
-                UnmanagedMemoryStream stream = new UnmanagedMemoryStream();
-                formatter.Serialize(stream, values);
-                if (stream.Length == 0)
-                {
-                    // If the serialized data is of length zero, we'll only end up sending 
-                    // one message anyway, so skip the overhead of SerializedSendRequest.
-                    SerializedMessageHeader header;
-                    header.bytes = 0;
-                    header.tag = tag;
-                    return ImmediateSend(header, dest, tag);
-                }
-                else
-                {
-                    return new SerializedSendRequest(this, dest, tag, stream, values.Length);
-                }
+                MemoryStream stream = new MemoryStream();
+                Serialize(stream, values);
+                return new SerializedSendRequest(this, dest, tag, stream.GetBuffer(), Convert.ToInt32(stream.Length), values.Length);
             }
             else
             {
                 // We have an MPI datatype for this value type, so transmit it using that MPI datatype.
                 GCHandle handle = GCHandle.Alloc(values, GCHandleType.Pinned);
                 MPI_Request request;
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Isend(Marshal.UnsafeAddrOfPinnedArrayElement(values, 0), 
+                int errorCode = Unsafe.MPI_Isend(handle.AddrOfPinnedObject(), 
                                                  values.Length, datatype, dest, tag, comm, out request);
-                }
-
                 if (errorCode != Unsafe.MPI_SUCCESS)
                 {
                     handle.Free();
@@ -1159,9 +1080,44 @@ namespace MPI
         {
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
+            {
                 return new SerializedReceiveRequest<T>(this, source, tag);
+            }
             else
                 return new ValueReceiveRequest<T>(comm, source, tag);
+        }
+
+        /// <summary>
+        /// Non-blocking receive of a single value. This routine will initiate a request to receive
+        /// data and then return immediately. The data may be received in the background. To test for
+        /// or force the completion of the communication, then access the received data, use the 
+        /// returned <see cref="ReceiveRequest"/> object.
+        /// </summary>
+        /// <typeparam name="T">Any serializable type.</typeparam>
+        /// <param name="source">
+        ///   Rank of the source process to receive data from. Alternatively, use <see cref="anySource"/> to
+        ///   receive a message from any other process.
+        /// </param>
+        /// <param name="tag">
+        ///   The tag that identifies the message to be received. Alternatively, use <see cref="anyTag"/>
+        ///   to receive a message with any tag.
+        /// </param>
+        /// <param name="action">
+        ///   A delegate to be invoked with the received value, if any.
+        /// </param>
+        /// <returns>
+        ///   A request object that allows one to test or force the completion of this receive request,
+        ///   and retrieve the resulting value.
+        /// </returns>
+        public ReceiveRequest ImmediateReceive<T>(int source, int tag, Action<T> action)
+        {
+            MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
+            if (datatype == Unsafe.MPI_DATATYPE_NULL)
+            {
+                return new SerializedReceiveRequest<T>(this, source, tag, action);
+            }
+            else
+                return new ValueReceiveRequest<T>(comm, source, tag, action);
         }
 
         /// <summary>
@@ -1200,7 +1156,9 @@ namespace MPI
         {
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (datatype == Unsafe.MPI_DATATYPE_NULL)
+            {
                 return new SerializedArrayReceiveRequest<T>(this, source, tag, values);
+            }
             else
                 return new ValueArrayReceiveRequest<T>(comm, source, tag, values);
         }
@@ -1305,9 +1263,11 @@ namespace MPI
         /// </example>
         public void Barrier()
         {
+            SpanTimer.Enter("Barrier");
             int errorCode = Unsafe.MPI_Barrier(comm);
             if (errorCode != Unsafe.MPI_SUCCESS)
                 throw Environment.TranslateErrorIntoException(errorCode);
+            SpanTimer.Leave("Barrier");
         }
 
         /// <summary>
@@ -1333,49 +1293,7 @@ namespace MPI
             {
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
-                {
-                    if (isRoot)
-                    {
-                        // Serialize the data to a stream
-                        formatter.Serialize(stream, value);
-                    }
-
-                    // Broadcast the size of the serialized data
-                    int length = (int)stream.Length;
-                    unsafe
-                    {
-                        int errorCode = Unsafe.MPI_Bcast(new IntPtr(&length), 1, Unsafe.MPI_INT, root, comm);
-                        if (errorCode != Unsafe.MPI_SUCCESS)
-                          throw Environment.TranslateErrorIntoException(errorCode);
-                    }
-
-                    if (!isRoot)
-                    {
-                        // Allocate memory for the receive buffer
-                        stream.SetLength(length);
-                    }
-
-                    // Broadcast the serialized data
-                    if (length > 0)
-                    {
-                        // Send a message containing the actual serialized data
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Bcast(stream.Buffer, length, Unsafe.MPI_BYTE, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-                    }
-
-                    if (!isRoot)
-                    {
-                        // Deserialize the data from the stream
-                        value = (T)formatter.Deserialize(stream);
-                    }
-                }
+                Broadcast_impl_serialized(isRoot, ref value, root);
             }
             else
             {
@@ -1413,63 +1331,66 @@ namespace MPI
             {
                 // There is no associated MPI datatype for this type, so we will
                 // need to serialize the value for transmission.
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
-                {
-                    if (isRoot)
-                    {
-                        // Serialize the data to a stream
-                        formatter.Serialize(stream, values);
-                    }
-
-                    // Broadcast the size of the serialized data
-                    int length = (int)stream.Length;
-                    unsafe
-                    {
-                        int errorCode = Unsafe.MPI_Bcast(new IntPtr(&length), 1, Unsafe.MPI_INT, root, comm);
-                        if (errorCode != Unsafe.MPI_SUCCESS)
-                            throw Environment.TranslateErrorIntoException(errorCode);
-                    }
-
-                    if (!isRoot)
-                    {
-                        // Allocate memory for the receive buffer
-                        stream.SetLength(length);
-                    }
-
-                    // Broadcast the serialized data
-                    if (length > 0)
-                    {
-                        // Send a message containing the actual serialized data
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Bcast(stream.Buffer, length, Unsafe.MPI_BYTE, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-                    }
-
-                    if (!isRoot)
-                    {
-                        // Deserialize the data from the stream
-                        values = (T[])formatter.Deserialize(stream);
-                    }
-                }
+                Broadcast_impl_serialized(isRoot, ref values, root);
             }
             else
             {
                 GCHandle handle = GCHandle.Alloc(values, GCHandleType.Pinned);
-                int errorCode;
-                unsafe
-                {
-                    errorCode = Unsafe.MPI_Bcast(Marshal.UnsafeAddrOfPinnedArrayElement(values, 0), values.Length, datatype, root, comm);
-                }
+                int errorCode = Unsafe.MPI_Bcast(handle.AddrOfPinnedObject(), values.Length, datatype, root, comm);
                 handle.Free();
 
                 if (errorCode != Unsafe.MPI_SUCCESS)
                     throw Environment.TranslateErrorIntoException(errorCode);
             }
+        }
+
+        private void Broadcast_impl_serialized<T>(bool isRoot, ref T value, int root)
+        {
+            if (Size == 1)
+                return;  // no one to broadcast to
+            SpanTimer.Enter("Broadcast");
+            using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
+            {
+                if (isRoot)
+                {
+                    // Serialize the data to a stream
+                    Serialize(stream, value);
+                }
+
+                // Broadcast the size of the serialized data
+                int length = Convert.ToInt32(stream.Length);
+                unsafe
+                {
+                    int errorCode = Unsafe.MPI_Bcast(new IntPtr(&length), 1, Unsafe.MPI_INT, root, comm);
+                    if (errorCode != Unsafe.MPI_SUCCESS)
+                        throw Environment.TranslateErrorIntoException(errorCode);
+                }
+
+                if (!isRoot)
+                {
+                    // Allocate memory for the receive buffer
+                    stream.SetLength(length);
+                }
+
+                // Broadcast the serialized data
+                if (length > 0)
+                {
+                    // Send a message containing the actual serialized data
+                    unsafe
+                    {
+                        int errorCode = Unsafe.MPI_Bcast(stream.Buffer, length, Unsafe.MPI_BYTE, root, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
+                }
+
+                if (!isRoot)
+                {
+                    // Deserialize the data from the stream
+                    value = Deserialize<T>(stream);
+                }
+            }
+            SpanTimer.Leave("Broadcast");
         }
 
         /// <summary>
@@ -1498,113 +1419,105 @@ namespace MPI
         internal void Gather_impl<T>(bool isRoot, int size, T inValue, int root, ref T[] outValues)
         {
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
+            if (datatype == Unsafe.MPI_DATATYPE_NULL)
+            {
+                SpanTimer.Enter("Gather");
+                // There is no associated MPI datatype for this type, so we will
+                // need to serialize the value for transmission.
+                if (SplitLargeObjects)
+                    Serialization.GatherLarge(this, isRoot, size, inValue, root, ref outValues);
+                else
+                    Gather_impl_serialized(isRoot, size, inValue, root, ref outValues);
+                SpanTimer.Leave("Gather");
+                return;
+            }
             if (!isRoot)
             {
-                if (datatype == Unsafe.MPI_DATATYPE_NULL)
-                {
-                    // There is no associated MPI datatype for this type, so we will
-                    // need to serialize the value for transmission.
-                    BinaryFormatter formatter = new BinaryFormatter();
-
-                    using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
-                    {
-                        // Serialize the data to a stream
-                        formatter.Serialize(stream, inValue);
-                      
-                        // Root gathers lengths
-                        int[] temp = null;
-                        Gather_impl<int>(isRoot, size, (int)stream.Length, root, ref temp);
-
-                        // Root gathers bytes
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Gatherv(stream.Buffer, (int)stream.Length, Unsafe.MPI_BYTE,
-                                                             new IntPtr(), null, null, Unsafe.MPI_BYTE, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                              throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-                    }
-                }
-                else
-                {
-                    unsafe
-                    {
-                        int errorCode = Unsafe.MPI_Gather(Memory.LoadAddress(ref inValue), 1, datatype, new IntPtr(0), 0, datatype, root, comm);
-                        if (errorCode != Unsafe.MPI_SUCCESS)
-                            throw Environment.TranslateErrorIntoException(errorCode);
-                    }
-                }
-                
+                int errorCode = Unsafe.MPI_Gather(Memory.LoadAddress(ref inValue), 1, datatype, new IntPtr(), 0, datatype, root, comm);
+                if (errorCode != Unsafe.MPI_SUCCESS)
+                    throw Environment.TranslateErrorIntoException(errorCode);
             }
             else
             {
                 if (outValues == null || outValues.Length != size)
                     outValues = new T[size];
 
-                /*
-                if (size == 1)
-                    outValues[0] = inValue;
-                else
-                */
-                if (datatype == Unsafe.MPI_DATATYPE_NULL)
+                // Pin the array while we are gathering into it.
+                GCHandle handle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
+                int errorCode = Unsafe.MPI_Gather(Memory.LoadAddress(ref inValue), 1, datatype,
+                                      handle.AddrOfPinnedObject(), 1, datatype, root, comm);
+                handle.Free();
+
+                if (errorCode != Unsafe.MPI_SUCCESS)
+                    throw Environment.TranslateErrorIntoException(errorCode);
+            }
+        }
+
+        private void Gather_impl_serialized<T>(bool isRoot, int size, T inValue, int root, ref T[] outValues)
+        {
+            if (!isRoot)
+            {
+                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
                 {
-                    // Gather the number of serialized bytes to be received from each process
-                    int[] counts = null;
-                    Gather_impl<int>(isRoot, size, 0, root, ref counts);
-                    int[] offsets = new int[size];
+                    // Serialize the data to a stream
+                    Serialize(stream, inValue);
 
-                    // Compute offsets and total bytes
-                    int totalBytes = 0;
-                    for (int i = 0; i < counts.Length; ++i)
-                    {
-                        offsets[i] = totalBytes;
-                        totalBytes += counts[i];
-                    }
+                    // Root gathers lengths
+                    int[] temp = null;
+                    Gather_impl<int>(isRoot, size, Convert.ToInt32(stream.Length), root, ref temp);
 
-                    using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(totalBytes))
-                    {
-                        // Gather all of the serialized data
-                        stream.SetLength(totalBytes);
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Gatherv(new IntPtr(), 0, Unsafe.MPI_BYTE,
-                                                               stream.Buffer, counts, offsets, Unsafe.MPI_BYTE, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
-
-                        // De-serialize the data
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        for (int source = 0; source < size; ++source)
-                        {
-                            if (source == root)
-                                // Just copy the locally-provided value
-                                outValues[source] = inValue;
-                            else
-                                // De-serialize from the stream
-                                outValues[source] = (T)formatter.Deserialize(stream);
-                        }
-                    }
-                }
-                else
-                {
-
-                    // Make sure the array is large enough
-                    if (outValues.Length < size)
-                        outValues = new T[size];
-
-                    // Pin the array while we are gathering into it.
-                    GCHandle handle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
+                    // Root gathers bytes
                     unsafe
                     {
-                        errorCode = Unsafe.MPI_Gather(Memory.LoadAddress(ref inValue), 1, datatype,
-                                          Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), 1, datatype, root, comm);
+                        int errorCode = Unsafe.MPI_Gatherv(stream.Buffer, Convert.ToInt32(stream.Length), Unsafe.MPI_BYTE,
+                                                         new IntPtr(), null, null, Unsafe.MPI_BYTE, root, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
                     }
-                    handle.Free();
+                }
+            }
+            else
+            {
+                if (outValues == null || outValues.Length != size)
+                    outValues = new T[size];
 
-                    if (errorCode != Unsafe.MPI_SUCCESS)
-                        throw Environment.TranslateErrorIntoException(errorCode);
+                int[] counts = null;
+                Gather_impl<int>(isRoot, size, 0, root, ref counts);
+                int[] offsets = new int[size];
+
+                // Compute offsets and total bytes
+                int totalBytes = 0;
+                for (int i = 0; i < counts.Length; ++i) checked
+                {
+                    offsets[i] = totalBytes;
+                    totalBytes += counts[i];
+                }
+
+                using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(totalBytes))
+                {
+                    // Gather all of the serialized data
+                    unsafe
+                    {
+                        int errorCode = Unsafe.MPI_Gatherv(new IntPtr(), 0, Unsafe.MPI_BYTE,
+                                                           stream.Buffer, counts, offsets, Unsafe.MPI_BYTE, root, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                    }
+
+                    // De-serialize the data
+                    for (int source = 0; source < size; ++source)
+                    {
+                        if (source == root)
+                            // Just copy the locally-provided value
+                            outValues[source] = inValue;
+                        else
+                        {
+                            // De-serialize from the stream
+                            // To be safe, we set the position since some deserializers will read beyond the end of the serialized object.
+                            stream.Position = offsets[source];
+                            outValues[source] = Deserialize<T>(stream);
+                        }
+                    }
                 }
             }
         }
@@ -1618,18 +1531,9 @@ namespace MPI
         /// <param name="inValues">The values contributed by this process, if any.</param>
         /// <param name="counts">The number of elements to be gathered from each process. This parameter is only significant at the root process.</param>
         /// <param name="root">The rank of the root process.</param>
-        /// <param name="outValues">An array to store the gathered values in. Can be, but does not have to be, preallocated.</param>
+        /// <param name="outValues">An array to store the gathered values in. If null or shorter than the total count, a new array will be allocated.</param>
         internal void GatherFlattened_impl<T>(bool isRoot, int size, T[] inValues, int[] counts, int root, ref T[] outValues)
         { 
-            int[] displs = null;
-            if (isRoot)
-            {
-                displs = new int[counts.Length];
-                displs[0] = 0;
-                for (int i = 1; i < counts.Length; i++)
-                    displs[i] = displs[i - 1] + counts[i - 1];
-            }
-
             MPI_Datatype datatype = FastDatatypeCache<T>.datatype;
             if (!isRoot)
             {
@@ -1640,26 +1544,27 @@ namespace MPI
                 }
                 else
                 {
-                    // Pin the array while we are gathering into it.
+                    // Pin the array while we are gathering out of it.
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
-                    unsafe
-                    {
-                        int errorCode = Unsafe.MPI_Gatherv(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), inValues.Length, datatype, new IntPtr(0), counts, displs, datatype, root, comm);
-
-                        if (errorCode != Unsafe.MPI_SUCCESS)
-                            throw Environment.TranslateErrorIntoException(errorCode);
-                    }
+                    int errorCode = Unsafe.MPI_Gatherv(inHandle.AddrOfPinnedObject(), inValues.Length, datatype, new IntPtr(), null, null, datatype, root, comm);
                     inHandle.Free();
-                }
 
+                    if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
+                }
             }
             else
             {
+                if (counts.Length != Size)
+                    throw new ArgumentException($"counts.Length ({counts.Length}) != Communicator.Size ({Size})");
                 int totalRecvSize = 0;
-                for (int i = 0; i < counts.Length; i++)
+                // we must use checked addition in case the total count exceeds 2 billion.
+                for (int i = 0; i < counts.Length; i++) checked
+                {
                     totalRecvSize += counts[i];
+                }
 
-                if (outValues == null || outValues.Length != totalRecvSize)
+                if (outValues == null || outValues.Length < totalRecvSize)
                     outValues = new T[totalRecvSize];
 
                 if (datatype == Unsafe.MPI_DATATYPE_NULL)
@@ -1669,24 +1574,24 @@ namespace MPI
                     Gather_impl<T[]>(isRoot, size, inValues, root, ref tempOut);
 
                     int cumulativeCount = 0;
-                    for (int source = 0; source < counts.Length; ++source)
+                    for (int source = 0; source < counts.Length; ++source) checked
                     {
                         tempOut[source].CopyTo(outValues, cumulativeCount);
                         cumulativeCount += counts[source];
                     }
-                    
                 }
                 else
                 {
+                    int[] displs = new int[counts.Length];
+                    displs[0] = 0;
+                    for (int i = 1; i < counts.Length; i++)
+                        displs[i] = checked(displs[i - 1] + counts[i - 1]);
+
                     // Pin the array while we are gathering into it.
                     GCHandle inHandle = GCHandle.Alloc(inValues, GCHandleType.Pinned);
                     GCHandle outHandle = GCHandle.Alloc(outValues, GCHandleType.Pinned);
-                    int errorCode;
-                    unsafe
-                    {
-                        errorCode = Unsafe.MPI_Gatherv(Marshal.UnsafeAddrOfPinnedArrayElement(inValues, 0), inValues.Length, datatype,
-                                          Marshal.UnsafeAddrOfPinnedArrayElement(outValues, 0), counts, displs, datatype, root, comm);
-                    }
+                    int errorCode = Unsafe.MPI_Gatherv(inHandle.AddrOfPinnedObject(), inValues.Length, datatype,
+                                          outHandle.AddrOfPinnedObject(), counts, displs, datatype, root, comm);
                     inHandle.Free();
                     outHandle.Free();
 
@@ -1716,7 +1621,7 @@ namespace MPI
         /// {
         ///   static int Main(string[] args)
         ///   {
-        ///     //using (MPI.Environment env = new MPI.Environment(ref args))
+        ///     using (MPI.Environment env = new MPI.Environment(ref args))
         ///     {
         ///       Communicator world = Communicator.world;
         ///
@@ -1749,7 +1654,7 @@ namespace MPI
         /// </param>
         /// <param name="root">
         ///   The rank of the process that is the root of the reduction operation, which will receive the result
-        ///   of the reduction operation in its <paramref name="outValue"/> argument.
+        ///   of the reduction operation.
         /// </param>
         /// <returns>
         ///   On the root, returns the result of the reduction operation. The other processes receive a default value.
@@ -1772,7 +1677,7 @@ namespace MPI
                     {
                         unsafe
                         {
-                            int errorCode = Unsafe.MPI_Reduce(Memory.LoadAddress(ref value), new IntPtr(0),
+                            int errorCode = Unsafe.MPI_Reduce(Memory.LoadAddress(ref value), new IntPtr(),
                                                               1, datatype, mpiOp.Op, root, comm);
                             if (errorCode != Unsafe.MPI_SUCCESS)
                                 throw Environment.TranslateErrorIntoException(errorCode);
@@ -1791,23 +1696,22 @@ namespace MPI
                     T[] values = null;
                     Gather_impl(isRoot, size, value, root, ref values);
 
+                    SpanTimer.Enter("Reduce");
                     // Perform reduction locally
                     result = values[0];
                     for (int p = 1; p < size; ++p)
                         result = op(result, values[p]);
+                    SpanTimer.Leave("Reduce");
                 }
                 else
                 {
                     // Use the low-level MPI reduction operation from the root
                     using (Operation<T> mpiOp = new Operation<T>(op))
                     {
-                        unsafe
-                        {
-                            int errorCode = Unsafe.MPI_Reduce(Memory.LoadAddress(ref value), Memory.LoadAddressOfOut(out result),
-                                                              1, datatype, mpiOp.Op, root, comm);
-                            if (errorCode != Unsafe.MPI_SUCCESS)
-                                throw Environment.TranslateErrorIntoException(errorCode);
-                        }
+                        int errorCode = Unsafe.MPI_Reduce(Memory.LoadAddress(ref value), Memory.LoadAddressOfOut(out result),
+                                                          1, datatype, mpiOp.Op, root, comm);
+                        if (errorCode != Unsafe.MPI_SUCCESS)
+                            throw Environment.TranslateErrorIntoException(errorCode);
                     }
                 }
 
@@ -1827,19 +1731,6 @@ namespace MPI
         internal MPI_Comm comm;
 
         /// <summary>
-        /// Secondary low-level MPI communicator that will be used for communication of
-        /// data within MPI.NET, such as collectives implemented over point-to-point or
-        /// the data message associated with a Send of serialized data.
-        /// </summary>
-        internal MPI_Comm shadowComm;
-
-        /// <summary>
-        /// Tag allocator used to allocate tags for collective operations and serialized
-        /// send operations.
-        /// </summary>
-        internal TagAllocator tagAllocator;
-
-        /// <summary>
         ///   Special value for the <c>source</c> argument to <c>Receive</c> that
         ///   indicates that the message can be received from any process in the communicator.
         /// </summary>
@@ -1854,7 +1745,7 @@ namespace MPI
         #region Process Creation and Management
 #if PROCESS_CREATION_PRESENT
         /// <summary>
-        ///   Provides the parent communicator if this Intercommunicator was created by <see cref="Intercommunicator.Spawn()"/> or <see cref="Intercommunicator.SpawnMultiple"/>. Otherwise, returns null.
+        ///   Provides the parent communicator. Otherwise, returns null.
         /// </summary>
         public Intercommunicator Parent
         {
