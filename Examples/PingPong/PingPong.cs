@@ -16,9 +16,8 @@ class PingPong
 {
     static void Main(string[] args)
     {
-        using (new MPI.Environment(ref args))
+        MPI.Environment.Run(ref args, comm =>
         {
-            Intracommunicator comm = Communicator.world;
             if (comm.Rank == 0)
             {
                 Console.WriteLine("Rank 0 is alive and running on " + MPI.Environment.ProcessorName);
@@ -36,6 +35,6 @@ class PingPong
                 comm.Receive<string>(0, 0);
                 comm.Send(MPI.Environment.ProcessorName, 0, 1);
             }
-        }
+        });
     }
 }
