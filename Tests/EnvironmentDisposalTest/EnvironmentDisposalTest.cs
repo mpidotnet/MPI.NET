@@ -21,8 +21,8 @@ class EnvironmentDisposalTest
 
     public static void DoTest(string[] args)
     {
-        MPI.Environment.Run(comm => { int rank = comm.Rank; }, ref args, false);
-        MPI.Environment.Run(comm => { int rank = comm.Rank; }, ref args, false);
-        MPI.Environment.Run(comm => { int rank = comm.Rank; }, ref args, true);
+        MPI.Environment.Run(ref args, comm => { int rank = comm.Rank; }, false);
+        MPI.Environment.Run(ref args, comm => { int rank = comm.Rank; }, false);
+        MPI.Environment.Run(ref args, comm => { int rank = comm.Rank; }, true);
     }
 }
