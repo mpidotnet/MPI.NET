@@ -1346,8 +1346,6 @@ namespace MPI
 
         private void Broadcast_impl_serialized<T>(bool isRoot, ref T value, int root)
         {
-            if (Size == 0)
-                return;  // no one to broadcast to
             SpanTimer.Enter("Broadcast");
             using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
             {
