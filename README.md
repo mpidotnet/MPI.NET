@@ -3,7 +3,7 @@ MPI.NET: High-performance C# Library for Message Passing
 
 ## Overview
 
-This codebase is a forked and modified version of the code for MPI.NET found on the Subversion repository found at https://github.com/jmp75/MPI.NET, commit [fe9115cc708b05c77ffcf28143c6b8775e0d3706](https://github.com/jmp75/MPI.NET/commit/fe9115cc708b05c77ffcf28143c6b8775e0d3706).
+This codebase is a forked and modified version of [MPI.NET](https://github.com/jmp75/MPI.NET), commit [fe9115cc708b05c77ffcf28143c6b8775e0d3706](https://github.com/jmp75/MPI.NET/commit/fe9115cc708b05c77ffcf28143c6b8775e0d3706).
 
 ## About MPI.NET
 
@@ -21,7 +21,7 @@ The recommended way to use MPI.NET is to consume it as a submodule.
 
 MPI.NET on Windows is available only for use with Microsoft's MPI, [MS-MPI](https://msdn.microsoft.com/en-us/library/bb524831), which is available as part of the Microsoft Compute Cluster Pack in Windows Compute Cluster Server and as a separate download, the Microsoft Compute Cluster Pack SDK. Please see the MPI.NET page for more information about installation of one of these packages before installing.
 
-If you clone/download the source code, you will see a solution file at the top level. It should be straightforward to compile, except for one thing: MPIUtils is compiling from IL directly, and requires ilasm.exe to be found. The post-build event in the project file includes batch commands that try to find the correct ilams.exe from visual studio settings, but this may still fail on your machine.
+If you clone/download the source code, you will see a solution file at the top level. It should be straightforward to compile, except for one thing: MPIUtils is compiling from IL directly, and requires ilasm.exe to be found. The post-build event in the project file includes batch commands that try to find the correct ilasm.exe from visual studio settings, but this may still fail on your machine.
 
 You may try to build from the command line with e.g.:
 
