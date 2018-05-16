@@ -44,11 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-        <ProjectReference Include="..\..\MPIUtils\MPIUtils.csproj">
-      <Project>{211c1eee-143f-4f93-bb41-715499433447}</Project>
-      <Name>MPIUtils</Name>
-    </ProjectReference>
-  <ProjectReference Include="..\..\TestCommons\TestCommons.csproj">
+    <ProjectReference Include="..\..\TestCommons\TestCommons.csproj">
       <Project>{d281eb90-0d57-4210-82e0-191544b17398}</Project>
       <Name>TestCommons</Name>
     </ProjectReference>

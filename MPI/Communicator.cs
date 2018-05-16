@@ -9,7 +9,6 @@
  */
 using System;
 using System.Runtime.InteropServices;
-using MPIUtils;
 
 namespace MPI
 {

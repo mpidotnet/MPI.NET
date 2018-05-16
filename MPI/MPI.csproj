@@ -68,6 +68,7 @@
     <Compile Include="RequestList.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="SpanTimer.cs" />
+    <Compile Include="Memory.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="TagAllocator.cs" />
     <Compile Include="TopologicalCommunicator.cs" />
@@ -77,12 +78,6 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="MPI.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPIUtils\MPIUtils.csproj">
-      <Project>{211c1eee-143f-4f93-bb41-715499433447}</Project>
-      <Name>MPIUtils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
