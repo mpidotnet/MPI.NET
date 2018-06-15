@@ -17,16 +17,15 @@ class Hostnames
 {
     static void Main(string[] args)
     {
-        using (new MPI.Environment(ref args))
+        MPI.Environment.Run(ref args, comm =>
         {
-            string[] hostnames = null;
-            Communicator.world.Gather(MPI.Environment.ProcessorName, 0, ref hostnames);
-            if (Communicator.world.Rank == 0)
+            string[] hostnames = comm.Gather(MPI.Environment.ProcessorName, 0);
+            if (comm.Rank == 0)
             {
-                System.Array.Sort(hostnames);
-                foreach(string host in hostnames)
-                    System.Console.WriteLine(host);
+                Array.Sort(hostnames);
+                foreach (string host in hostnames)
+                    Console.WriteLine(host);
             }
-        }
+        });
     }
 }

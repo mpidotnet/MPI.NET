@@ -22,12 +22,12 @@ class EnvironmentDisposalTest
 
     public static void DoTest(string[] args)
     {
-        MPI.Environment.Run(comm => { int rank = comm.Rank; }, ref args, true);
+        MPI.Environment.Run(ref args, comm => { int rank = comm.Rank; }, true);
 
         // We return a non-zero exit code only when InvalidOperationException is not thrown
         try
         {
-            MPI.Environment.Run(comm => { int rank = comm.Rank; }, ref args, true);
+            MPI.Environment.Run(ref args, comm => { int rank = comm.Rank; }, true);
         }
         catch (InvalidOperationException)
         {

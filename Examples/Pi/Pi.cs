@@ -25,14 +25,13 @@ class Pi
 {
     static void Main(string[] args)
     {
-        int dartsPerProcessor = 10000;
-        using (new MPI.Environment(ref args))
+        int dartsPerProcessor = 10000000;
+        MPI.Environment.Run(ref args, comm =>
         {
             if (args.Length > 0)
                 dartsPerProcessor = Convert.ToInt32(args[0]);
-            
-            Intracommunicator world = Communicator.world;
-            Random random = new Random(5 * world.Rank);
+
+            Random random = new Random(5 * comm.Rank);
             int dartsInCircle = 0;
             for (int i = 0; i < dartsPerProcessor; ++i)
             {
@@ -42,17 +41,13 @@ class Pi
                     ++dartsInCircle;
             }
 
-            if (world.Rank == 0)
+            int totalDartsInCircle = comm.Reduce(dartsInCircle, Operation<int>.Add, 0);
+            if (comm.Rank == 0)
             {
-                int totalDartsInCircle = world.Reduce<int>(dartsInCircle, Operation<int>.Add, 0);
-                System.Console.WriteLine("Pi is approximately {0:F15}.", 
-                    4*(double)totalDartsInCircle/(world.Size*(double)dartsPerProcessor));
+                Console.WriteLine("Pi is approximately {0:F15}.",
+                    4.0 * totalDartsInCircle / (comm.Size * dartsPerProcessor));
             }
-            else
-            {
-                world.Reduce<int>(dartsInCircle, Operation<int>.Add, 0);
-            }
-        }
+        });
     }
 }
 

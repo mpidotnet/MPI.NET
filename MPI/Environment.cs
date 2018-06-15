@@ -96,14 +96,52 @@ namespace MPI
         /// This is preferable to creating an Environment in a "using" block, since that may hang if an exception is thrown.
         /// </summary>
         /// <param name="action">Receives the world communicator and performs MPI actions.</param>
+        /// <param name="cleanupEnvironment">If true, the MPi environment will be disposed of on completion 
+        /// and any thrown exceptions will result in Abort being called</param>
+        public static void Run(Action<Intracommunicator> action, bool cleanupEnvironment = true)
+        {
+            string[] args = null;
+            Run(ref args, action, cleanupEnvironment);
+        }
+
+        /// <summary>
+        /// Initialize the MPI environment, execute action with the world communicator, and finalize the MPI environment.
+        /// If any exception is thrown by action, all processes will be terminated.
+        /// This is preferable to creating an Environment in a "using" block, since that may hang if an exception is thrown.
+        /// </summary>
         /// <param name="args">
         ///   Arguments passed to the <c>Main</c> function in your program. MPI 
         ///   may use some of these arguments for its initialization, and will remove 
         ///   them from this argument before returning.
         /// </param>
+        /// <param name="action">Receives the world communicator and performs MPI actions.</param>
         /// <param name="cleanupEnvironment">If true, the MPi environment will be disposed of on completion 
         /// and any thrown exceptions will result in Abort being called</param>
-        public static void Run(Action<Intracommunicator> action, ref string[] args, bool cleanupEnvironment = true)
+        public static void Run(ref string[] args, Action<Intracommunicator> action, bool cleanupEnvironment = true)
+        {
+            Run(ref args, Threading.Serialized, action, cleanupEnvironment);
+        }
+        
+        /// <summary>
+        /// Initialize the MPI environment, execute action with the world communicator, and finalize the MPI environment.
+        /// If any exception is thrown by action, all processes will be terminated.
+        /// This is preferable to creating an Environment in a "using" block, since that may hang if an exception is thrown.
+        /// </summary>
+        /// <param name="args">
+        ///   Arguments passed to the <c>Main</c> function in your program. MPI 
+        ///   may use some of these arguments for its initialization, and will remove 
+        ///   them from this argument before returning.
+        /// </param>
+        /// <param name="threading">
+        ///   The level of threading support requested of the MPI implementation. The
+        ///   implementation will attempt to provide this level of threading support.
+        ///   However, the actual level of threading support provided will be published
+        ///   via the <see cref="MPI.Environment.Threading"/> property.
+        /// </param>
+        /// <param name="action">Receives the world communicator and performs MPI actions.</param>
+        /// <param name="cleanupEnvironment">If true, the MPi environment will be disposed of on completion 
+        /// and any thrown exceptions will result in Abort being called</param>
+        public static void Run(ref string[] args, Threading threading, Action<Intracommunicator> action, bool cleanupEnvironment = true)
         {
             var env = new Environment(ref args);
 

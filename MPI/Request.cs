@@ -10,7 +10,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.IO;
-using MPIUtils;
 
 namespace MPI
 {

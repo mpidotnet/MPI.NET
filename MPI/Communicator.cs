@@ -9,7 +9,6 @@
  */
 using System;
 using System.Runtime.InteropServices;
-using MPIUtils;
 
 namespace MPI
 {
@@ -1346,8 +1345,6 @@ namespace MPI
 
         private void Broadcast_impl_serialized<T>(bool isRoot, ref T value, int root)
         {
-            if (Size == 1)
-                return;  // no one to broadcast to
             SpanTimer.Enter("Broadcast");
             using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream())
             {
