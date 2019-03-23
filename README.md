@@ -1,6 +1,18 @@
 # MPI.NET: High-performance C# Library for Message Passing
 
+[![Windows master Build Status](https://ci.appveyor.com/api/projects/status/mwvyklp44svdkdf6?branch/master?svg=true "Windows master Build Status")](https://ci.appveyor.com/project/jmp75/mpi-net/branch/master)
+
 MPI.NET is a high-performance, easy-to-use implementation of the Message Passing Interface (MPI) for Microsoft's .NET environment. MPI is the de facto standard for writing parallel programs running on a distributed memory system, such as a compute cluster, and is widely implemented. Most MPI implementations provide support for writing MPI programs in C, C++, and Fortran. MPI.NET provides support for all of the .NET languages (especially C#), and includes significant extensions (such as automatic serialization of objects) that make it far easier to build parallel programs that run on clusters.
+
+Use, modification and distribution is subject to the Boost Software License, Version 1.0. (See accompanying file [LICENSE_1_0.txt](./LICENSE_1_0.txt) or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+## Getting started
+
+You can use this library in your project(s) [as a NuGet package](https://www.nuget.org/packages/MPI.NET)
+
+The [documentation subfolder](https://github.com/Microsoft/MPI.NET/tree/master/Documentation) contains Word documents, inherited from ~2008. Microsoft Research contributed documentation updates in 2018.
+
+Code examples are available [here](https://github.com/Microsoft/MPI.NET/tree/master/Examples).
 
 ## Contributions
 
@@ -10,15 +22,7 @@ It was migrated in 2013 to [MPI.NET on github](https://github.com/jmp75/MPI.NET)
 
 From 2018 onwards most contributions occur on the fork at [Microsoft/MPI.NET](https://github.com/Microsoft/MPI.NET).
 
-Use, modification and distribution is subject to the Boost Software License, Version 1.0. (See accompanying file [LICENSE_1_0.txt](./LICENSE_1_0.txt) or copy at http://www.boost.org/LICENSE_1_0.txt)
-
-## Getting started
-
-The repository includes documentation [here](https://github.com/Microsoft/MPI.NET/tree/master/Documentation).  
-
-The repository also include examples, available [here](https://github.com/Microsoft/MPI.NET/tree/master/Examples).
-
-## Installation on Windows
+## Building on Windows
 
 The recommended way to use MPI.NET is to consume it as a submodule.
 
