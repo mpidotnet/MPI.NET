@@ -6,6 +6,11 @@ image:
 
 platform: x64
 
+environment:
+  matrix:
+  - PLATFORM: Any CPU
+  # - PLATFORM: x86
+
 branches:
   only:
   - master
@@ -13,6 +18,8 @@ branches:
 
 build_script:
 - cmd: >-
+    echo %PLATFORM%
+
     dotnet restore -v n MPI.sln
 
     msbuild MPI.sln /p:Platform="Any CPU" /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly
