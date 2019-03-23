@@ -18,7 +18,7 @@ branches:
 
 build_script:
 - cmd: >-
-    dotnet restore MPI.sln
+    dotnet restore -v n MPI.sln
 
     msbuild MPI.sln /p:Platform="Any CPU" /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly
 
