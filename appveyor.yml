@@ -6,11 +6,6 @@ image:
 
 platform: x64
 
-environment:
-  matrix:
-  - PLATFORM: x64
-  # - PLATFORM: x86
-
 branches:
   only:
   - master
