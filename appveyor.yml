@@ -13,7 +13,8 @@ environment:
 
 branches:
   only:
-  - master, testing
+  - master
+  - testing
 
 build_script:
 - cmd: >-
