@@ -1,0 +1,36 @@
+version: 1.0.{build}
+
+image:
+- Visual Studio 2017
+# - Visual Studio 2015
+
+platform: x64
+
+environment:
+  matrix:
+  - PLATFORM: x64
+  # - PLATFORM: x86
+
+branches:
+  only:
+  - master, testing
+
+build_script:
+- cmd: >-
+    dotnet restore MPI.sln
+
+    msbuild MPI.sln /p:Platform="Any CPU" /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly
+
+# Could not use dotnet build on appveyor: native test lib compilation leads to error MSB4019: The imported project "C:\Microsoft.Cpp.Default.props" was not found 
+#    dotnet build --configuration Debug --no-restore
+
+# 2019-03: IntercommunicatorTest with 7 processes seems to hang on my windows box. Not using yet
+#test_script:
+#- cmd: >-
+#    cd Tests
+#
+#    set ThrowMPIDebugException=True
+#
+#    set MPIDebugSysDiagnostic=
+#
+#    runtests.bat Debug

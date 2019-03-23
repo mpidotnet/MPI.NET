@@ -11,20 +11,20 @@
     <AssemblyTitle>Message Passing Interface for .NET</AssemblyTitle>
     <Company>Indiana University</Company>
     <Product>MPI</Product>
-    <Description>MPI.NET, updated for .NET 4.0</Description>
+    <Description>MPI.NET, updated for .NET standard</Description>
     <Copyright>Copyright © 2007, 2008 The Trustees of Indiana University; Contributions Copyright © 2013-2017 CSIRO, and https://github.com/Olion17</Copyright>
-    <Version>1.3.0.0</Version>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3</FileVersion>
+    <Version>1.4.0.0</Version>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DocumentationFile>bin\$(Configuration)\MPI.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Authors>Douglas Gregor, Andrew Lumsdaine, Ben Martin; contrib. Daniel Collins, Jean-Michel Perraud, Olion17, and others TBC</Authors>
+    <Authors>Douglas Gregor, Andrew Lumsdaine, Ben Martin; contrib. Jean-Michel Perraud, Vijay Sharma, Daniel Collins, Olion17, and others TBC</Authors>
     <PackageIconUrl>http://www.osl.iu.edu/research/mpi.net/images/PTL-logo.jpg</PackageIconUrl>
     <PackageId>MPI.NET</PackageId>
     <PackageLicenseUrl>https://github.com/jmp75/MPI.NET/blob/master/LICENSE_1_0.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/jmp75/MPI.NET</PackageProjectUrl>
-    <PackageReleaseNotes>This NuGet package is for Windows only. The MPI.NET code works on Linux, but needs to be compiled on the target platform. This package is compiled for use with Microsoft's msmpi.dll (Windows HPC)</PackageReleaseNotes>
+    <PackageReleaseNotes>This NuGet package is for Windows only. The MPI.NET code works on Linux, but needs to be compiled on the target platform. This package is compiled for use with Microsoft's msmpi.dll (Windows HPC). Migration to .NET Standard 2.0.</PackageReleaseNotes>
     <PackageTags>MPI HPC</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>

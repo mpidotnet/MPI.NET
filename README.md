@@ -1,13 +1,16 @@
-MPI.NET: High-performance C# Library for Message Passing
-========================================================
-
-## Overview
-
-This codebase is a forked and modified version of [MPI.NET](https://github.com/jmp75/MPI.NET), commit [fe9115cc708b05c77ffcf28143c6b8775e0d3706](https://github.com/jmp75/MPI.NET/commit/fe9115cc708b05c77ffcf28143c6b8775e0d3706).
-
-## About MPI.NET
+# MPI.NET: High-performance C# Library for Message Passing
 
 MPI.NET is a high-performance, easy-to-use implementation of the Message Passing Interface (MPI) for Microsoft's .NET environment. MPI is the de facto standard for writing parallel programs running on a distributed memory system, such as a compute cluster, and is widely implemented. Most MPI implementations provide support for writing MPI programs in C, C++, and Fortran. MPI.NET provides support for all of the .NET languages (especially C#), and includes significant extensions (such as automatic serialization of objects) that make it far easier to build parallel programs that run on clusters.
+
+## Contributions
+
+MPI.NET was authored by Douglas Gregor, Andrew Lumsdaine, Ben Martin (and others TBC) (Copyright 2005-2008 The Trustees of Indiana University).
+
+It was migrated in 2013 to [MPI.NET on github](https://github.com/jmp75/MPI.NET) with contributions from [J-M](https://github.com/jmp75) and others.
+
+From 2018 onwards most contributions occur on the fork at [Microsoft/MPI.NET](https://github.com/Microsoft/MPI.NET).
+
+Use, modification and distribution is subject to the Boost Software License, Version 1.0. (See accompanying file [LICENSE_1_0.txt](./LICENSE_1_0.txt) or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 ## Getting started
 
@@ -21,6 +24,17 @@ The recommended way to use MPI.NET is to consume it as a submodule.
 
 MPI.NET on Windows is available only for use with Microsoft's MPI, [MS-MPI](https://msdn.microsoft.com/en-us/library/bb524831), which is available as part of the Microsoft Compute Cluster Pack in Windows Compute Cluster Server and as a separate download, the Microsoft Compute Cluster Pack SDK. Please see the MPI.NET page for more information about installation of one of these packages before installing.
 
+### From March 2019
+
+```bat
+cd C:\path\to\MPI.NET
+dotnet restore MPI.sln
+:: assuming msbuild is in your PATH
+msbuild MPI.sln /p:Platform="Any CPU" /p:Configuration=Release /consoleloggerparameters:ErrorsOnly
+```
+
+### Deprecated instructions on Windows:
+
 If you clone/download the source code, you will see a solution file at the top level. It should be straightforward to compile, except for one thing: MPIUtils is compiling from IL directly, and requires ilasm.exe to be found. The post-build event in the project file includes batch commands that try to find the correct ilasm.exe from visual studio settings, but this may still fail on your machine.
 
 You may try to build from the command line with e.g.:
@@ -30,9 +44,13 @@ cd C:\path\to\MPI.NET\Build
 build.bat Debug Rebuild
 ```
 
+### Unit tests
+
 To run all unit tests:
 
 ```bat
+cd C:\path\to\MPI.NET
+msbuild MPI.sln /p:Platform="Any CPU" /p:Configuration=Release /consoleloggerparameters:ErrorsOnly
 cd C:\path\to\MPI.NET\Tests
 .\runtests.bat Debug
 :: or with options
@@ -88,7 +106,6 @@ mono/4.4.2.11
 openmpi/1.8.8-melanox-gcc
 gcc/4.9.3
 ```
-
 
 ### Building
 
@@ -155,7 +172,7 @@ Unfortunately the environment of a Linux box is less uniform than for Windows, a
 cd path/to/MPI.NET
 chmod +x ./Tests/runtest.sh
 mkdir -p tmp
-./Tests/runtests.sh > tmp/log.txt 2>&1 
+./Tests/runtests.sh > tmp/log.txt 2>&1
 ```
 
 To run one test at a time:
@@ -181,28 +198,41 @@ make check -k
 ### Deploy
 
 Finally:
+
 ```bash
 make install
-# or 
+# or
 sudo make install
 ```
 
 Documentation generation is currently not available within Unix. However, the library is the same on Windows and on Unix; please refer to the MPI.NET web page for tutorial and reference documentation.
 
-# Technical notes
+## Technical notes
 
-## Creating the NuGet package for MPI.NET
+### Creating the NuGet package for MPI.NET
 
-A placeholder for technical notes
+*This section is primarily a reminder to the package author.*
 
-## Troubleshooting
+```bash
+dotnet pack MPI/MPI.csproj --configuration Release --no-build --no-restore --output nupkgs
+# Or for initial testing/debugging
+dotnet pack MPI/MPI.csproj --configuration Debug --no-build --no-restore --output nupkgs
+```
+
+If you have an additional nuget package repository for tests:
+
+```cmd
+cp .\MPI\nupkgs\\MPI.NET.1.4.0.nupkg c:\local\nuget
+```
+
+### Troubleshooting
 
 A placeholder to log issues
 
-### error CS1061: 'Unsafe.MPI\_Status' does not contain a definition for 'MPI\_SOURCE'
+#### error CS1061: 'Unsafe.MPI\_Status' does not contain a definition for 'MPI\_SOURCE'
 
-```
+```text
 Status.cs(61,31): error CS1061: 'Unsafe.MPI_Status' does not contain a definition for 'MPI_SOURCE' and no extension method 'MPI_SOURCE' accepting a first argument of type 'Unsafe.MPI_Status' could be found (are you missing a using directive or an assembly reference?)
 ```
 
-On Linux some code is generated (CustomUnsafe.cs) by the script Unsafe.pl. It parses the 'mpi.h' header file of your distribution. Due to variations across MPI implementations and versions thereof, this is succeptible to issues. You may need to fix Unsafe.pl or fix CustomUnsafe.cs manually (beware however not to loose work as the latter is generated by the 'make' processs)
+On Linux some code is generated (CustomUnsafe.cs) by the script Unsafe.pl. It parses the 'mpi.h' header file of your distribution. Due to variations across MPI implementations and versions thereof, this is succeptible to issues. You may need to fix Unsafe.pl or fix CustomUnsafe.cs manually (beware however not to lose work as the latter is generated by the 'make' processs)
