@@ -20,6 +20,8 @@ namespace IntercommunicatorTest
 
         static int Main(string[] args)
         {
+            // thread sleep to attach to debugger for https://github.com/mpidotnet/MPI.NET/issues/12
+            // System.Threading.Thread.Sleep(30000);
             return MPIDebug.Execute(DoTest, args);
         }
 
