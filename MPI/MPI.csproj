@@ -1,90 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3CB12C2E-85FE-44B6-8183-5790AF3A3515}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPI</RootNamespace>
-    <AssemblyName>MPI</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MPI.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile />
+    <AssemblyTitle>Message Passing Interface for .NET</AssemblyTitle>
+    <Company>Indiana University</Company>
+    <Product>MPI</Product>
+    <Description>MPI.NET, updated for .NET 4.0</Description>
+    <Copyright>Copyright © 2007, 2008 The Trustees of Indiana University; Contributions Copyright © 2013-2017 CSIRO, and https://github.com/Olion17</Copyright>
+    <Version>1.3.0.0</Version>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3</FileVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\MPI.XML</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Douglas Gregor, Andrew Lumsdaine, Ben Martin; contrib. Daniel Collins, Jean-Michel Perraud, Olion17, and others TBC</Authors>
+    <PackageIconUrl>http://www.osl.iu.edu/research/mpi.net/images/PTL-logo.jpg</PackageIconUrl>
+    <PackageId>MPI.NET</PackageId>
+    <PackageLicenseUrl>https://github.com/jmp75/MPI.NET/blob/master/LICENSE_1_0.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/jmp75/MPI.NET</PackageProjectUrl>
+    <PackageReleaseNotes>This NuGet package is for Windows only. The MPI.NET code works on Linux, but needs to be compiled on the target platform. This package is compiled for use with Microsoft's msmpi.dll (Windows HPC)</PackageReleaseNotes>
+    <PackageTags>MPI HPC</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;PROCESS_CREATION_PRESENT</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\MPI.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;PROCESS_CREATION_PRESENT</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\MPI.XML</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ActionStream.cs" />
-    <Compile Include="Attribute.cs" />
-    <Compile Include="Comparison.cs" />
-    <Compile Include="CartesianCommunicator.cs" />
-    <Compile Include="DatatypeCache.cs" />
-    <Compile Include="Environment.cs" />
-    <Compile Include="Communicator.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="GraphCommunicator.cs" />
-    <Compile Include="Group.cs" />
-    <Compile Include="Intercommunicator.cs" />
-    <Compile Include="Intracommunicator.cs" />
-    <Compile Include="Operation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="RequestList.cs" />
-    <Compile Include="Serialization.cs" />
-    <Compile Include="SpanTimer.cs" />
-    <Compile Include="Memory.cs" />
-    <Compile Include="Status.cs" />
-    <Compile Include="TagAllocator.cs" />
-    <Compile Include="TopologicalCommunicator.cs" />
-    <Compile Include="UnmanagedMemoryStream.cs" />
-    <Compile Include="Unsafe.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="MPI.snk" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+  </ItemGroup>
 </Project>
