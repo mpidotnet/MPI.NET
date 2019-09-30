@@ -24,8 +24,6 @@ From 2018 onwards most contributions occur on the fork at [Microsoft/MPI.NET](ht
 
 ## Building on Windows
 
-The recommended way to use MPI.NET is to consume it as a submodule.
-
 MPI.NET on Windows is available only for use with Microsoft's MPI, [MS-MPI](https://msdn.microsoft.com/en-us/library/bb524831), which is available as part of the Microsoft Compute Cluster Pack in Windows Compute Cluster Server and as a separate download, the Microsoft Compute Cluster Pack SDK. Please see the MPI.NET page for more information about installation of one of these packages before installing.
 
 ### From March 2019
@@ -162,7 +160,7 @@ otherwhise `./configure` would fail at `checking for MPI_Init...`.
 
 ```bash
 LOCAL_DIR=/usr/local # or where you can install if you cannot 'sudo make install'
-LOCAL_DIR=/home/per202/local # or where you can install if you cannot 'sudo make install'
+LOCAL_DIR=${HOME}/local # or where you can install if you cannot 'sudo make install'
 sh autogen.sh
 ./configure --prefix=$LOCAL_DIR
 make

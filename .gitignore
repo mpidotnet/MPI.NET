@@ -10,6 +10,21 @@ Makefile
 Makefile.in 
 # generated
 MPI/cbridge.*
+Config/compile
+Config/ltmain.sh
+Config/test-driver
+MPI/.deps/
+MPI/.libs/
+MPI/CustomUnsafe.cs
+MPI/MPI.dll.config
+MPI/libmpinet.la
+Tests/runtest.sh
+aclocal.m4
+autom4te.cache/
+config.status
+configure
+libtool
+
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/

@@ -40,8 +40,8 @@ pkglibexec_SCRIPTS = MPI.dll MPI.dll.config
 EXTRA_DIST = $(SOURCES) Unsafe.cs Unsafe.pl MPI.dll.config.in
 CLEANFILES = MPI.dll CustomUnsafe.cs cbridge.c
 
-MPI.dll: $(SOURCES) CustomUnsafe.cs ../MPIUtils/MPIUtils.dll 
-	$(MCS) -out:$@ -unsafe -target:library -lib:../MPIUtils -reference:MPIUtils.dll $(CSHARP_FLAGS) $(SOURCES) CustomUnsafe.cs 
+MPI.dll: $(SOURCES) CustomUnsafe.cs 
+	$(MCS) -out:$@ -unsafe -target:library $(CSHARP_FLAGS) $(SOURCES) CustomUnsafe.cs 
 
 CustomUnsafe.cs cbridge.c: $(srcdir)/Unsafe.cs $(srcdir)/Unsafe.pl $(MPI_HEADER)
 	$(PERL) $(srcdir)/Unsafe.pl $(MPI_HEADER) $(srcdir)/Unsafe.cs CustomUnsafe.cs cbridge.c @DEFS@

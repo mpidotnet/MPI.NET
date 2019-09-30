@@ -224,7 +224,6 @@ AC_CONFIG_FILES([MPI/MPI.dll.config Tests/runtest.sh],[],[])
 
 AC_OUTPUT([
 Makefile
-MPIUtils/Makefile
 MPI/Makefile
 TestCommons/Makefile
 Examples/Makefile

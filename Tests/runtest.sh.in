@@ -60,7 +60,7 @@ fi
 
 result_code=0
 
-ADDED_MONO_PATH="$BUILDDIR/MPI:$BUILDDIR/MPIUtils:$BUILDDIR/TestCommons"
+ADDED_MONO_PATH="$BUILDDIR/MPI:$BUILDDIR/TestCommons"
 if test "$MONO_PATH" != "" ; then
   export MONO_PATH="$ADDED_MONO_PATH:$MONO_PATH"
 else
