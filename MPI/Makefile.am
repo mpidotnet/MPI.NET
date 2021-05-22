@@ -15,24 +15,31 @@ if MPINET_CBRIDGE
 lib_LTLIBRARIES = libmpinet.la
 endif
 
-SOURCES=$(srcdir)/Attribute.cs			\
-	$(srcdir)/CartesianCommunicator.cs	\
-	$(srcdir)/Communicator.cs		\
-	$(srcdir)/Comparison.cs			\
-	$(srcdir)/DatatypeCache.cs		\
-	$(srcdir)/Environment.cs		\
-	$(srcdir)/Exceptions.cs			\
-	$(srcdir)/GraphCommunicator.cs		\
-	$(srcdir)/Group.cs			\
-	$(srcdir)/Intercommunicator.cs		\
-	$(srcdir)/Intracommunicator.cs		\
-	$(srcdir)/Operation.cs			\
-	$(srcdir)/Request.cs			\
-	$(srcdir)/RequestList.cs		\
-	$(srcdir)/Status.cs			\
-	$(srcdir)/TagAllocator.cs		\
-	$(srcdir)/TopologicalCommunicator.cs	\
+SOURCES=$(srcdir)/ActionStream.cs    \
+	$(srcdir)/Attribute.cs\
+	$(srcdir)/CartesianCommunicator.cs\
+	$(srcdir)/Communicator.cs\
+	$(srcdir)/Comparison.cs\
+	$(srcdir)/CustomUnsafe.cs\
+	$(srcdir)/DatatypeCache.cs\
+	$(srcdir)/Environment.cs\
+	$(srcdir)/Exceptions.cs\
+	$(srcdir)/GraphCommunicator.cs\
+	$(srcdir)/Group.cs\
+	$(srcdir)/Intercommunicator.cs\
+	$(srcdir)/Intracommunicator.cs\
+	$(srcdir)/Memory.cs\
+	$(srcdir)/Operation.cs\
+	$(srcdir)/Request.cs\
+	$(srcdir)/RequestList.cs\
+	$(srcdir)/Serialization.cs\
+	$(srcdir)/SpanTimer.cs\
+	$(srcdir)/Status.cs\
+	$(srcdir)/TagAllocator.cs\
+	$(srcdir)/TopologicalCommunicator.cs\
 	$(srcdir)/UnmanagedMemoryStream.cs
+
+#	$(srcdir)/Unsafe.cs
 
 # We want to install directly into /lib, but we can't write lib_SCRIPTS
 pkglibexecdir = $(libdir)

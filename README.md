@@ -81,7 +81,7 @@ cd C:\path\to\MPI.NET\Tests
 .\runtests.bat Debug AllgatherTest
 ```
 
-## Installation on Unix
+## Installation on *nix
 
 Support for MPI.NET on Unix platforms is provided based on the Mono C# compiler and its toolchain. The .NET landscape on Linux is fast changing, both with mono increasingly using open source .NET code from Microsoft and the emergence of [.NET Core](https://github.com/dotnet/core).
 
